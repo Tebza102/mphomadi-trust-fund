@@ -26,7 +26,7 @@ export function ApplyPage() {
       </div>
       <div className="mt-10 flex flex-wrap gap-4">
         <a href="mailto:info@mphomaditrustfund.org.za?subject=Apply%20for%20Support" onClick={() => trackCta('apply_click')} className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Start Application by Email</a>
-        <Link to="/contact" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">Contact for Guidance</Link>
+        <Link to="/preview/contact" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">Contact for Guidance</Link>
       </div>
     </main>
   )

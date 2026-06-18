@@ -21,8 +21,8 @@ export function HerStoryPage() {
           <p><strong>TBD_VERIFIED story markers:</strong> early life context, key turning points, support barriers experienced, and the founding motivation behind this Trust.</p>
           <p>The objective of this page is to connect credibility and purpose: why the Trust understands mobility barriers deeply, and how that insight shapes the support journey for children and families today.</p>
           <div className="flex flex-wrap gap-4 pt-3">
-            <Link to="/about" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">About the Trust</Link>
-            <Link to="/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Support the Mission</Link>
+            <Link to="/preview/about" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">About the Trust</Link>
+            <Link to="/preview/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Support the Mission</Link>
           </div>
         </div>
       </div>

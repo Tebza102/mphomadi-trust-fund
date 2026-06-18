@@ -11,8 +11,8 @@ export function AboutPage() {
       </div>
       <div className="mt-12 soft-divider" />
       <div className="mt-12 flex flex-wrap gap-4">
-        <Link to="/her-story" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">Read Mpho's Story</Link>
-        <Link to="/apply" className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Apply for Support</Link>
+        <Link to="/preview/her-story" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">Read Mpho's Story</Link>
+        <Link to="/preview/apply" className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Apply for Support</Link>
       </div>
     </main>
   )

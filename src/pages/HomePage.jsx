@@ -27,10 +27,10 @@ export function HomePage() {
           <h1 className="font-display text-4xl leading-tight text-ink md:text-6xl">{hero.title}</h1>
           <p className="max-w-xl text-xl leading-relaxed text-ink/80">{hero.mission}</p>
           <div className="flex flex-wrap gap-4">
-            <Link to="/donate" onClick={() => trackCta('donate_click')} className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
+            <Link to="/preview/donate" onClick={() => trackCta('donate_click')} className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
               Donate Now
             </Link>
-            <Link to="/donate#sponsor-pathway" onClick={() => trackCta('sponsor_click')} className="rounded-full border border-brand-orchid/40 bg-white px-6 py-3 text-base font-semibold text-ink hover:border-brand-orchid">
+            <Link to="/preview/donate#sponsor-pathway" onClick={() => trackCta('sponsor_click')} className="rounded-full border border-brand-orchid/40 bg-white px-6 py-3 text-base font-semibold text-ink hover:border-brand-orchid">
               Become a Sponsor
             </Link>
           </div>
@@ -123,10 +123,10 @@ export function HomePage() {
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Ways to Help</p>
           <h2 className="font-display text-3xl leading-tight md:text-5xl">Choose how you want to support a child's mobility journey.</h2>
           <div className="flex flex-wrap gap-4">
-            <Link to="/donate" onClick={() => trackCta('donate_click')} className="donate-pulse inline-flex rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
+            <Link to="/preview/donate" onClick={() => trackCta('donate_click')} className="donate-pulse inline-flex rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
               Open Donation Journey
             </Link>
-            <Link to="/donate#donor-form" onClick={() => trackCta('support_enquiry_click')} className="inline-flex rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
+            <Link to="/preview/donate#donor-form" onClick={() => trackCta('support_enquiry_click')} className="inline-flex rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
               Send Donation Enquiry
             </Link>
           </div>
