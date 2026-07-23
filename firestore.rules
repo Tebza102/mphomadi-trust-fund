@@ -1,0 +1,156 @@
+rules_version = '2';
+
+// Mpho Madi Trust Fund — Firestore security rules.
+//
+// Roles come from Firebase Auth custom claims (request.auth.token.role) and are
+// set ONLY by the Admin SDK inside Cloud Functions. There is deliberately no
+// Firestore field anywhere that grants privilege — a document a user can write
+// must never be able to decide what that user is allowed to do.
+//
+// Collections written only by trusted server code (team, donations, auditLog)
+// are `allow write: if false` here. That is not a mistake: the Admin SDK bypasses
+// these rules entirely, so denying all client writes is what forces those paths
+// through Cloud Functions where they can be validated and audited.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---- identity helpers -------------------------------------------------
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Claim may be absent for a few seconds after signup, before the
+    // onUserCreated function lands. Absent => no role => denied.
+    function role() {
+      return isSignedIn() ? request.auth.token.get('role', '') : '';
+    }
+
+    function isAdmin()  { return role() == 'admin'; }
+    function isStaff()  { return role() == 'admin' || role() == 'editor'; }
+    function isSelf(uid) { return isSignedIn() && request.auth.uid == uid; }
+
+    // Email verification gate — sponsors must verify before seeing giving history.
+    function isVerified() {
+      return isSignedIn() && request.auth.token.get('email_verified', false) == true;
+    }
+
+    // ---- validation helpers ----------------------------------------------
+
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+
+    // Fields a sponsor may set on their own profile. Anything outside this list
+    // is rejected, so a sponsor cannot invent e.g. a `role` or `verified` field
+    // and hope some future rule or query trusts it.
+    function sponsorWritableKeys() {
+      return ['name', 'orgName', 'email', 'phone', 'dateJoined', 'consentGiven', 'consentDate'];
+    }
+
+    function sponsorFieldsAreValid() {
+      return incoming().keys().hasOnly(sponsorWritableKeys())
+        && incoming().name is string
+        && incoming().name.size() > 0
+        && incoming().name.size() <= 120
+        && incoming().email is string
+        && incoming().email.size() <= 254
+        && (!('orgName' in incoming()) || incoming().orgName is string)
+        && (!('phone' in incoming()) || incoming().phone is string);
+    }
+
+    // POPIA: consent must be explicitly true at creation and is evidence, so a
+    // sponsor cannot silently rewrite it later. Staff can correct it if needed.
+    function consentIsValidOnCreate() {
+      return incoming().consentGiven == true
+        && incoming().consentDate == request.time;
+    }
+
+    function consentIsUnchanged() {
+      return incoming().consentGiven == existing().consentGiven
+        && incoming().consentDate == existing().consentDate;
+    }
+
+    // ---- /team ------------------------------------------------------------
+    // Staff profiles. Created and modified only by the admin-only Cloud
+    // Function, never directly by a client — otherwise an editor could grant
+    // themselves a listing that looks authoritative.
+
+    match /team/{uid} {
+      allow read: if isStaff();
+      allow write: if false;
+    }
+
+    // ---- /sponsors --------------------------------------------------------
+    // A sponsor owns exactly one document, keyed by their own uid. The uid key
+    // is what makes cross-sponsor reads structurally impossible.
+
+    match /sponsors/{uid} {
+      allow read: if isStaff() || isSelf(uid);
+
+      allow create: if isSelf(uid)
+        && sponsorFieldsAreValid()
+        && consentIsValidOnCreate();
+
+      allow update: if (
+          isSelf(uid)
+          && sponsorFieldsAreValid()
+          && consentIsUnchanged()
+        ) || isStaff();
+
+      allow delete: if isAdmin();
+    }
+
+    // ---- /pipeline --------------------------------------------------------
+    // Internal CRM. Sponsors have no access of any kind, read or write.
+
+    match /pipeline/{leadId} {
+      allow read: if isStaff();
+      // 'lapsed' added 21 July 2026 — terminal stage for a relationship that
+      // stops giving. Keep this list in sync with STAGES in src/lib/firebase.js
+      // and the STAGES const inside movePipelineStage in functions/index.js.
+      allow create, update: if isStaff()
+        && incoming().stage in ['lead', 'contacted', 'interested', 'pledged', 'donated', 'recurring', 'lapsed'];
+      allow delete: if isAdmin();
+
+      // Moves-management log. Append-only by design: history that can be edited
+      // after the fact is not an accountability record.
+      match /activity/{entryId} {
+        allow read: if isStaff();
+        allow create: if isStaff()
+          && incoming().loggedBy == request.auth.uid
+          && incoming().timestamp == request.time
+          && incoming().note is string
+          && incoming().note.size() <= 5000;
+        allow update, delete: if false;
+      }
+    }
+
+    // ---- /donations -------------------------------------------------------
+    // Written only by the payment-gateway webhook via the Admin SDK. Never by a
+    // client — a client-writable donation record is a forgeable receipt.
+
+    match /donations/{donationId} {
+      allow read: if isStaff()
+        || (isVerified() && isSelf(existing().sponsorId));
+      allow write: if false;
+    }
+
+    // ---- /auditLog --------------------------------------------------------
+    // Append-only, admin-readable, server-written. If an admin could edit or
+    // delete entries the log would not evidence anything.
+
+    match /auditLog/{entryId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    // ---- default deny -----------------------------------------------------
+    // Anything not matched above is denied, including collections added later
+    // that nobody remembered to write rules for.
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
