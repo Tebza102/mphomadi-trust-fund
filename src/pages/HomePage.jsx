@@ -4,7 +4,7 @@ import { homepageContent } from './homeContent'
 import { useSEO } from '../hooks/useSEO.jsx'
 
 export function HomePage() {
-  const { hero, founderStory, challenge, journey, stories, impact, waysToHelp } = homepageContent
+  const { hero, founderStory, challenge, journey, stories, waysToHelp } = homepageContent
 
   return (
     <main>
@@ -14,8 +14,8 @@ export function HomePage() {
           'Mobility devices, dignity-centred care and family guidance for children born without limbs. Donate or become a corporate sponsor.',
         ogUrl: 'https://mphomadi-trust-fund.vercel.app/',
       })}
-      <section className="section-shell grid gap-10 py-16 md:grid-cols-12 md:py-24">
-        <div className="space-y-6 md:col-span-6">
+      <section className="section-shell py-16 md:py-24">
+        <div className="max-w-4xl space-y-6">
           <div className="space-y-1">
             <p className="font-display text-2xl font-bold uppercase tracking-[0.08em] text-brand-rose md:text-3xl">
               Mphomadi Trust Fund
@@ -33,15 +33,6 @@ export function HomePage() {
             <Link to="/preview/donate#sponsor-pathway" onClick={() => trackCta('sponsor_click')} className="rounded-full border border-brand-orchid/40 bg-white px-6 py-3 text-base font-semibold text-ink hover:border-brand-orchid">
               Become a Sponsor
             </Link>
-          </div>
-        </div>
-        <div className="relative min-h-[340px] overflow-hidden rounded-[2.5rem] brand-stripe md:col-span-6">
-          <div className="flex h-full min-h-[340px] items-center justify-center p-8 text-center">
-            <p className="max-w-sm text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-              Image Placeholder
-              <br />
-              Hero Child and Family Photo
-            </p>
           </div>
         </div>
       </section>
@@ -85,35 +76,15 @@ export function HomePage() {
       <section id="children-we-support" className="section-shell py-16 md:py-20">
         <h2 className="font-display text-3xl md:text-5xl">Children and Families We Support</h2>
         <div className="mt-10 space-y-12">
-          {stories.map((story, idx) => (
-            <article key={story.name} className={`grid gap-6 border-t border-ink/10 pt-10 md:grid-cols-12 md:items-center ${idx % 2 ? 'md:[&>.story-placeholder]:order-2' : ''}`}>
-              <div className="story-placeholder h-[280px] w-full rounded-[1.75rem] brand-stripe md:col-span-5">
-                <div className="flex h-full items-center justify-center p-8 text-center">
-                  <p className="max-w-xs text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-                    Image Placeholder
-                    <br />
-                    Child Journey Photo
-                  </p>
-                </div>
-              </div>
-              <div className="space-y-4 md:col-span-7 md:pl-6">
+          {stories.map((story) => (
+            <article key={story.name} className="border-t border-ink/10 pt-10">
+              <div className="max-w-4xl space-y-4">
                 <h3 className="font-display text-2xl">{story.name}</h3>
                 <p className="text-xl leading-relaxed text-ink/80">{story.text}</p>
                 <p className="text-base font-semibold uppercase tracking-[0.12em] text-brand-sun">{story.need}</p>
                 <p className="text-base font-semibold uppercase tracking-[0.12em] text-brand-rose">{story.progress}</p>
               </div>
             </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-brand-plum py-14 text-white md:py-16">
-        <div className="section-shell grid gap-8 md:grid-cols-4">
-          {impact.map((item) => (
-            <div key={item.label}>
-              <p className="font-display text-5xl">{item.value}</p>
-              <p className="mt-2 text-sm uppercase tracking-[0.18em] text-white/80">{item.label}</p>
-            </div>
           ))}
         </div>
       </section>
