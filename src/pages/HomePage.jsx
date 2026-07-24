@@ -5,7 +5,7 @@ import { homepageContent } from './homeContent'
 import { useSEO } from '../hooks/useSEO.jsx'
 
 export function HomePage() {
-  const { hero, founderStory, challenge, journey, stories, impact, waysToHelp } = homepageContent
+  const { hero, founderStory, challenge, journey, stories, waysToHelp } = homepageContent
 
   return (
     <main>
@@ -82,35 +82,13 @@ export function HomePage() {
       <section id="children-we-support" className="section-shell py-16 md:py-20">
         <h2 className="font-display text-3xl md:text-5xl">Children and Families We Support</h2>
         <div className="mt-10 space-y-12">
-          {stories.map((story, idx) => (
-            <article key={story.name} className={`grid gap-6 border-t border-ink/10 pt-10 md:grid-cols-12 md:items-center ${idx % 2 ? 'md:[&>.story-placeholder]:order-2' : ''}`}>
-              <div className="story-placeholder h-[280px] w-full rounded-[1.75rem] brand-stripe md:col-span-5">
-                <div className="flex h-full items-center justify-center p-8 text-center">
-                  <p className="max-w-xs text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-                    Image Placeholder
-                    <br />
-                    Child Journey Photo
-                  </p>
-                </div>
-              </div>
-              <div className="space-y-4 md:col-span-7 md:pl-6">
-                <h3 className="font-display text-2xl">{story.name}</h3>
-                <p className="text-xl leading-relaxed text-ink/80">{story.text}</p>
-                <p className="text-base font-semibold uppercase tracking-[0.12em] text-brand-sun">{story.need}</p>
-                <p className="text-base font-semibold uppercase tracking-[0.12em] text-brand-rose">{story.progress}</p>
-              </div>
+          {stories.map((story) => (
+            <article key={story.name} className="space-y-4 border-t border-ink/10 pt-10">
+              <h3 className="font-display text-2xl">{story.name}</h3>
+              <p className="text-xl leading-relaxed text-ink/80">{story.text}</p>
+              <p className="text-base font-semibold uppercase tracking-[0.12em] text-brand-sun">{story.need}</p>
+              <p className="text-base font-semibold uppercase tracking-[0.12em] text-brand-rose">{story.progress}</p>
             </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-brand-plum py-14 text-white md:py-16">
-        <div className="section-shell grid gap-8 md:grid-cols-4">
-          {impact.map((item) => (
-            <div key={item.label}>
-              <p className="font-display text-5xl">{item.value}</p>
-              <p className="mt-2 text-sm uppercase tracking-[0.18em] text-white/80">{item.label}</p>
-            </div>
           ))}
         </div>
       </section>
