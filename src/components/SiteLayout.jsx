@@ -35,6 +35,12 @@ export function SiteLayout({ children }) {
             )}
           </nav>
           <div className="flex items-center gap-2">
+            <Link
+              to="/preview/portal/login"
+              className="hidden rounded-full border border-brand-orchid/40 px-3 py-1.5 text-sm font-semibold text-ink transition hover:border-brand-rose hover:text-brand-rose md:inline-flex md:px-5 md:py-2 md:text-base"
+            >
+              Team Login
+            </Link>
             <a
               href={donateUrl}
               onClick={() => trackCta('donate_click')}
@@ -82,6 +88,13 @@ export function SiteLayout({ children }) {
                   </NavLink>
                 ),
               )}
+              <Link
+                to="/preview/portal/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-2 flex min-h-11 items-center rounded-lg border-t border-ink/10 px-2 pt-4 text-base text-ink/60 transition hover:text-brand-rose"
+              >
+                Team Login
+              </Link>
             </nav>
           </div>
         )}
