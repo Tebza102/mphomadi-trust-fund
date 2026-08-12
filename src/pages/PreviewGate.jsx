@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 
-const PREVIEW_PASSWORD = 'mphomadi2026'
+const PREVIEW_PASSWORD = 'MphoMadi-Preview-2684'
 const STORAGE_KEY = 'mphomadi-preview-access'
 
 export function PreviewGate() {
