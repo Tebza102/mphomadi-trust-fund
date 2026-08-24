@@ -44,13 +44,14 @@ const pageSnapshots = [
     ],
   },
   {
-    title: 'Apply page',
-    path: '/preview/apply',
-    summary: 'Support application flow with referral, need, and follow-up guidance.',
+    title: 'Apply page (archived)',
+    path: '/preview/apply → redirects to /preview',
+    summary:
+      'Archived 2026-07-21 — public application intake withdrawn; the Trust identifies beneficiaries directly. Component retained in src/_archived/apply-for-support/.',
     highlights: [
-      'Referral details',
-      'Clinical documentation',
-      'Email application flow',
+      'Not in navigation',
+      'Route redirects to home',
+      'No data was collected (mailto flow only)',
     ],
   },
   {
@@ -283,7 +284,7 @@ function ModulePanel({ moduleId, searchTerm }) {
           >
             <div className="grid gap-4 md:grid-cols-2">
               <DataRow label="About page focus" value="Mission, mobility, inclusion, and partnership model." />
-              <DataRow label="Apply page focus" value="Referral details, support need, and follow-up process." />
+              <DataRow label="Apply page focus" value="Archived 2026-07-21 — public intake withdrawn; route redirects to home." />
               <DataRow label="Contact page focus" value="Email-first contact with a verified and placeholder mix." />
               <DataRow label="Her Story page focus" value="Editorial placeholder for founder journey and trust origin." />
             </div>

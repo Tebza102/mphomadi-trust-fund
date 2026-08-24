@@ -1,0 +1,7 @@
+
+=== word/document.xml ===
+IT 13221/06
+NPO 063-798
+
+MEDIA
+word/media/image1.png

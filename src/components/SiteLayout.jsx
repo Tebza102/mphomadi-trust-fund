@@ -4,7 +4,7 @@ import { brandLogoAlt, brandLogoPath, donateUrl, siteNav, trackCta } from '../si
 
 export function SiteLayout({ children }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const isSectionLink = (href) => href.startsWith('/#')
+  const isSectionLink = (href) => href.includes('#')
   const navItems = [...siteNav]
 
   return (
@@ -25,6 +25,7 @@ export function SiteLayout({ children }) {
                 <NavLink
                   key={item.label}
                   to={item.href}
+                  end
                   className={({ isActive }) =>
                     `transition hover:text-brand-rose ${isActive ? 'text-brand-rose' : 'text-ink/80'}`
                   }
@@ -77,6 +78,7 @@ export function SiteLayout({ children }) {
                   <NavLink
                     key={`mobile-${item.label}`}
                     to={item.href}
+                    end
                     onClick={() => setMobileMenuOpen(false)}
                     className={({ isActive }) =>
                       `rounded-lg px-2 py-1 text-base transition hover:text-brand-rose ${
