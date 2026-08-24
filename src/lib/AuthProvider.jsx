@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { onAuthStateChanged, signOut as fbSignOut } from 'firebase/auth'
-import { auth } from './firebase'
+import { auth, firebaseReady } from './firebase'
 import { AuthContext } from './authContext'
 
 /**
@@ -20,9 +20,14 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [role, setRole] = useState(null)
   const [emailVerified, setEmailVerified] = useState(false)
-  const [loading, setLoading] = useState(true)
+  // When Firebase is not configured there is no auth state to wait for, so this
+  // must not start in a loading state — otherwise every portal screen would sit
+  // on "Checking access..." forever instead of saying what is actually wrong.
+  const [loading, setLoading] = useState(firebaseReady)
 
   useEffect(() => {
+    if (!firebaseReady) return undefined
+
     return onAuthStateChanged(auth, async (nextUser) => {
       if (!nextUser) {
         setUser(null)
@@ -46,13 +51,16 @@ export function AuthProvider({ children }) {
   const value = useMemo(() => {
     /** Re-read claims after a role change, without making the user sign out. */
     const refreshClaims = async () => {
-      if (!auth.currentUser) return null
+      if (!auth?.currentUser) return null
       const token = await auth.currentUser.getIdTokenResult(true)
       setRole(token.claims.role ?? null)
       return token.claims.role ?? null
     }
 
     return {
+      // False when this environment has no Firebase config. Portal screens use
+      // it to explain themselves rather than appearing broken.
+      configured: firebaseReady,
       user,
       role,
       emailVerified,
@@ -61,7 +69,7 @@ export function AuthProvider({ children }) {
       isStaff: role === 'admin' || role === 'editor',
       isSponsor: role === 'sponsor',
       refreshClaims,
-      signOut: () => fbSignOut(auth),
+      signOut: () => (auth ? fbSignOut(auth) : Promise.resolve()),
     }
   }, [user, role, emailVerified, loading])
 

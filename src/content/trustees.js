@@ -2,9 +2,9 @@
 // then the remaining trustees.
 //
 // NOTE: Mpumi Madi's and Ntombi Mekgwe's titles are still unconfirmed and carry
-// the neutral "Trustee" — donationSponsorshipContent.js likewise still shows
-// 'Board / leadership details: TBD_VERIFIED'. Update `role` here when the Trust
-// supplies them; the card label and the alt text both read from this field.
+// the neutral "Trustee", which is accurate for any board member and so asserts
+// nothing unverified. Update `role` here when the Trust supplies the real
+// titles; the card label and the alt text both read from this field.
 //
 // `image` is the filename stem in /public/images/trustees and deliberately does
 // not track `name` (the file is hilary-smith.jpg, the person is Hilary Keenan

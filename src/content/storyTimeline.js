@@ -1,76 +1,67 @@
-// Timeline shown on the Mpho's Story page.
+// Narrative progression shown on the Mpho's Story page.
 //
-// Every `date`, `heading` and `body` below is placeholder copy pending real
-// details from the Trust. Each node carries its own TODO — fill these in and the
-// component needs no changes. `image` is a filename stem in /public/images/photos
-// (omit the key entirely for a text-only node).
+// This is deliberately NOT a dated timeline. The Trust has not supplied verified
+// dates, founding details, sponsor names or impact figures, and none may be
+// invented here. What it is instead: the approved outcome model —
+// Mobility -> Participation -> Dignity -> Opportunity — which states the Trust's
+// purpose without asserting any unverified historical fact.
 //
-// Order in this array is the order rendered, top to bottom.
+// If the Trust later supplies verified milestones, this can become a dated
+// timeline again: add a `date` to each node and render it above the heading.
+//
+// `image` is a filename stem in /public/images/photos (omit the key entirely for
+// a text-only node). Order in this array is the order rendered, top to bottom.
 export const storyTimeline = [
   {
-    id: 'the-beginning',
-    // TODO(client): real founding year + why the Trust was started, in the Trust's own words.
-    date: 'TBD_VERIFIED',
-    heading: 'The Beginning',
-    body: 'Placeholder — how the Trust came to be founded, and the need its founders set out to address. Replace with approved copy from the Trust.',
-  },
-  {
-    id: 'early-support',
-    // TODO(client): year of first assistance; who the first sponsors were; what was provided.
-    date: 'TBD_VERIFIED',
-    heading: 'Early Support',
-    body: 'Placeholder — the first sponsors to back the Trust and the first families to receive mobility assistance. Replace with approved copy.',
+    id: 'mobility',
+    eyebrow: 'Mobility',
+    heading: 'It starts with being able to move',
+    body: 'A prosthetic limb, a wheelchair, or the right assistive device removes the most immediate barrier a child faces. Getting that device fitted, and adjusted again as a child grows, is where the Trust’s support begins.',
     image: '05_impact_wheelchairs',
-    imageAlt: 'Wheelchairs prepared for distribution to children supported by the Trust',
+    imageAlt: 'A row of wheelchairs prepared for distribution',
   },
   {
-    id: 'mphos-journey',
-    // TODO(client): Mpho's personal milestones — dates and details to be confirmed with the family.
-    date: 'TBD_VERIFIED',
-    heading: "Mpho's Journey",
-    body: 'Placeholder — personal milestones along Mpho\'s own path, and how lived experience shapes how the Trust supports families today. Replace with approved copy.',
+    id: 'participation',
+    eyebrow: 'Participation',
+    heading: 'Then it becomes taking part',
+    body: 'Mobility matters because of what it makes possible: getting to school, keeping up with classmates, joining in at home and in the community. The device is the means, not the outcome.',
     image: '03_fulllength_portrait',
-    imageAlt: 'A child supported by the Trust standing with the aid of crutches at a Trust event',
+    imageAlt: 'A smiling child standing with the support of crutches at an event',
     // Portrait source (821x1200) in a 4:3 box shows only the top ~51% of the frame.
     // 5% keeps the crop starting just above the head; higher values clip it.
     imageFocus: 'object-[50%_5%]',
   },
   {
-    id: 'turning-point',
-    // TODO(client): what the turning point actually was — award, partnership, funding milestone?
-    date: 'TBD_VERIFIED',
-    heading: 'A Turning Point',
-    body: 'Placeholder — the moment the Trust\'s work was recognised more widely, and what changed as a result. Replace with approved copy.',
+    id: 'dignity',
+    eyebrow: 'Dignity',
+    heading: 'Support that respects the person',
+    body: 'Families are guided through the process rather than processed by it. The Trust works with parents and carers directly, so support arrives in a way that treats a child as a child first.',
+  },
+  {
+    id: 'opportunity',
+    eyebrow: 'Opportunity',
+    heading: 'And what becomes possible after',
+    body: 'A child who can move, take part and be treated with dignity has the same horizon as any other child. Widening that horizon — not simply supplying equipment — is what the Trust exists to do.',
     image: '06_award_presentation',
     imageAlt: 'A Trust representative receiving a partnership document at an Ekurhuleni Metropolitan Municipality presentation',
   },
-  {
-    id: 'today',
-    // TODO(client): current reach — children supported to date, active programmes, partners.
-    date: 'Today',
-    heading: 'Where We Are Now',
-    body: 'Placeholder — the Trust\'s current reach and the work underway. Replace with approved copy and verified impact figures.',
-  },
 ]
 
-// Video appeal that closes the timeline.
+// Appeal that closes the Mpho's Story page.
 //
-// TODO(client): confirm hosting before this ships — `provider: 'file'` expects a
-// self-hosted MP4 in /public/media and is the only option that supports the
-// <track> captions the brief requires; 'youtube' / 'vimeo' swap to an iframe and
-// captions then have to be managed on the platform instead.
+// `videoReady` stays false until the Trust supplies a real video file AND its
+// WebVTT caption track. While false the section renders as a text appeal with its
+// call to action — no player, no "coming soon" note. A visitor should never be
+// shown the production status of an asset they were never promised.
 export const storyVideo = {
-  // Flip to true once a real video + caption file exist. While false the section
-  // renders a labelled placeholder in the player's aspect ratio instead of a
-  // <video> pointing at a missing file (which would 404 and show a broken player).
-  ready: false,
+  videoReady: false,
   provider: 'file', // 'file' | 'youtube' | 'vimeo'
-  src: '/media/mpho-appeal.mp4', // TODO(client): supply the real file (or an embed id if provider changes)
+  src: '/media/mpho-appeal.mp4',
   poster: '/images/photos/01_hero_portrait_speaking.jpg',
-  captions: '/media/mpho-appeal.en.vtt', // TODO(client): supply a WebVTT caption track
+  captions: '/media/mpho-appeal.en.vtt',
   title: 'Mpho Madi shares why the Trust needs partners',
-  heading: 'Hear From Mpho',
+  heading: 'Partner With the Trust',
   standfirst:
-    'Placeholder — a short line introducing the appeal and what a partner makes possible. Replace with approved copy.',
+    'The Trust works with donors, sponsors and partners who want a child’s mobility to lead somewhere. If that is the kind of support you are looking for, the next step is a conversation.',
   cta: { label: 'Partner With Us', to: '/preview/donate#corporate-sponsorship' },
 }

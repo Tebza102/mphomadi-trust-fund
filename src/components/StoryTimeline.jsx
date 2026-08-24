@@ -3,14 +3,16 @@ import { Reveal } from './Reveal'
 import { storyTimeline } from '../content/storyTimeline'
 
 /**
- * Vertical narrative timeline.
+ * Vertical narrative rail for the approved outcome model
+ * (Mobility -> Participation -> Dignity -> Opportunity).
  *
  * Mobile: single rail down the left, image stacked above its text.
  * Desktop (md+): rail down the centre, image and text alternating sides so the
  * eye zig-zags down the page.
  *
- * Semantics: an ordered list, since the nodes are a sequence. The section is
- * headed h2 by the caller and each node is h3 — no heading-shaped divs.
+ * Semantics: an ordered list, since the nodes are a deliberate progression. The
+ * section is headed h2 by the caller and each node is h3 — no heading-shaped
+ * divs. Nodes carry no dates: see the note in content/storyTimeline.js.
  */
 export function StoryTimeline() {
   return (
@@ -52,7 +54,7 @@ export function StoryTimeline() {
                   imageRight ? 'md:order-1 md:pr-2 md:text-right' : 'md:order-2 md:pl-2 md:text-left'
                 }
               >
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-rose">{node.date}</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-rose">{node.eyebrow}</p>
                 <h3 className="mt-2 font-display text-2xl leading-tight text-ink md:text-3xl">{node.heading}</h3>
                 <p className="mt-3 text-lg leading-relaxed text-ink/75">{node.body}</p>
               </div>

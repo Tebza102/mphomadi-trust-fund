@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../lib/authContext'
+import { PortalUnavailable } from './PortalUnavailable'
 
 /**
  * Route guard.
@@ -12,8 +13,16 @@ import { useAuth } from '../lib/authContext'
  * Treat this as "don't show them a broken screen", not "they cannot get in".
  */
 export function RequireRole({ allow, children }) {
-  const { user, role, loading } = useAuth()
+  const { configured, user, role, loading } = useAuth()
   const location = useLocation()
+
+  // No Firebase config in this environment (typically a preview deploy that has
+  // not had the client env vars set). Say so plainly — a portal screen that
+  // silently redirects to a login that also cannot work is worse than an
+  // explanation.
+  if (!configured) {
+    return <PortalUnavailable />
+  }
 
   if (loading) {
     return (

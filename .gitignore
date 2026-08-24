@@ -34,3 +34,8 @@ emulator-data/
 Thumbs.db
 .idea/
 .vscode/
+
+# Vercel CLI local link state (project/org ids, pulled env, OIDC token).
+.vercel
+# NOTE: .env rules live above, before the !.env.example negation. Do not add a
+# bare `.env*` down here — it re-ignores the tracked example file.

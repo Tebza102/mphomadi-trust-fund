@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { brandLogoAlt, brandLogoPath, donateUrl, siteNav } from '../siteContent'
+import { brandLogoAlt, brandLogoPath, donateEnquiryPath, siteNav } from '../siteContent'
 import { homepageContent } from './homeContent'
 import { donationSponsorshipContent } from '../content/donationSponsorshipContent'
 
@@ -176,7 +176,7 @@ function ModulePanel({ moduleId, searchTerm }) {
               <DataRow label="Brand logo path" value={brandLogoPath} note="Used by the header" />
               <DataRow label="Brand logo alt text" value={brandLogoAlt} note="Used for accessibility" />
               <DataRow label="Navigation items" value={siteNav.map((item) => `${item.label} -> ${item.href}`).join(' | ')} note="Shared site navigation" />
-              <DataRow label="Donate URL" value={donateUrl} note="Primary giving link" />
+              <DataRow label="Donate destination" value={donateEnquiryPath} note="Enquiry form — no payment provider confirmed yet" />
             </div>
           </SectionCard>
 
@@ -235,7 +235,7 @@ function ModulePanel({ moduleId, searchTerm }) {
             <div className="grid gap-4 md:grid-cols-2">
               {[
                 'Home page impact statistics: removed until real figures are confirmed (previously TBD_VERIFIED placeholders)',
-                `Donate URL: ${donateUrl} (not yet wired to a live CTA — public donate buttons route to the enquiry form instead)`,
+                'Payment provider: not yet confirmed — all public donate CTAs route to the enquiry form',
                 ...donationSponsorshipContent.trust.verification,
                 donationSponsorshipContent.sponsorProposal.label,
               ]
