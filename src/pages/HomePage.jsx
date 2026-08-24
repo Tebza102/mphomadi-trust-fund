@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { donateUrl, trackCta } from '../siteContent'
+import { Picture } from '../components/Picture'
+import { trackCta } from '../siteContent'
 import { homepageContent } from './homeContent'
 import { useSEO } from '../hooks/useSEO.jsx'
 
 export function HomePage() {
-  const { hero, founderStory, challenge, journey, stories, impact, waysToHelp } = homepageContent
+  const { hero, founderStory, challenge, journey, waysToHelp } = homepageContent
 
   return (
     <main>
@@ -30,34 +31,29 @@ export function HomePage() {
             <Link to="/preview/donate" onClick={() => trackCta('donate_click')} className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
               Donate Now
             </Link>
-            <Link to="/preview/donate#sponsor-pathway" onClick={() => trackCta('sponsor_click')} className="rounded-full border border-brand-orchid/40 bg-white px-6 py-3 text-base font-semibold text-ink hover:border-brand-orchid">
+            <Link to="/preview/donate#corporate-sponsorship" onClick={() => trackCta('sponsor_click')} className="rounded-full border border-brand-orchid/40 bg-white px-6 py-3 text-base font-semibold text-ink hover:border-brand-orchid">
               Become a Sponsor
             </Link>
           </div>
         </div>
-        <div className="relative min-h-[340px] overflow-hidden rounded-[2.5rem] brand-stripe md:col-span-6">
-          <div className="flex h-full min-h-[340px] items-center justify-center p-8 text-center">
-            <p className="max-w-sm text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-              Image Placeholder
-              <br />
-              Hero Child and Family Photo
-            </p>
-          </div>
-        </div>
+        <Picture
+          name="02_award_moment_group"
+          alt="Mpho Madi Trust Fund supporters and family members gathered outdoors with two young children, one seated in a wheelchair"
+          className="h-[340px] w-full rounded-[2.5rem] md:col-span-6 md:h-[460px]"
+          focus="object-center"
+          loading="eager"
+        />
       </section>
 
       <div className="soft-divider section-shell" />
 
       <section className="section-shell grid items-center gap-10 py-16 md:grid-cols-12">
-        <div className="h-[420px] w-full rounded-[2rem] brand-stripe md:col-span-5">
-          <div className="flex h-full items-center justify-center p-8 text-center">
-            <p className="max-w-xs text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-              Image Placeholder
-              <br />
-              Founder Story Photo
-            </p>
-          </div>
-        </div>
+        <Picture
+          name="01_hero_portrait_speaking"
+          alt="Mpho Madi speaking at a microphone during an Ekurhuleni Metropolitan Municipality event"
+          className="h-[420px] w-full rounded-[2rem] md:col-span-5"
+          focus="object-[60%_35%]"
+        />
         <div className="space-y-5 md:col-span-7 md:pl-6">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-sun">Founder Origin Story</p>
           <h2 className="font-display text-3xl leading-tight md:text-5xl">{founderStory.title}</h2>
@@ -82,42 +78,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <section id="children-we-support" className="section-shell py-16 md:py-20">
-        <h2 className="font-display text-3xl md:text-5xl">Children and Families We Support</h2>
-        <div className="mt-10 space-y-12">
-          {stories.map((story, idx) => (
-            <article key={story.name} className={`grid gap-6 border-t border-ink/10 pt-10 md:grid-cols-12 md:items-center ${idx % 2 ? 'md:[&>.story-placeholder]:order-2' : ''}`}>
-              <div className="story-placeholder h-[280px] w-full rounded-[1.75rem] brand-stripe md:col-span-5">
-                <div className="flex h-full items-center justify-center p-8 text-center">
-                  <p className="max-w-xs text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-                    Image Placeholder
-                    <br />
-                    Child Journey Photo
-                  </p>
-                </div>
-              </div>
-              <div className="space-y-4 md:col-span-7 md:pl-6">
-                <h3 className="font-display text-2xl">{story.name}</h3>
-                <p className="text-xl leading-relaxed text-ink/80">{story.text}</p>
-                <p className="text-base font-semibold uppercase tracking-[0.12em] text-brand-sun">{story.need}</p>
-                <p className="text-base font-semibold uppercase tracking-[0.12em] text-brand-rose">{story.progress}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-brand-plum py-14 text-white md:py-16">
-        <div className="section-shell grid gap-8 md:grid-cols-4">
-          {impact.map((item) => (
-            <div key={item.label}>
-              <p className="font-display text-5xl">{item.value}</p>
-              <p className="mt-2 text-sm uppercase tracking-[0.18em] text-white/80">{item.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="section-shell grid gap-12 py-16 md:grid-cols-12 md:py-20">
         <div className="space-y-5 md:col-span-5">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Ways to Help</p>
@@ -126,7 +86,7 @@ export function HomePage() {
             <Link to="/preview/donate" onClick={() => trackCta('donate_click')} className="donate-pulse inline-flex rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
               Open Donation Journey
             </Link>
-            <Link to="/preview/donate#donor-form" onClick={() => trackCta('support_enquiry_click')} className="inline-flex rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
+            <Link to="/preview/donate#enquiry-form" onClick={() => trackCta('support_enquiry_click')} className="inline-flex rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
               Send Donation Enquiry
             </Link>
           </div>

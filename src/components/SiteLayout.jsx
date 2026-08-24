@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { brandLogoAlt, brandLogoPath, donateUrl, siteNav, trackCta } from '../siteContent'
+import { brandLogoAlt, brandLogoPath, siteNav, trackCta } from '../siteContent'
 
 export function SiteLayout({ children }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const isSectionLink = (href) => href.startsWith('/#')
+  const isSectionLink = (href) => href.includes('#')
   const navItems = [...siteNav]
 
   return (
@@ -25,6 +25,7 @@ export function SiteLayout({ children }) {
                 <NavLink
                   key={item.label}
                   to={item.href}
+                  end
                   className={({ isActive }) =>
                     `transition hover:text-brand-rose ${isActive ? 'text-brand-rose' : 'text-ink/80'}`
                   }
@@ -41,13 +42,13 @@ export function SiteLayout({ children }) {
             >
               Team Login
             </Link>
-            <a
-              href={donateUrl}
+            <Link
+              to="/preview/donate#enquiry-form"
               onClick={() => trackCta('donate_click')}
               className="donate-pulse inline-flex rounded-full bg-brand-rose px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-brand-plum md:px-5 md:py-2 md:text-base"
             >
               Donate
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
@@ -77,6 +78,7 @@ export function SiteLayout({ children }) {
                   <NavLink
                     key={`mobile-${item.label}`}
                     to={item.href}
+                    end
                     onClick={() => setMobileMenuOpen(false)}
                     className={({ isActive }) =>
                       `rounded-lg px-2 py-1 text-base transition hover:text-brand-rose ${

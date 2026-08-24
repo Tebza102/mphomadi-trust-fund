@@ -1,6 +1,7 @@
 export const homepageContent = {
-  nav: ['Home', 'About', "Mpho's Story", 'How We Help', 'Children We Support', 'Sponsor', 'Donate', 'Apply for Support', 'Contact'],
-  donateUrl: 'https://example-donation-provider.org/TBD_VERIFIED',
+  // Unused — the live nav is src/config/navigation.js. 'Apply for Support' removed
+  // here 2026-07-21 to keep it from being reintroduced by a copy-paste.
+  nav: ['Home', 'About', "Mpho's Story", 'How We Help', 'Sponsor', 'Donate', 'Contact'],
   hero: {
     eyebrow: 'Mpho Madi Trust Fund | South Africa',
     title: 'Every Child Deserves Mobility, Dignity, and Opportunity.',
@@ -24,32 +25,13 @@ export const homepageContent = {
     ],
   },
   journey: [
-    'Referral or application',
+    // Archived 2026-07-21 — was 'Referral or application'; public intake withdrawn.
+    'Referral',
     'Needs assessment',
     'Personal support planning',
     'Mobility or assistive device support',
     'Family guidance and practical coaching',
     'Follow-up care focused on dignity and long-term progress',
-  ],
-  stories: [
-    {
-      name: 'Child Story Placeholder',
-      text: 'A family-centered support plan helped this child receive an updated mobility device and stay engaged in school routines.',
-      need: 'Current need: Adjustment support and school mobility access',
-      progress: 'Progress: Device provided, follow-up review in progress',
-    },
-    {
-      name: 'Family Journey Placeholder',
-      text: 'After referral and assessment, the family received guidance, equipment support, and practical next steps for home and transport.',
-      need: 'Current need: Ongoing maintenance and growth-stage planning',
-      progress: 'Progress: Active support case',
-    },
-  ],
-  impact: [
-    { value: 'TBD_VERIFIED', label: 'Children Supported' },
-    { value: 'TBD_VERIFIED', label: 'Assistive Devices Provided' },
-    { value: 'TBD_VERIFIED', label: 'Families Reached' },
-    { value: 'TBD_VERIFIED', label: 'Active Support Cases' },
   ],
   waysToHelp: [
     'Sponsor a prosthetic or mobility device',

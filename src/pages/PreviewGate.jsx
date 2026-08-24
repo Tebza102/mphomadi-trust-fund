@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 
@@ -13,11 +13,9 @@ export function PreviewGate() {
   })
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage.getItem(STORAGE_KEY) === 'unlocked') {
-      setIsUnlocked(true)
-    }
-  }, [])
+  // No effect needed to re-read localStorage: the useState initializer above
+  // already does it on first render, and this is a client-only SPA, so an
+  // effect could never observe a different value — it only cost a second render.
 
   const handleSubmit = (event) => {
     event.preventDefault()

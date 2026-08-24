@@ -8,14 +8,12 @@ export function ContactPage() {
       <div className="mt-10 grid gap-10 md:grid-cols-2">
         <div className="space-y-4 text-xl text-ink/80">
           <p>Email: <a className="underline" href="mailto:info@mphomaditrustfund.org.za">info@mphomaditrustfund.org.za</a></p>
-          <p>Phone: <span className="font-semibold">TBD_VERIFIED</span></p>
           <p>Location: South Africa</p>
         </div>
         <div className="space-y-4 text-xl text-ink/80">
-          <p>For donation questions, partnership conversations, and application guidance, contact the Trust directly. Include your purpose in the subject line so the team can route your request quickly.</p>
+          <p>For donation questions and partnership conversations, contact the Trust directly. Include your purpose in the subject line so the team can route your request quickly.</p>
           <div className="flex flex-wrap gap-4">
             <Link to="/preview/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Donate</Link>
-            <Link to="/preview/apply" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">Apply for Support</Link>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ export const donationSponsorshipContent = {
     eyebrow: 'Give Help',
     title: 'Help children move forward with practical support, trusted giving, and clear sponsorship pathways.',
     copy:
-      'You can support the Trust as an individual donor, a monthly supporter, or a corporate sponsor. We keep unverified details clearly marked as TBD_VERIFIED until the Trust confirms them.',
+      'You can support the Trust as an individual donor, a monthly supporter, or a corporate sponsor. Where a detail has not yet been confirmed by the Trust, we say so plainly rather than publish it.',
     primaryCta: 'Support the Mission',
     secondaryCta: 'Become a Sponsor',
     tertiaryCta: 'Request Sponsorship Information',
@@ -34,11 +34,15 @@ export const donationSponsorshipContent = {
       'Request sponsorship proposal if donating as a company',
       'Keep proof of payment',
     ],
+    // Phrased as "available on request", not as a status marker. A donor needs
+    // to know how to obtain a document, not how far along its internal
+    // verification is. Registration, banking and governance details are all
+    // still pending confirmation by the Trust, so none are published here.
     verification: [
-      'Registration / compliance details: TBD_VERIFIED',
-      'Banking details: TBD_VERIFIED',
-      'Board / leadership details: TBD_VERIFIED',
-      'Support documents: request from the team',
+      'Registration and compliance details: available on request',
+      'Banking details: shared directly by the team once your enquiry is received',
+      'Board and governance details: available on request',
+      'Supporting documents: request from the team',
     ],
   },
   donationAmounts: [
@@ -134,7 +138,7 @@ export const donationSponsorshipContent = {
   sponsorProposal: {
     available: false,
     href: '/documents/mpho-madi-sponsorship-proposal.pdf',
-    label: 'Sponsorship proposal document: TBD_VERIFIED / Coming soon',
+    label: 'A written sponsorship proposal can be sent to you directly — request it below and the team will follow up.',
   },
   faq: [
     {
@@ -166,8 +170,8 @@ export const donationSponsorshipContent = {
       a: 'Yes. The sponsor section includes a meeting request path.',
     },
     {
-      q: 'Are banking details verified?',
-      a: 'Any banking details must remain marked TBD_VERIFIED until the Trust confirms them.',
+      q: 'How do I get the Trust’s banking details?',
+      a: 'The team shares banking details directly once your enquiry is received, so you can confirm them against the Trust rather than against a web page.',
     },
   ],
   form: {

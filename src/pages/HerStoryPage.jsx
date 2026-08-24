@@ -1,31 +1,50 @@
 import { Link } from 'react-router-dom'
+import { Picture } from '../components/Picture'
+import { StoryTimeline } from '../components/StoryTimeline'
+import { StoryVideoAppeal } from '../components/StoryVideoAppeal'
 
 export function HerStoryPage() {
   return (
-    <main className="section-shell py-16 md:py-24">
-      <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Her Story</p>
-      <h1 className="mt-3 max-w-4xl font-display text-4xl leading-tight md:text-6xl">Mpho's journey is the reason this Trust exists.</h1>
-      <div className="mt-10 grid items-start gap-10 md:grid-cols-12">
-        <div className="h-[440px] w-full rounded-[2rem] brand-stripe md:col-span-5">
-          <div className="flex h-full items-center justify-center p-8 text-center">
-            <p className="max-w-xs text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-              Image Placeholder
-              <br />
-              Mpho Story Portrait
-            </p>
+    // No bottom padding here — the appeal section is full-bleed and closes the page.
+    <main className="pt-16 md:pt-24">
+      <div className="section-shell">
+        <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Her Story</p>
+        <h1 className="mt-3 max-w-4xl font-display text-4xl leading-tight md:text-6xl">Mpho's journey is the reason this Trust exists.</h1>
+
+        <div className="mt-10 grid items-start gap-10 md:grid-cols-12">
+          {/* 01_hero_portrait_speaking is the image the repo already identifies as
+              Mpho. Do not swap in 03_fulllength_portrait here — that photograph is
+              of a child, not of Mpho, and captioning it with her name would
+              misidentify a real person. */}
+          <Picture
+            name="01_hero_portrait_speaking"
+            alt="Mpho Madi speaking at a microphone during an Ekurhuleni Metropolitan Municipality event"
+            className="h-[440px] w-full rounded-[2rem] md:col-span-5"
+            focus="object-[60%_35%]"
+          />
+          <div className="space-y-6 text-xl leading-relaxed text-ink/80 md:col-span-7">
+            <p>Mpho Madi Trust Fund is built on lived experience of the barriers it now works to remove. That perspective is why the Trust starts with the practical question — what does this child actually need to move — rather than with paperwork.</p>
+            <p>The Trust understands mobility barriers from the inside: the cost of a device, the wait, the adjustments a growing child needs, and the difference it makes when someone helps a family through that process instead of leaving them to navigate it alone.</p>
+            <p>That understanding shapes how support works today, and it is what the Trust asks donors, sponsors and partners to back.</p>
+            <div className="flex flex-wrap gap-4 pt-3">
+              <Link to="/preview/about" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">About the Trust</Link>
+              <Link to="/preview/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Support the Mission</Link>
+            </div>
           </div>
         </div>
-        <div className="space-y-6 text-xl leading-relaxed text-ink/80 md:col-span-7">
-          <p>This page is intentionally included to mirror your required website structure and the live <strong>Her Story</strong> journey path. It frames the Trust through lived experience, resilience, and practical impact rather than pity-based messaging.</p>
-          <p>The final narrative should be replaced with approved first-party wording from <a className="underline" href="https://www.mphomaditrustfund.org.za/Her-Story" target="_blank" rel="noreferrer">mphomaditrustfund.org.za/Her-Story</a>. Current copy is a respectful editorial placeholder so design and flow can be reviewed now.</p>
-          <p><strong>TBD_VERIFIED story markers:</strong> early life context, key turning points, support barriers experienced, and the founding motivation behind this Trust.</p>
-          <p>The objective of this page is to connect credibility and purpose: why the Trust understands mobility barriers deeply, and how that insight shapes the support journey for children and families today.</p>
-          <div className="flex flex-wrap gap-4 pt-3">
-            <Link to="/preview/about" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">About the Trust</Link>
-            <Link to="/preview/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Support the Mission</Link>
-          </div>
-        </div>
+
+        {/* Not headed "the story so far" / "our history": the nodes carry no
+            verified dates, so the section must not imply a chronology. */}
+        <section aria-labelledby="story-journey" className="mt-16 md:mt-24">
+          <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-sun">The journey</p>
+          <h2 id="story-journey" className="mt-3 max-w-3xl font-display text-3xl leading-tight md:text-5xl">
+            Mobility is where it starts, not where it ends
+          </h2>
+          <StoryTimeline />
+        </section>
       </div>
+
+      <StoryVideoAppeal />
     </main>
   )
 }

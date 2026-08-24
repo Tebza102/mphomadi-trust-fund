@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { brandLogoAlt, brandLogoPath, donateUrl, siteNav } from '../siteContent'
+import { brandLogoAlt, brandLogoPath, donateEnquiryPath, siteNav } from '../siteContent'
 import { homepageContent } from './homeContent'
 import { donationSponsorshipContent } from '../content/donationSponsorshipContent'
 
@@ -44,22 +44,22 @@ const pageSnapshots = [
     ],
   },
   {
-    title: 'Apply page',
-    path: '/preview/apply',
-    summary: 'Support application flow with referral, need, and follow-up guidance.',
+    title: 'Apply page (archived)',
+    path: '/preview/apply → redirects to /preview',
+    summary:
+      'Archived 2026-07-21 — public application intake withdrawn; the Trust identifies beneficiaries directly. Component retained in src/_archived/apply-for-support/.',
     highlights: [
-      'Referral details',
-      'Clinical documentation',
-      'Email application flow',
+      'Not in navigation',
+      'Route redirects to home',
+      'No data was collected (mailto flow only)',
     ],
   },
   {
     title: 'Contact page',
     path: '/preview/contact',
-    summary: 'Direct contact route with verified and placeholder details.',
+    summary: 'Direct contact route with verified details only; phone removed until confirmed.',
     highlights: [
       'Email address',
-      'Phone placeholder',
       'Support routing guidance',
     ],
   },
@@ -176,7 +176,7 @@ function ModulePanel({ moduleId, searchTerm }) {
               <DataRow label="Brand logo path" value={brandLogoPath} note="Used by the header" />
               <DataRow label="Brand logo alt text" value={brandLogoAlt} note="Used for accessibility" />
               <DataRow label="Navigation items" value={siteNav.map((item) => `${item.label} -> ${item.href}`).join(' | ')} note="Shared site navigation" />
-              <DataRow label="Donate URL" value={donateUrl} note="Primary giving link" />
+              <DataRow label="Donate destination" value={donateEnquiryPath} note="Enquiry form — no payment provider confirmed yet" />
             </div>
           </SectionCard>
 
@@ -192,7 +192,7 @@ function ModulePanel({ moduleId, searchTerm }) {
               <DataRow label="Challenge title" value={homepageContent.challenge.title} />
               <DataRow label="Journey steps" value={homepageContent.journey.join(' -> ')} />
               <DataRow label="Ways to help" value={homepageContent.waysToHelp.join(' | ')} />
-              <DataRow label="Impact fields" value={homepageContent.impact.map((item) => `${item.label}: ${item.value}`).join(' | ')} />
+              <DataRow label="Impact stats" value="Removed from Home — no verified figures yet" />
             </div>
           </SectionCard>
         </div>
@@ -234,8 +234,8 @@ function ModulePanel({ moduleId, searchTerm }) {
           >
             <div className="grid gap-4 md:grid-cols-2">
               {[
-                ...homepageContent.impact.filter((item) => String(item.value).includes('TBD_VERIFIED')).map((item) => `${item.label}: ${item.value}`),
-                `Donate URL: ${donateUrl}`,
+                'Home page impact statistics: removed until real figures are confirmed (previously TBD_VERIFIED placeholders)',
+                'Payment provider: not yet confirmed — all public donate CTAs route to the enquiry form',
                 ...donationSponsorshipContent.trust.verification,
                 donationSponsorshipContent.sponsorProposal.label,
               ]
@@ -283,7 +283,7 @@ function ModulePanel({ moduleId, searchTerm }) {
           >
             <div className="grid gap-4 md:grid-cols-2">
               <DataRow label="About page focus" value="Mission, mobility, inclusion, and partnership model." />
-              <DataRow label="Apply page focus" value="Referral details, support need, and follow-up process." />
+              <DataRow label="Apply page focus" value="Archived 2026-07-21 — public intake withdrawn; route redirects to home." />
               <DataRow label="Contact page focus" value="Email-first contact with a verified and placeholder mix." />
               <DataRow label="Her Story page focus" value="Editorial placeholder for founder journey and trust origin." />
             </div>

@@ -3,6 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../lib/firebase'
 import { useAuth } from '../lib/authContext'
+import { PortalUnavailable } from './PortalUnavailable'
 
 /**
  * Team sign-in. Deliberately separate from the (future) sponsor sign-in so it is
@@ -10,12 +11,18 @@ import { useAuth } from '../lib/authContext'
  * invites people to try the wrong one and makes support harder.
  */
 export function PortalLoginPage() {
-  const { user, isStaff, loading } = useAuth()
+  const { configured, user, isStaff, loading } = useAuth()
   const location = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+
+  // Offering a sign-in form that cannot possibly succeed just wastes the
+  // visitor's credentials and their time.
+  if (!configured) {
+    return <PortalUnavailable />
+  }
 
   if (!loading && user && isStaff) {
     return <Navigate to={location.state?.from ?? '/preview/portal'} replace />
