@@ -31,7 +31,7 @@ export function HomePage() {
             <Link to="/preview/donate" onClick={() => trackCta('donate_click')} className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
               Donate Now
             </Link>
-            <Link to="/preview/donate#sponsor-pathway" onClick={() => trackCta('sponsor_click')} className="rounded-full border border-brand-orchid/40 bg-white px-6 py-3 text-base font-semibold text-ink hover:border-brand-orchid">
+            <Link to="/preview/donate#corporate-sponsorship" onClick={() => trackCta('sponsor_click')} className="rounded-full border border-brand-orchid/40 bg-white px-6 py-3 text-base font-semibold text-ink hover:border-brand-orchid">
               Become a Sponsor
             </Link>
           </div>
@@ -86,7 +86,7 @@ export function HomePage() {
             <Link to="/preview/donate" onClick={() => trackCta('donate_click')} className="donate-pulse inline-flex rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
               Open Donation Journey
             </Link>
-            <Link to="/preview/donate#donor-form" onClick={() => trackCta('support_enquiry_click')} className="inline-flex rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
+            <Link to="/preview/donate#enquiry-form" onClick={() => trackCta('support_enquiry_click')} className="inline-flex rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
               Send Donation Enquiry
             </Link>
           </div>
