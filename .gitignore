@@ -35,6 +35,10 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Local AI/dev-tool working state — never ship these as product source.
+.claude/
+.codex-review/
+
 # Vercel CLI local link state (project/org ids, pulled env, OIDC token).
 .vercel
 # NOTE: .env rules live above, before the !.env.example negation. Do not add a
