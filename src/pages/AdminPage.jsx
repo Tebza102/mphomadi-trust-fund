@@ -57,10 +57,9 @@ const pageSnapshots = [
   {
     title: 'Contact page',
     path: '/preview/contact',
-    summary: 'Direct contact route with verified and placeholder details.',
+    summary: 'Direct contact route with verified details only; phone removed until confirmed.',
     highlights: [
       'Email address',
-      'Phone placeholder',
       'Support routing guidance',
     ],
   },
@@ -193,7 +192,7 @@ function ModulePanel({ moduleId, searchTerm }) {
               <DataRow label="Challenge title" value={homepageContent.challenge.title} />
               <DataRow label="Journey steps" value={homepageContent.journey.join(' -> ')} />
               <DataRow label="Ways to help" value={homepageContent.waysToHelp.join(' | ')} />
-              <DataRow label="Impact fields" value={homepageContent.impact.map((item) => `${item.label}: ${item.value}`).join(' | ')} />
+              <DataRow label="Impact stats" value="Removed from Home — no verified figures yet" />
             </div>
           </SectionCard>
         </div>
@@ -235,8 +234,8 @@ function ModulePanel({ moduleId, searchTerm }) {
           >
             <div className="grid gap-4 md:grid-cols-2">
               {[
-                ...homepageContent.impact.filter((item) => String(item.value).includes('TBD_VERIFIED')).map((item) => `${item.label}: ${item.value}`),
-                `Donate URL: ${donateUrl}`,
+                'Home page impact statistics: removed until real figures are confirmed (previously TBD_VERIFIED placeholders)',
+                `Donate URL: ${donateUrl} (not yet wired to a live CTA — public donate buttons route to the enquiry form instead)`,
                 ...donationSponsorshipContent.trust.verification,
                 donationSponsorshipContent.sponsorProposal.label,
               ]

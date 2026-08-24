@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Picture } from '../components/Picture'
 import { StoryTimeline } from '../components/StoryTimeline'
 import { StoryVideoAppeal } from '../components/StoryVideoAppeal'
 
@@ -11,15 +12,12 @@ export function HerStoryPage() {
         <h1 className="mt-3 max-w-4xl font-display text-4xl leading-tight md:text-6xl">Mpho's journey is the reason this Trust exists.</h1>
 
         <div className="mt-10 grid items-start gap-10 md:grid-cols-12">
-          <div className="h-[440px] w-full rounded-[2rem] brand-stripe md:col-span-5">
-            <div className="flex h-full items-center justify-center p-8 text-center">
-              <p className="max-w-xs text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-                Image Placeholder
-                <br />
-                Mpho Story Portrait
-              </p>
-            </div>
-          </div>
+          <Picture
+            name="03_fulllength_portrait"
+            alt="Mpho Madi, full-length portrait"
+            className="h-[440px] w-full rounded-[2rem] md:col-span-5"
+            focus="object-center"
+          />
           <div className="space-y-6 text-xl leading-relaxed text-ink/80 md:col-span-7">
             <p>This page is intentionally included to mirror your required website structure and the live <strong>Her Story</strong> journey path. It frames the Trust through lived experience, resilience, and practical impact rather than pity-based messaging.</p>
             <p>The final narrative should be replaced with approved first-party wording from <a className="underline" href="https://www.mphomaditrustfund.org.za/Her-Story" target="_blank" rel="noreferrer">mphomaditrustfund.org.za/Her-Story</a>. Current copy is a respectful editorial placeholder so design and flow can be reviewed now.</p>

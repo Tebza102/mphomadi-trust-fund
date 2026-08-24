@@ -8,7 +8,6 @@ export function ContactPage() {
       <div className="mt-10 grid gap-10 md:grid-cols-2">
         <div className="space-y-4 text-xl text-ink/80">
           <p>Email: <a className="underline" href="mailto:info@mphomaditrustfund.org.za">info@mphomaditrustfund.org.za</a></p>
-          <p>Phone: <span className="font-semibold">TBD_VERIFIED</span></p>
           <p>Location: South Africa</p>
         </div>
         <div className="space-y-4 text-xl text-ink/80">

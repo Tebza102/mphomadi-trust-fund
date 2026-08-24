@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "build:images": "node scripts/build-images.mjs",
     "emulators": "firebase emulators:start --only auth,firestore,functions",
-    "test:rules": "firebase emulators:exec --only firestore \"node --test test/\"",
+    "test:rules": "firebase emulators:exec --only firestore \"node --test test/firestore-rules.test.mjs\"",
     "bootstrap:admin": "node scripts/bootstrap-admin.mjs"
   },
   "dependencies": {

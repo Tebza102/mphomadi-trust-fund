@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Picture } from '../components/Picture'
 import { donationSponsorshipContent as content } from '../content/donationSponsorshipContent'
-import { donateUrl, trackCta } from '../siteContent'
+import { trackCta } from '../siteContent'
 
 export function DonatePage() {
   const [form, setForm] = useState({
@@ -65,8 +65,8 @@ export function DonatePage() {
                 {item.label}
               </a>
             ))}
-            <a href={donateUrl} onClick={() => trackCta('donate_click')} className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
-              Continue to Donation Provider
+            <a href="#enquiry-form" onClick={() => trackCta('donate_click')} className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
+              {content.ctas.support}
             </a>
           </div>
         </div>
@@ -114,7 +114,7 @@ export function DonatePage() {
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-rose">{option.amount}</p>
               <h3 className="mt-3 font-display text-2xl">{option.title}</h3>
               <p className="mt-4 text-lg leading-relaxed text-ink/80">{option.copy}</p>
-              <a href={option.title === 'Once-off donation' ? donateUrl : '#enquiry-form'} className="mt-6 inline-flex rounded-full bg-brand-plum px-5 py-2.5 text-sm font-semibold text-white">
+              <a href="#enquiry-form" className="mt-6 inline-flex rounded-full bg-brand-plum px-5 py-2.5 text-sm font-semibold text-white">
                 {option.cta}
               </a>
             </article>
@@ -357,7 +357,7 @@ export function DonatePage() {
           <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Support the mission in a way that matches your capacity.</h2>
           <p className="mt-4 text-xl leading-relaxed text-white/85">Whether you want to give once, support monthly, or explore sponsorship, the next step is simple and transparent.</p>
           <div className="mt-6 flex flex-wrap gap-4">
-            <a href={donateUrl} onClick={() => trackCta('donate_click')} className="rounded-full bg-white px-6 py-3 text-base font-semibold text-brand-rose">
+            <a href="#enquiry-form" onClick={() => trackCta('donate_click')} className="rounded-full bg-white px-6 py-3 text-base font-semibold text-brand-rose">
               {content.ctas.support}
             </a>
             <Link to="/contact" className="rounded-full border border-white/20 px-6 py-3 text-base font-semibold text-white">
