@@ -1,5 +1,7 @@
 export const homepageContent = {
-  nav: ['Home', 'About', "Mpho's Story", 'How We Help', 'Children We Support', 'Sponsor', 'Donate', 'Apply for Support', 'Contact'],
+  // Unused — the live nav is src/config/navigation.js. 'Apply for Support' removed
+  // here 2026-07-21 to keep it from being reintroduced by a copy-paste.
+  nav: ['Home', 'About', "Mpho's Story", 'How We Help', 'Children We Support', 'Sponsor', 'Donate', 'Contact'],
   donateUrl: 'https://example-donation-provider.org/TBD_VERIFIED',
   hero: {
     eyebrow: 'Mpho Madi Trust Fund | South Africa',
@@ -24,7 +26,8 @@ export const homepageContent = {
     ],
   },
   journey: [
-    'Referral or application',
+    // Archived 2026-07-21 — was 'Referral or application'; public intake withdrawn.
+    'Referral',
     'Needs assessment',
     'Personal support planning',
     'Mobility or assistive device support',

@@ -47,7 +47,10 @@ export function UnderConstructionPage() {
               </p>
             </div>
 
-            <div className="rounded-[2rem] border border-brand-orchid/15 bg-white/85 p-6 shadow-[0_30px_80px_-50px_rgba(47,22,71,0.35)] backdrop-blur">
+            {/* Card chrome (border, white fill, shadow, padding) is md-and-up only.
+                On phones it nested a card inside a card inside the page gradient,
+                which read as stacked borders in a narrow column. */}
+            <div className="md:rounded-[2rem] md:border md:border-brand-orchid/15 md:bg-white/85 md:p-6 md:shadow-[0_30px_80px_-50px_rgba(47,22,71,0.35)] md:backdrop-blur">
               <div className="space-y-5 rounded-[1.5rem] bg-brand-plum px-6 py-6 text-white">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/70">What remains visible</p>
                 <ul className="space-y-3 text-base leading-7 text-white/86">
@@ -57,7 +60,8 @@ export function UnderConstructionPage() {
                   <li>Private preview access for the client team</li>
                 </ul>
               </div>
-              <div className="mt-5 rounded-[1.5rem] border border-dashed border-brand-orchid/25 bg-[#fcf8f6] px-5 py-4 text-sm leading-6 text-ink/70">
+              {/* Same reasoning: plain text on phones, boxed only from md up. */}
+              <div className="mt-5 text-sm leading-6 text-ink/70 md:rounded-[1.5rem] md:border md:border-dashed md:border-brand-orchid/25 md:bg-[#fcf8f6] md:px-5 md:py-4">
                 This page is intentionally polished so the organisation still feels active and credible while the private preview is being refined.
               </div>
             </div>

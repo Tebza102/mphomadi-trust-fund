@@ -1,5 +1,18 @@
+// Archived 2026-07-21 — client requested removal of public application intake in
+// favor of Trust-identified beneficiaries. Reinstate by restoring route + nav link
+// if requirements change.
+//
+// Nothing imports this file. To reactivate:
+//   1. src/routes/AppRoutes.jsx      — restore the import and <Route path="apply">
+//   2. src/config/navigation.js      — restore the 'Apply for Support' nav entry
+//   3. src/pages/AboutPage.jsx       — restore the 'Apply for Support' CTA
+//   4. src/pages/ContactPage.jsx     — restore the 'Apply for Support' CTA
+//   5. src/pages/homeContent.js      — journey[0] back to 'Referral or application'
+//   6. src/pages/AdminPage.jsx       — restore the Apply page inventory entry
+// The import path below is written for this archived location and must be
+// adjusted if the file moves back to src/pages/.
 import { Link } from 'react-router-dom'
-import { trackCta } from '../siteContent'
+import { trackCta } from '../../siteContent'
 
 export function ApplyPage() {
   return (

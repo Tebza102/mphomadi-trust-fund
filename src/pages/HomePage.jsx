@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { donateUrl, trackCta } from '../siteContent'
+import { Picture } from '../components/Picture'
+import { trackCta } from '../siteContent'
 import { homepageContent } from './homeContent'
 import { useSEO } from '../hooks/useSEO.jsx'
 
@@ -35,29 +36,24 @@ export function HomePage() {
             </Link>
           </div>
         </div>
-        <div className="relative min-h-[340px] overflow-hidden rounded-[2.5rem] brand-stripe md:col-span-6">
-          <div className="flex h-full min-h-[340px] items-center justify-center p-8 text-center">
-            <p className="max-w-sm text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-              Image Placeholder
-              <br />
-              Hero Child and Family Photo
-            </p>
-          </div>
-        </div>
+        <Picture
+          name="02_award_moment_group"
+          alt="Mpho Madi Trust Fund supporters and family members gathered outdoors with two young children, one seated in a wheelchair"
+          className="h-[340px] w-full rounded-[2.5rem] md:col-span-6 md:h-[460px]"
+          focus="object-center"
+          loading="eager"
+        />
       </section>
 
       <div className="soft-divider section-shell" />
 
       <section className="section-shell grid items-center gap-10 py-16 md:grid-cols-12">
-        <div className="h-[420px] w-full rounded-[2rem] brand-stripe md:col-span-5">
-          <div className="flex h-full items-center justify-center p-8 text-center">
-            <p className="max-w-xs text-base font-semibold uppercase tracking-[0.2em] text-brand-plum/80">
-              Image Placeholder
-              <br />
-              Founder Story Photo
-            </p>
-          </div>
-        </div>
+        <Picture
+          name="01_hero_portrait_speaking"
+          alt="Mpho Madi speaking at a microphone during an Ekurhuleni Metropolitan Municipality event"
+          className="h-[420px] w-full rounded-[2rem] md:col-span-5"
+          focus="object-[60%_35%]"
+        />
         <div className="space-y-5 md:col-span-7 md:pl-6">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-sun">Founder Origin Story</p>
           <h2 className="font-display text-3xl leading-tight md:text-5xl">{founderStory.title}</h2>

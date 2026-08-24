@@ -2,7 +2,6 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { SiteLayout } from '../components/SiteLayout'
 import { AboutPage } from '../pages/AboutPage'
 import { AdminPage } from '../pages/AdminPage'
-import { ApplyPage } from '../pages/ApplyPage'
 import { ContactPage } from '../pages/ContactPage'
 import { DonatePage } from '../pages/DonatePage'
 import { HerStoryPage } from '../pages/HerStoryPage'
@@ -18,6 +17,13 @@ function PreviewShell() {
   )
 }
 
+function DevOnlyAdminGate() {
+  if (!import.meta.env.DEV) {
+    return <Navigate to="/preview" replace />
+  }
+  return <AdminPage />
+}
+
 export function AppRoutes() {
   return (
     <Routes>
@@ -29,9 +35,13 @@ export function AppRoutes() {
           <Route path="about" element={<AboutPage />} />
           <Route path="her-story" element={<HerStoryPage />} />
           <Route path="donate" element={<DonatePage />} />
-          <Route path="apply" element={<ApplyPage />} />
+          {/* Archived 2026-07-21 — public application intake withdrawn at client
+              request. Bookmarks and any indexed links land on the home page
+              rather than a dead route. Component lives in
+              src/_archived/apply-for-support/. */}
+          <Route path="apply" element={<Navigate to="/preview" replace />} />
           <Route path="contact" element={<ContactPage />} />
-          <Route path="admin" element={<AdminPage />} />
+          <Route path="admin" element={<DevOnlyAdminGate />} />
         </Route>
       </Route>
 

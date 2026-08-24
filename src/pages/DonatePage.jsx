@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Picture } from '../components/Picture'
 import { donationSponsorshipContent as content } from '../content/donationSponsorshipContent'
 import { donateUrl, trackCta } from '../siteContent'
 
@@ -148,6 +149,12 @@ export function DonatePage() {
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">Corporate sponsorship</p>
             <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Partner with the Trust in a way that supports CSI / CSR goals</h2>
             <p className="mt-4 text-xl leading-relaxed text-white/85">Sponsors can back community-focused programmes while building visible, responsible social impact.</p>
+            <Picture
+              name="06_award_presentation"
+              alt="A Trust representative receiving a partnership document at an Ekurhuleni Metropolitan Municipality presentation"
+              className="mt-6 aspect-[3/2] w-full rounded-[1.5rem]"
+              focus="object-center"
+            />
             <ul className="mt-6 space-y-3 text-base text-white/85">
               {content.sponsorBenefits.map((item) => (
                 <li key={item} className="border-b border-white/10 pb-3">
