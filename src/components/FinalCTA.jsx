@@ -11,7 +11,7 @@ export function FinalCTA() {
           <h2 id="final-cta-title" className="max-w-3xl font-display text-3xl leading-tight md:text-5xl">
             Support a child&apos;s mobility journey.
           </h2>
-          <p className="max-w-2xl text-lg leading-relaxed text-white/78 md:text-xl">
+          <p className="max-w-2xl text-lg leading-relaxed text-white/[0.78] md:text-xl">
             Give, sponsor, or start a conversation about practical support that helps children participate more fully in everyday life.
           </p>
         </div>
@@ -26,7 +26,7 @@ export function FinalCTA() {
           <Link
             to="/preview/donate#corporate-sponsorship"
             onClick={() => trackCta('final_cta_sponsor_click')}
-            className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/35 bg-transparent px-6 py-3 text-base font-semibold text-white transition-colors hover:border-brand-gold hover:text-brand-gold"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/[0.35] bg-transparent px-6 py-3 text-base font-semibold text-white transition-colors hover:border-brand-gold hover:text-brand-gold"
           >
             Become a Sponsor
           </Link>
