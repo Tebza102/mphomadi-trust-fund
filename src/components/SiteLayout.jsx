@@ -11,7 +11,6 @@ export function SiteLayout({ children }) {
     <div className="min-h-screen font-body text-ink">
       <SiteHeader />
       {children}
-      {/* Portal/admin routes keep the existing shared header but do not receive public fundraising or institutional footer content. */}
       {!isInternalRoute && <FinalCTA />}
       {!isInternalRoute && <SiteFooter />}
     </div>
