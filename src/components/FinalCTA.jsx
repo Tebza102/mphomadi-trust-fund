@@ -5,7 +5,7 @@ export function FinalCTA() {
   return (
     <section className="relative overflow-hidden bg-brand-navy text-white" aria-labelledby="final-cta-title">
       <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#e42313_0%,#ffb612_22%,#00843d_48%,#0057b8_76%,#111111_100%)]" aria-hidden="true" />
-      <div className="section-shell grid gap-8 py-14 md:grid-cols-12 md:items-center md:py-18">
+      <div className="section-shell grid gap-8 py-14 md:grid-cols-12 md:items-center md:py-20">
         <div className="space-y-4 md:col-span-8">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-gold md:text-base">Mobility • Dignity • Opportunity</p>
           <h2 id="final-cta-title" className="max-w-3xl font-display text-3xl leading-tight md:text-5xl">
