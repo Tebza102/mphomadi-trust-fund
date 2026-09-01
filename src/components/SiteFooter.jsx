@@ -15,14 +15,14 @@ export function SiteFooter() {
             Mobility, dignity and opportunity for children who need practical support.
           </p>
           <p className="max-w-md text-base leading-relaxed text-white/70">
-            A South African charitable Trust working with families and partners to reduce barriers to mobility and participation.
+            A South African Trust working with families and partners to reduce barriers to mobility and participation.
           </p>
         </div>
 
         <div className="md:col-span-3">
           <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-gold">Explore</h2>
           <nav className="mt-5" aria-label="Footer navigation">
-            <ul className="space-y-3 text-base text-white/78">
+            <ul className="space-y-3 text-base text-white/[0.78]">
               {footerNav.map((item) => (
                 <li key={`footer-${item.label}`}>
                   {item.href.includes('#') ? (
@@ -52,7 +52,7 @@ export function SiteFooter() {
               </Link>
             </div>
           </div>
-          <div className="border-t border-white/12 pt-5">
+          <div className="border-t border-white/[0.12] pt-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-gold">Institutional access</h2>
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-white/70">
               <Link to="/preview/contact" className="transition-colors hover:text-white">Contact the Trust</Link>
@@ -64,7 +64,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="section-shell flex flex-col gap-2 py-5 text-sm text-white/58 sm:flex-row sm:items-center sm:justify-between">
+        <div className="section-shell flex flex-col gap-2 py-5 text-sm text-white/[0.58] sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Mpho Madi Trust Fund. South Africa.</p>
           <p>Mobility • Dignity • Opportunity</p>
         </div>
