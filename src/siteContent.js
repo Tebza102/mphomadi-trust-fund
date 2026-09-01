@@ -1,6 +1,6 @@
 import { previewNavigation } from './config/navigation'
 
-export const brandLogoPath = '/images/branding/mpho-madi-logo.png'
+export const brandLogoPath = '/images/branding/mpho-madi-logo-horizontal.png'
 export const brandLogoAlt = 'Mpho Madi Trust Fund logo'
 
 export const siteNav = previewNavigation
