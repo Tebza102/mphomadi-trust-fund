@@ -3,6 +3,14 @@ import { brandLogoAlt, brandLogoPath, siteNav } from '../siteContent'
 
 const footerNav = siteNav.filter((item) => item.label !== 'Donate')
 
+const trustDetails = {
+  registration: 'IT 13221/06',
+  npo: '063-798',
+  address: '34 Clover Road, Sandown Extension 20, 2196',
+  phone: '084 588 5701',
+  fax: '0866 199 226',
+}
+
 export function SiteFooter() {
   return (
     <footer className="bg-[#0b2145] text-white" aria-label="Mpho Madi Trust Fund footer">
@@ -52,13 +60,39 @@ export function SiteFooter() {
               </Link>
             </div>
           </div>
+
+          <div className="border-t border-white/[0.12] pt-5">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-gold">Trust details</h2>
+            <dl className="mt-4 space-y-2 text-sm leading-relaxed text-white/70">
+              <div className="flex flex-wrap gap-x-2">
+                <dt className="font-semibold text-white/90">Trust registration:</dt>
+                <dd>{trustDetails.registration}</dd>
+              </div>
+              <div className="flex flex-wrap gap-x-2">
+                <dt className="font-semibold text-white/90">NPO:</dt>
+                <dd>{trustDetails.npo}</dd>
+              </div>
+              <div>
+                <dt className="font-semibold text-white/90">Registered address:</dt>
+                <dd>{trustDetails.address}</dd>
+              </div>
+              <div className="flex flex-wrap gap-x-2">
+                <dt className="font-semibold text-white/90">Phone:</dt>
+                <dd><a href="tel:+27845885701" className="transition-colors hover:text-white">{trustDetails.phone}</a></dd>
+              </div>
+              <div className="flex flex-wrap gap-x-2">
+                <dt className="font-semibold text-white/90">Fax:</dt>
+                <dd>{trustDetails.fax}</dd>
+              </div>
+            </dl>
+          </div>
+
           <div className="border-t border-white/[0.12] pt-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-gold">Institutional access</h2>
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-white/70">
               <Link to="/preview/contact" className="transition-colors hover:text-white">Contact the Trust</Link>
               <Link to="/preview/portal/login" className="transition-colors hover:text-white">Team Login</Link>
             </div>
-            {/* Trust registration number, NPO number and registered address should be added here only after the Trust confirms the official details. */}
           </div>
         </div>
       </div>
