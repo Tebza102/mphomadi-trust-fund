@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
+import { PasswordField } from '../components/PasswordField'
 
 const PREVIEW_PASSWORD = 'MphoMadiPreview26!'
 const STORAGE_KEY = 'mphomadi-preview-access'
@@ -51,16 +52,12 @@ export function PreviewGate() {
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 grid gap-4">
-            <label className="flex flex-col gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-ink/70">
-              Preview password
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                className="rounded-2xl border border-ink/10 bg-[#fafafa] px-4 py-3 text-base normal-case text-ink outline-none transition focus:border-brand-rose"
-                autoComplete="current-password"
-              />
-            </label>
+            <PasswordField
+              label="Preview password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              autoComplete="current-password"
+            />
             {error ? <p className="text-sm font-medium text-brand-rose">{error}</p> : null}
             <div className="flex flex-wrap gap-3 pt-2">
               <button
