@@ -193,23 +193,27 @@ export const donationSponsorshipContent = {
       a: 'The team shares banking details directly once your enquiry is received, so you can confirm them against the Trust rather than against a web page.',
     },
   ],
+  // Same parking as givingOptions above — entries with status: 'parked' are
+  // filtered out of the rendered dropdown options in DonatePage.jsx. The form
+  // still submits and captures leads exactly as before; only the parked
+  // choices are no longer offered.
   form: {
     supportTypes: [
-      'Individual donor',
-      'Monthly supporter',
-      'Corporate sponsor',
-      'In-kind donor',
-      'Volunteer / professional supporter',
-      'I need more information first',
+      { label: 'Individual donor', status: 'active' },
+      { label: 'Monthly supporter', status: 'active' },
+      { label: 'Corporate sponsor', status: 'active' },
+      { label: 'In-kind donor', status: 'parked' },
+      { label: 'Volunteer / professional supporter', status: 'parked' },
+      { label: 'I need more information first', status: 'active' },
     ],
     interests: [
-      'Once-off donation',
-      'Monthly support',
-      'Sponsor tier',
-      'Programme sponsorship',
-      'Goods / services donation',
-      'Request verification documents',
-      'Request meeting',
+      { label: 'Once-off donation', status: 'active' },
+      { label: 'Monthly support', status: 'active' },
+      { label: 'Sponsor tier', status: 'active' },
+      { label: 'Programme sponsorship', status: 'active' },
+      { label: 'Goods / services donation', status: 'parked' },
+      { label: 'Request verification documents', status: 'active' },
+      { label: 'Request meeting', status: 'active' },
     ],
   },
   leadShape: `donationSponsorLead = {

@@ -72,6 +72,8 @@ export function DonatePage() {
   const visibleGivingOptions = content.givingOptions.filter((option) => option.status !== 'parked')
   const visibleSupportWays = content.supportWays.filter((item) => item.status !== 'parked')
   const visibleFaq = content.faq.filter((item) => item.status !== 'parked')
+  const visibleSupportTypes = content.form.supportTypes.filter((item) => item.status !== 'parked')
+  const visibleInterests = content.form.interests.filter((item) => item.status !== 'parked')
 
   const heroCtas = [
     { label: content.ctas.support, href: '#individual-giving' },
@@ -295,16 +297,16 @@ export function DonatePage() {
           <label className="flex min-w-0 flex-col gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-ink/70">
             I want to support as
             <select value={form.supportAs} onChange={update('supportAs')} className="w-full rounded-2xl border border-ink/10 bg-[#fafafa] px-4 py-3 text-base normal-case text-ink outline-none focus:border-brand-rose">
-              {content.form.supportTypes.map((item) => (
-                <option key={item}>{item}</option>
+              {visibleSupportTypes.map((item) => (
+                <option key={item.label}>{item.label}</option>
               ))}
             </select>
           </label>
           <label className="flex min-w-0 flex-col gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-ink/70">
             Donation / sponsorship interest
             <select value={form.interest} onChange={update('interest')} className="w-full rounded-2xl border border-ink/10 bg-[#fafafa] px-4 py-3 text-base normal-case text-ink outline-none focus:border-brand-rose">
-              {content.form.interests.map((item) => (
-                <option key={item}>{item}</option>
+              {visibleInterests.map((item) => (
+                <option key={item.label}>{item.label}</option>
               ))}
             </select>
             {attemptedSubmit && errors.interest ? <span className="normal-case font-normal text-brand-rose">{errors.interest}</span> : null}
