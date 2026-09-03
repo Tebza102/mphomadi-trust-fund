@@ -65,6 +65,14 @@ export function DonatePage() {
     setSubmitted(true)
   }
 
+  // In-kind and volunteer/professional giving are parked (status: 'parked' in
+  // donationSponsorshipContent.js) until after the fundraiser — filtered out
+  // here rather than deleted, so the Trust can reinstate them later.
+  const visiblePathways = content.pathways.filter((item) => item.status !== 'parked')
+  const visibleGivingOptions = content.givingOptions.filter((option) => option.status !== 'parked')
+  const visibleSupportWays = content.supportWays.filter((item) => item.status !== 'parked')
+  const visibleFaq = content.faq.filter((item) => item.status !== 'parked')
+
   const heroCtas = [
     { label: content.ctas.support, href: '#individual-giving' },
     { label: content.ctas.sponsor, href: '#corporate-sponsorship' },
@@ -93,7 +101,7 @@ export function DonatePage() {
         <aside className="rounded-[2rem] bg-white p-6 shadow-[0_12px_40px_rgba(31,31,36,0.08)] md:col-span-5">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-sun">I want to...</p>
           <div className="mt-4 grid gap-3">
-            {content.pathways.map((item) => (
+            {visiblePathways.map((item) => (
               <a key={item.label} href={item.href} className="rounded-2xl border border-ink/10 px-4 py-3 text-left text-base text-ink transition hover:border-brand-rose hover:bg-brand-rose/5">
                 {item.label}
               </a>
@@ -125,10 +133,10 @@ export function DonatePage() {
         <div className="md:col-span-5">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Individual giving</p>
           <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Choose a giving path that fits you</h2>
-          <p className="mt-4 text-xl leading-relaxed text-ink/80">Individuals can give once, support monthly, donate goods, or offer professional help without needing to figure out the whole system first.</p>
+          <p className="mt-4 text-xl leading-relaxed text-ink/80">Individuals can give once or support monthly — whichever fits how you want to help right now.</p>
         </div>
         <div className="md:col-span-7 grid gap-6 md:grid-cols-2">
-          {content.givingOptions.map((option) => (
+          {visibleGivingOptions.map((option) => (
             <article key={option.title} className="rounded-[1.5rem] border border-ink/10 bg-white p-6">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-rose">{option.amount}</p>
               <h3 className="mt-3 font-display text-2xl">{option.title}</h3>
@@ -212,9 +220,9 @@ export function DonatePage() {
           <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Choose the form of support that suits you</h2>
         </div>
         <div className="md:col-span-7 grid gap-4 md:grid-cols-2">
-          {content.supportWays.map((item) => (
-            <div key={item} className="rounded-[1.25rem] border border-ink/10 bg-white px-5 py-4 text-lg text-ink/80">
-              {item}
+          {visibleSupportWays.map((item) => (
+            <div key={item.label} className="rounded-[1.25rem] border border-ink/10 bg-white px-5 py-4 text-lg text-ink/80">
+              {item.label}
             </div>
           ))}
         </div>
@@ -368,7 +376,7 @@ export function DonatePage() {
         <div className="rounded-[1.75rem] border border-ink/10 bg-white p-6">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-rose">FAQ</p>
           <div className="mt-4 space-y-4">
-            {content.faq.map((item) => (
+            {visibleFaq.map((item) => (
               <details key={item.q} className="rounded-2xl border border-ink/10 px-4 py-3">
                 <summary className="cursor-pointer list-none font-semibold text-ink">{item.q}</summary>
                 <p className="mt-3 text-base leading-relaxed text-ink/75">{item.a}</p>
