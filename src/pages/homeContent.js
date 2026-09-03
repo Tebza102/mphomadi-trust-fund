@@ -33,12 +33,16 @@ export const homepageContent = {
     'Family guidance and practical coaching',
     'Follow-up care focused on dignity and long-term progress',
   ],
+  // Same status-based parking pattern as donationSponsorshipContent.js —
+  // entries with status: 'parked' are filtered out of the rendered list in
+  // HomePage.jsx. Restore by dropping the status field once the Trust
+  // reopens this pathway.
   waysToHelp: [
-    'Sponsor a prosthetic or mobility device',
-    'Make a once-off donation',
-    'Become a monthly supporter',
-    'Partner as a company or foundation',
-    'Support a child, school, or community programme',
-    'Volunteer professional support',
+    { label: 'Sponsor a prosthetic or mobility device', status: 'active' },
+    { label: 'Make a once-off donation', status: 'active' },
+    { label: 'Become a monthly supporter', status: 'active' },
+    { label: 'Partner as a company or foundation', status: 'active' },
+    { label: 'Support a child, school, or community programme', status: 'active' },
+    { label: 'Volunteer professional support', status: 'parked' },
   ],
 }

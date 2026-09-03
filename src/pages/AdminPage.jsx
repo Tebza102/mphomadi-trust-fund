@@ -191,7 +191,7 @@ function ModulePanel({ moduleId, searchTerm }) {
               <DataRow label="Founder story" value={homepageContent.founderStory.copy} />
               <DataRow label="Challenge title" value={homepageContent.challenge.title} />
               <DataRow label="Journey steps" value={homepageContent.journey.join(' -> ')} />
-              <DataRow label="Ways to help" value={homepageContent.waysToHelp.join(' | ')} />
+              <DataRow label="Ways to help" value={homepageContent.waysToHelp.map((item) => item.status === 'parked' ? `${item.label} (parked)` : item.label).join(' | ')} />
               <DataRow label="Impact stats" value="Removed from Home — no verified figures yet" />
             </div>
           </SectionCard>
