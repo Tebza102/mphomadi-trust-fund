@@ -12,7 +12,11 @@ export const donationSponsorshipContent = {
     { label: 'Make a once-off donation', href: '#individual-giving' },
     { label: 'Become a monthly supporter', href: '#individual-giving' },
     { label: 'Sponsor as a company', href: '#corporate-sponsorship' },
-    { label: 'Donate goods or services', href: '#ways-to-support' },
+    // Parked 2026-09-03 — the Trust is running with once-off and monthly
+    // giving only until after the fundraiser. Kept in data, filtered out of
+    // the rendered pathways list in DonatePage.jsx. Restore by dropping the
+    // status field once the Trust decides to reopen this pathway.
+    { label: 'Donate goods or services', href: '#ways-to-support', status: 'parked' },
     { label: 'Request verification before giving', href: '#verification' },
     { label: 'Speak to the team', href: '#enquiry-form' },
   ],
@@ -52,30 +56,39 @@ export const donationSponsorshipContent = {
     { amount: 'R1,000', impact: 'Can contribute toward a larger support step, subject to what the Trust needs most right now.', cta: 'Choose R1,000' },
     { amount: 'Custom', impact: 'Choose a custom amount that fits your giving capacity and preferred support pattern.', cta: 'Choose custom' },
   ],
+  // Only the first two options render publicly on the Donations page while the
+  // fundraiser is running (decided 2026-09-03) — DonatePage.jsx filters out any
+  // entry with status: 'parked'. The Trust will decide on the remaining
+  // formats after the fundraiser; the data stays intact here for that review,
+  // it is just not shown or offered as a call to action until then.
   givingOptions: [
     {
       title: 'Once-off donation',
       amount: 'Any amount',
       copy: 'Make a single contribution that supports urgent needs, practical follow-up, and active family cases.',
       cta: 'Donate once',
+      status: 'active',
     },
     {
       title: 'Monthly supporter',
       amount: 'From your chosen amount',
       copy: 'Become a steady supporter and help the Trust plan support with more confidence across the year.',
       cta: 'Become monthly',
+      status: 'active',
     },
     {
       title: 'In-kind donation',
       amount: 'Goods or services',
       copy: 'Donate groceries, clothes, stationery, equipment, or professional services that reduce pressure on the Trust.',
       cta: 'Offer in-kind support',
+      status: 'parked',
     },
     {
       title: 'Volunteer / professional support',
       amount: 'Skills-based support',
       copy: 'Offer volunteer help or professional expertise if you want to contribute time or specialised services.',
       cta: 'Offer your skills',
+      status: 'parked',
     },
   ],
   sponsorBenefits: [
@@ -117,14 +130,16 @@ export const donationSponsorshipContent = {
       recognition: 'Recognition can be added once approved',
     },
   ],
+  // Same parking as givingOptions above — entries with status: 'parked' are
+  // filtered out of the rendered "Ways to support" list in DonatePage.jsx.
   supportWays: [
-    'EFT donation',
-    'Sponsor a programme',
-    'In-kind donation',
-    'Monthly giving',
-    'Corporate partnership',
-    'Volunteer / professional services',
-    'Share the cause',
+    { label: 'EFT donation', status: 'active' },
+    { label: 'Sponsor a programme', status: 'active' },
+    { label: 'In-kind donation', status: 'parked' },
+    { label: 'Monthly giving', status: 'active' },
+    { label: 'Corporate partnership', status: 'active' },
+    { label: 'Volunteer / professional services', status: 'parked' },
+    { label: 'Share the cause', status: 'active' },
   ],
   ctas: {
     support: 'Support the Mission',
@@ -149,9 +164,13 @@ export const donationSponsorshipContent = {
       q: 'Can my company sponsor a programme?',
       a: 'Yes. Use the sponsor section to request information or arrange a meeting about programme support.',
     },
+    // Parked alongside the in-kind giving option above (status: 'parked') —
+    // answering "yes" here would contradict a page that no longer offers it
+    // as a visible path. Restore together once the Trust reopens in-kind giving.
     {
       q: 'Can I donate goods instead of money?',
       a: 'Yes. In-kind support such as groceries, clothing, stationery, equipment, or services can be requested.',
+      status: 'parked',
     },
     {
       q: 'Can I request verification documents?',
