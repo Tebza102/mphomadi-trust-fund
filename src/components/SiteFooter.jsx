@@ -1,15 +1,9 @@
 import { Link } from 'react-router-dom'
 import { brandLogoAlt, brandLogoPath, siteNav } from '../siteContent'
+import { trustDetails } from '../content/trustDetails'
 
 const footerNav = siteNav.filter((item) => item.label !== 'Donate')
 
-const trustDetails = {
-  registration: 'IT 13221/06',
-  npo: '063-798',
-  address: '34 Clover Road, Sandown Extension 20, 2196',
-  phone: '084 588 5701',
-  fax: '0866 199 226',
-}
 
 export function SiteFooter() {
   return (
@@ -78,11 +72,15 @@ export function SiteFooter() {
               </div>
               <div className="flex flex-wrap gap-x-2">
                 <dt className="font-semibold text-white/90">Phone:</dt>
-                <dd><a href="tel:+27845885701" className="transition-colors hover:text-white">{trustDetails.phone}</a></dd>
+                <dd><a href={trustDetails.phoneHref} className="transition-colors hover:text-white">{trustDetails.phone}</a></dd>
               </div>
               <div className="flex flex-wrap gap-x-2">
                 <dt className="font-semibold text-white/90">Fax:</dt>
                 <dd>{trustDetails.fax}</dd>
+              </div>
+              <div className="flex flex-wrap gap-x-2">
+                <dt className="font-semibold text-white/90">Email:</dt>
+                <dd><a href={trustDetails.emailHref} className="transition-colors hover:text-white">{trustDetails.email}</a></dd>
               </div>
             </dl>
           </div>
