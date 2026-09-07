@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Picture } from '../components/Picture'
 import { donationSponsorshipContent as content } from '../content/donationSponsorshipContent'
 import { httpsCallable } from 'firebase/functions'
-import { functions } from '../lib/firebase'
+import { appCheckReady, functions } from '../lib/firebase'
 import { trackCta } from '../siteContent'
 
 export function DonatePage() {
@@ -32,6 +32,9 @@ export function DonatePage() {
   }, [form])
 
   const ENQUIRY_ADDRESS = 'info@mphomaditrustfund.org.za'
+  // Direct capture is live only once App Check is registered; until then this
+  // page is a clean email-composition flow and says so.
+  const directCaptureAvailable = Boolean(functions) && appCheckReady
 
   // 'idle' | 'submitting' | 'captured' | 'emailed'
   const [status, setStatus] = useState('idle')
@@ -91,7 +94,10 @@ export function DonatePage() {
     trackCta('donation_enquiry_submit')
 
     try {
-      if (!functions) throw new Error('firebase-unavailable')
+      // Direct capture needs App Check; every callable enforces it. Without it
+      // the request is a guaranteed 401, so go straight to email rather than
+      // making the visitor wait for a failure we can already predict.
+      if (!functions || !appCheckReady) throw new Error('direct-capture-unavailable')
 
       const submitEnquiry = httpsCallable(functions, 'submitDonationEnquiry')
       await submitEnquiry({
@@ -393,7 +399,7 @@ export function DonatePage() {
               aria-busy={status === 'submitting'}
               className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-plum disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {status === 'submitting' ? 'Sending enquiry…' : content.ctas.submitEnquiry}
+              {status === 'submitting' ? (directCaptureAvailable ? 'Sending enquiry…' : 'Opening your email app…') : content.ctas.submitEnquiry}
             </button>
             <Link to="/contact" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
               {content.ctas.speakToTeam}
@@ -418,7 +424,9 @@ export function DonatePage() {
           ) : null}
           {status === 'idle' && !submitError ? (
             <p className="md:col-span-2 text-sm text-ink/60">
-              Your details go straight to the Trust. If that cannot be completed, your email app opens with the enquiry filled in instead.
+              {directCaptureAvailable
+                ? 'Your details go straight to the Trust. If that cannot be completed, your email app opens with the enquiry filled in instead.'
+                : 'Submitting opens your email app with these details filled in, so you can review the enquiry before sending it.'}
             </p>
           ) : null}
         </form>
