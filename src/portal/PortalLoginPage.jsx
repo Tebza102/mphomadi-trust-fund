@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../lib/firebase'
 import { useAuth } from '../lib/authContext'
 import { PortalUnavailable } from './PortalUnavailable'
+import { PasswordField } from '../components/PasswordField'
 
 /**
  * Team sign-in. Deliberately separate from the (future) sponsor sign-in so it is
@@ -70,17 +71,13 @@ export function PortalLoginPage() {
             />
           </label>
 
-          <label className="flex flex-col gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-ink/70">
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-              autoComplete="current-password"
-              className="rounded-2xl border border-ink/10 bg-[#fafafa] px-4 py-3 text-base normal-case text-ink outline-none transition focus:border-brand-rose"
-            />
-          </label>
+          <PasswordField
+            label="Password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+            autoComplete="current-password"
+          />
 
           {error ? <p className="text-sm font-medium text-brand-rose">{error}</p> : null}
 

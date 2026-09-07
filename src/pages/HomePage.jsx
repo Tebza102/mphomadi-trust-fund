@@ -12,6 +12,7 @@ import { useSEO } from '../hooks/useSEO.jsx'
  */
 export function HomePage() {
   const { hero, founderStory, challenge, journey, waysToHelp } = homepageContent
+  const visibleWaysToHelp = waysToHelp.filter((item) => item.status !== 'parked')
 
   return (
     <main>
@@ -111,10 +112,10 @@ export function HomePage() {
           </div>
         </div>
         <ul className="space-y-5 md:col-span-7 md:pl-8">
-          {waysToHelp.map((pathway, index) => (
-            <li key={pathway} className="flex items-start gap-4 border-b border-ink/10 pb-5">
+          {visibleWaysToHelp.map((pathway, index) => (
+            <li key={pathway.label} className="flex items-start gap-4 border-b border-ink/10 pb-5">
               <span className="font-display text-3xl text-brand-green">{String(index + 1).padStart(2, '0')}</span>
-              <p className="pt-1 text-xl text-ink/90">{pathway}</p>
+              <p className="pt-1 text-xl text-ink/90">{pathway.label}</p>
             </li>
           ))}
         </ul>
