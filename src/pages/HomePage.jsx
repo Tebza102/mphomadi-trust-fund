@@ -17,7 +17,7 @@ export function HomePage() {
   return (
     <main>
       {useSEO({
-        title: 'Mpho Madi Trust Fund | Supporting Children Born Without Limbs',
+        title: 'Supporting Children Born Without Limbs',
         description:
           'Mobility devices, dignity-centred care and family guidance for children born without limbs. Donate or become a corporate sponsor.',
         ogUrl: 'https://www.mphomaditrustfund.org.za/',
