@@ -11,7 +11,8 @@
     "build:images": "node scripts/build-images.mjs",
     "emulators": "firebase emulators:start --only auth,firestore,functions",
     "test:rules": "firebase emulators:exec --only firestore \"node --test test/firestore-rules.test.mjs\"",
-    "bootstrap:admin": "node scripts/bootstrap-admin.mjs"
+    "bootstrap:admin": "node scripts/bootstrap-admin.mjs",
+    "test:intake": "node --test test/donation-intake.test.mjs"
   },
   "dependencies": {
     "firebase": "^12.16.0",

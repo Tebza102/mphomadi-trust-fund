@@ -35,7 +35,7 @@ const adminModules = [
 const pageSnapshots = [
   {
     title: 'About page',
-    path: '/preview/about',
+    path: '/about',
     summary: 'A mobility and inclusion overview with mission-led positioning.',
     highlights: [
       'Trust purpose',
@@ -45,7 +45,7 @@ const pageSnapshots = [
   },
   {
     title: 'Apply page (archived)',
-    path: '/preview/apply → redirects to /preview',
+    path: '/apply → redirects to /',
     summary:
       'Archived 2026-07-21 — public application intake withdrawn; the Trust identifies beneficiaries directly. Component retained in src/_archived/apply-for-support/.',
     highlights: [
@@ -56,7 +56,7 @@ const pageSnapshots = [
   },
   {
     title: 'Contact page',
-    path: '/preview/contact',
+    path: '/contact',
     summary: 'Direct contact route with verified details only; phone removed until confirmed.',
     highlights: [
       'Email address',
@@ -65,7 +65,7 @@ const pageSnapshots = [
   },
   {
     title: "Her Story page",
-    path: '/preview/her-story',
+    path: '/her-story',
     summary: 'Editorial placeholder for the founder journey and lived experience.',
     highlights: [
       'Story placeholders',
@@ -386,7 +386,7 @@ export function AdminPage() {
         </div>
         <div className="md:col-span-4 md:justify-self-end">
           <Link
-            to="/preview"
+            to="/"
             className="inline-flex rounded-full border border-brand-orchid/30 px-5 py-3 text-sm font-semibold text-ink transition hover:border-brand-rose hover:text-brand-rose"
           >
             Back to site

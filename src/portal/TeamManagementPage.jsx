@@ -72,7 +72,7 @@ export function TeamManagementPage() {
 
   return (
     <main className="section-shell py-12 md:py-16">
-      <Link to="/preview/portal" className="text-sm font-semibold text-brand-rose hover:underline">
+      <Link to="/portal" className="text-sm font-semibold text-brand-rose hover:underline">
         ← Back to pipeline
       </Link>
 

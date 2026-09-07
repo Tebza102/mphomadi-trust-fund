@@ -266,4 +266,155 @@ exports.movePipelineStage = onCall({ enforceAppCheck: true }, async (request) =>
   return { ok: true, leadId, fromStage, toStage }
 })
 
+/**
+ * Public donation / sponsorship enquiry intake.
+ *
+ * Writes straight into the existing `pipeline` collection so an enquiry becomes
+ * a lead the team already knows how to work — same model, same board, same
+ * stage vocabulary. There is deliberately no second lead store and no parallel
+ * admin screen.
+ *
+ * This is the only unauthenticated callable in the codebase, so the trust
+ * boundary matters. firestore.rules denies every client write to /pipeline
+ * (`allow create, update: if isStaff()`), which is what forces intake through
+ * here, where it can be validated before the Admin SDK writes it. The rules are
+ * not relaxed to let the browser write a lead directly.
+ *
+ * The client supplies contact details and nothing else. `stage`, `source`,
+ * `assignedTo` and the opening activity entry are set here, server-side — a
+ * visitor cannot post themselves in as a 'donated' lead owned by a trustee,
+ * whatever they put in the payload.
+ *
+ * enforceAppCheck matches every other callable here. Without it this endpoint
+ * is an unauthenticated write into the Trust's CRM, i.e. a spam funnel. Until
+ * App Check is registered on the client this call is rejected in production and
+ * the form falls back to email, which is why that fallback is not optional.
+ */
+/**
+ * Validates and normalises a public enquiry into the lead document that gets
+ * written to /pipeline. Pure and exported so it can be unit-tested directly:
+ * the callable around it enforces App Check, which cannot be satisfied from a
+ * test harness, so the rules that actually matter would otherwise go
+ * unexercised.
+ *
+ * Throws HttpsError on invalid input. Returns the document minus its server
+ * timestamps, which only the caller can mint.
+ */
+function buildEnquiryLead(data = {}) {
+  /**
+   * Trim, cap, and strip control characters. A newline survives only in the
+   * free-text message; everywhere else control characters are what make log
+   * and email-header injection possible downstream.
+   */
+  const clean = (value, max, { multiline = false } = {}) => {
+    if (typeof value !== 'string') return ''
+    let out = ''
+    for (const ch of value) {
+      const code = ch.charCodeAt(0)
+      if (code < 32 || code === 127) {
+        out += multiline && code === 10 ? ch : ' '
+      } else {
+        out += ch
+      }
+    }
+    if (!multiline) out = out.replace(/\s{2,}/g, ' ')
+    return out.trim().slice(0, max)
+  }
+
+  const fullName = clean(data.fullName, 120)
+  const email = clean(data.email, 254).toLowerCase()
+  const phone = clean(data.phone, 40)
+  const supportType = clean(data.supportType, 80)
+  const interest = clean(data.interest, 120)
+  const amount = clean(data.amount, 60)
+  const orgName = clean(data.orgName, 160)
+  const message = clean(data.message, 5000, { multiline: true })
+
+  // POPIA: no consent, no record. Checked here and not only in the browser,
+  // because a client-side tick is not evidence of anything.
+  if (data.consent !== true) {
+    throw new HttpsError('failed-precondition', 'Consent is required before an enquiry can be recorded.')
+  }
+  if (!fullName) {
+    throw new HttpsError('invalid-argument', 'A name is required.')
+  }
+  // Either channel is enough — insisting on both loses enquiries from people
+  // who only want to be phoned, or only want to be emailed.
+  const emailLooksValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  if (!emailLooksValid && !phone) {
+    throw new HttpsError('invalid-argument', 'An email address or a phone number is required.')
+  }
+  if (email && !emailLooksValid) {
+    throw new HttpsError('invalid-argument', 'That email address is not valid.')
+  }
+  // A corporate sponsorship enquiry without an organisation is not actionable.
+  const isCorporate = /corporate|company|organisation|organization/i.test(supportType + ' ' + interest)
+  if (isCorporate && !orgName) {
+    throw new HttpsError('invalid-argument', 'A company or organisation name is required for corporate sponsorship.')
+  }
+
+  return {
+    name: fullName,
+    email: email || null,
+    phone: phone || null,
+    orgName: orgName || null,
+    supportType: supportType || null,
+    interest: interest || null,
+    amount: amount || null,
+    message: message || null,
+    consentGiven: true,
+    // Server-assigned. Never read from the payload — a visitor cannot post
+    // themselves in as a 'donated' lead owned by a trustee.
+    stage: 'lead',
+    source: 'website donation form',
+    assignedTo: null,
+  }
+}
+
+/**
+ * Public donation / sponsorship enquiry intake.
+ *
+ * Writes straight into the existing `pipeline` collection so an enquiry becomes
+ * a lead the team already knows how to work — same model, same board, same
+ * stage vocabulary. There is deliberately no second lead store and no parallel
+ * admin screen.
+ *
+ * This is the only unauthenticated callable in the codebase, so the trust
+ * boundary matters. firestore.rules denies every client write to /pipeline
+ * (`allow create, update: if isStaff()`), which is what forces intake through
+ * here, where it can be validated before the Admin SDK writes it. The rules are
+ * not relaxed to let the browser write a lead directly.
+ *
+ * enforceAppCheck matches every other callable here. Without it this endpoint
+ * is an unauthenticated write into the Trust's CRM, i.e. a spam funnel. Until
+ * App Check is registered on the client this call is rejected in production and
+ * the form falls back to email, which is why that fallback is not optional.
+ */
+exports.submitDonationEnquiry = onCall({ enforceAppCheck: true }, async (request) => {
+  const lead = buildEnquiryLead(request.data)
+  const db = admin.firestore()
+  const now = admin.firestore.FieldValue.serverTimestamp()
+
+  const leadRef = await db.collection('pipeline').add({
+    ...lead,
+    consentDate: now,
+    createdAt: now,
+    lastActivityAt: now,
+  })
+
+  // Opening entry so the moves-management history starts at the enquiry itself
+  // rather than at whatever a staff member happens to do first.
+  await leadRef.collection('activity').add({
+    type: 'enquiry-received',
+    note: 'Enquiry submitted through the website donation form.',
+    loggedBy: null,
+    timestamp: now,
+  })
+
+  logger.info('Donation enquiry captured', { leadId: leadRef.id })
+
+  return { ok: true, leadId: leadRef.id }
+})
+
+module.exports.buildEnquiryLead = buildEnquiryLead
 module.exports.ALL_ROLES = ALL_ROLES

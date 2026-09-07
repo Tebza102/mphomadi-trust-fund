@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { ReCaptchaV3Provider, initializeAppCheck } from 'firebase/app-check'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getFunctions } from 'firebase/functions'
@@ -49,6 +50,51 @@ export const db = app ? getFirestore(app) : null
 export const functions = app
   ? getFunctions(app, import.meta.env.VITE_FIREBASE_FUNCTIONS_REGION || 'africa-south1')
   : null
+
+/**
+ * App Check.
+ *
+ * Every callable in functions/index.js is deployed with enforceAppCheck: true,
+ * so a call without a valid App Check token is rejected with 401. That is the
+ * correct posture — submitDonationEnquiry is an unauthenticated write into the
+ * Trust's CRM, and without attestation it is a spam funnel.
+ *
+ * Registration is keyed off VITE_FIREBASE_APPCHECK_SITE_KEY. That variable is
+ * not set in any environment yet, so App Check stays uninitialised and
+ * appCheckReady is false. Consumers must check it BEFORE calling a callable:
+ * firing a request we know will 401, purely to fall back afterwards, wastes the
+ * visitor's time and fills the console with errors.
+ *
+ * The site key is a public value, intended to ship in the client. The secret
+ * half never leaves Google. Nothing here is a credential.
+ *
+ * When the key is added this initialises on its own — no code change needed.
+ */
+const appCheckSiteKey = import.meta.env.VITE_FIREBASE_APPCHECK_SITE_KEY
+
+let appCheck = null
+if (app && appCheckSiteKey) {
+  // Debug tokens are for local work only and must never be committed. Vite
+  // exposes this at build time, so it has to stay absent from every deployed
+  // environment.
+  if (import.meta.env.DEV && import.meta.env.VITE_APPCHECK_DEBUG_TOKEN) {
+    self.FIREBASE_APPCHECK_DEBUG_TOKEN = import.meta.env.VITE_APPCHECK_DEBUG_TOKEN
+  }
+  try {
+    appCheck = initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(appCheckSiteKey),
+      isTokenAutoRefreshEnabled: true,
+    })
+  } catch (caught) {
+    // A bad key must not white-screen the public site; the portal and the
+    // enquiry form degrade instead.
+    console.error('App Check failed to initialise:', caught?.message ?? caught)
+    appCheck = null
+  }
+}
+
+/** Whether callables can be reached. False => use the email fallback directly. */
+export const appCheckReady = appCheck !== null
 
 // 'lapsed' added 21 July 2026 — a terminal stage for a relationship that stops
 // giving (most often a recurring donor). Without it there was nowhere for that

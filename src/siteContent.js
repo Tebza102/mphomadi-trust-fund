@@ -1,6 +1,6 @@
 import { previewNavigation } from './config/navigation'
 
-export const brandLogoPath = '/images/branding/mpho-madi-logo.png'
+export const brandLogoPath = '/images/branding/mpho-madi-logo-horizontal.png'
 export const brandLogoAlt = 'Mpho Madi Trust Fund logo'
 
 export const siteNav = previewNavigation
@@ -11,7 +11,7 @@ export const siteNav = previewNavigation
 // URL here: a donate button that leads somewhere fake is worse than one that
 // leads to a real conversation. When a provider IS confirmed, export the real
 // URL and point the Donate CTAs at it.
-export const donateEnquiryPath = '/preview/donate#enquiry-form'
+export const donateEnquiryPath = '/donate#enquiry-form'
 
 export const trackCta = (eventName) => {
   if (typeof window !== 'undefined') {

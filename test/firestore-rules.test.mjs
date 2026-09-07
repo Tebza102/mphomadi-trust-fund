@@ -15,7 +15,7 @@ import {
   assertSucceeds,
   initializeTestEnvironment,
 } from '@firebase/rules-unit-testing'
-import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, addDoc, getDocs } from 'firebase/firestore'
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, collection, addDoc, getDocs, serverTimestamp } from 'firebase/firestore'
 
 const PROJECT_ID = 'mphomaditf-rules-test'
 
@@ -196,7 +196,11 @@ describe('staff access', () => {
       addDoc(collection(editor(), 'pipeline/lead-1/activity'), {
         note: 'Called the donor',
         loggedBy: 'editor-1',
-        timestamp: new Date(),
+        // Must be serverTimestamp(): the rule pins timestamp to request.time so
+        // an entry cannot be back- or forward-dated. A client Date is exactly
+        // what that clause is there to reject, and the app writes
+        // serverTimestamp() here too (LeadDetailPage.jsx).
+        timestamp: serverTimestamp(),
       }),
     )
     await assertFails(
@@ -210,7 +214,10 @@ describe('staff access', () => {
       addDoc(collection(editor(), 'pipeline/lead-1/activity'), {
         note: 'Not actually me',
         loggedBy: 'admin-1',
-        timestamp: new Date(),
+        // serverTimestamp() so this test fails on the forged loggedBy alone.
+        // With a client Date it was rejected by the timestamp clause first and
+        // would have passed even if the authorship check were removed.
+        timestamp: serverTimestamp(),
       }),
     )
   })

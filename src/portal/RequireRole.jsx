@@ -33,7 +33,7 @@ export function RequireRole({ allow, children }) {
   }
 
   if (!user) {
-    return <Navigate to="/preview/portal/login" replace state={{ from: location.pathname }} />
+    return <Navigate to="/portal/login" replace state={{ from: location.pathname }} />
   }
 
   if (!allow.includes(role)) {

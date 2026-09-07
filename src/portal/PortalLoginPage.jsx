@@ -26,7 +26,7 @@ export function PortalLoginPage() {
   }
 
   if (!loading && user && isStaff) {
-    return <Navigate to={location.state?.from ?? '/preview/portal'} replace />
+    return <Navigate to={location.state?.from ?? '/portal'} replace />
   }
 
   const handleSubmit = async (event) => {

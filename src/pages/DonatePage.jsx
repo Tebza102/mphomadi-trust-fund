@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Picture } from '../components/Picture'
 import { donationSponsorshipContent as content } from '../content/donationSponsorshipContent'
+import { httpsCallable } from 'firebase/functions'
+import { appCheckReady, functions } from '../lib/firebase'
 import { trackCta } from '../siteContent'
 
 export function DonatePage() {
@@ -29,24 +31,27 @@ export function DonatePage() {
     return next
   }, [form])
 
-  // No submission endpoint is connected yet, so the form hands off to the
-  // visitor's mail client rather than silently doing nothing. A form that
-  // validates, clears no state and gives no feedback reads as broken — this at
-  // least completes the visitor's intent. Swap for a real POST (and drop the
-  // mailto) once the Firestore-backed lead intake is wired to this page.
   const ENQUIRY_ADDRESS = 'info@mphomaditrustfund.org.za'
-  const [submitted, setSubmitted] = useState(false)
+  // Direct capture is live only once App Check is registered; until then this
+  // page is a clean email-composition flow and says so.
+  const directCaptureAvailable = Boolean(functions) && appCheckReady
+
+  // 'idle' | 'submitting' | 'captured' | 'emailed'
+  const [status, setStatus] = useState('idle')
+  const [submitError, setSubmitError] = useState('')
+  // Guards against a double-click landing two identical leads on the board.
+  // A ref, not state, because it has to flip synchronously inside the handler —
+  // a state update scheduled for the next render is too late to stop the
+  // second click that is already queued.
+  const inFlight = useRef(false)
 
   const update = (field) => (event) => {
     const value = field === 'consent' ? event.target.checked : event.target.value
     setForm((current) => ({ ...current, [field]: value }))
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    setAttemptedSubmit(true)
-    if (Object.keys(errors).length > 0) return
-
+  /** Hands the enquiry to the visitor's mail client. Fallback path only. */
+  const openMailFallback = () => {
     const lines = [
       `Name: ${form.fullName}`,
       form.email ? `Email: ${form.email}` : null,
@@ -61,8 +66,66 @@ export function DonatePage() {
 
     const subject = `${form.interest} enquiry — ${form.fullName}`
     window.location.href = `mailto:${ENQUIRY_ADDRESS}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`
+  }
+
+  /**
+   * Direct capture first, email second.
+   *
+   * The enquiry goes to the submitDonationEnquiry callable, which validates it
+   * server-side and writes it into the existing pipeline as a 'lead'. On
+   * success the visitor's mail client is deliberately NOT opened — the enquiry
+   * is already recorded and a mail window would look like it had not been.
+   *
+   * Anything that stops that write — Firebase not configured for this
+   * environment, App Check rejecting the call, the network — falls through to
+   * the mail client instead of dropping the enquiry. A validation error from
+   * the server is shown rather than mailed, because retrying by email would
+   * only send the same rejected details.
+   */
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setAttemptedSubmit(true)
+    if (Object.keys(errors).length > 0) return
+    if (inFlight.current) return
+
+    inFlight.current = true
+    setSubmitError('')
+    setStatus('submitting')
     trackCta('donation_enquiry_submit')
-    setSubmitted(true)
+
+    try {
+      // Direct capture needs App Check; every callable enforces it. Without it
+      // the request is a guaranteed 401, so go straight to email rather than
+      // making the visitor wait for a failure we can already predict.
+      if (!functions || !appCheckReady) throw new Error('direct-capture-unavailable')
+
+      const submitEnquiry = httpsCallable(functions, 'submitDonationEnquiry')
+      await submitEnquiry({
+        fullName: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        supportType: form.supportAs,
+        interest: form.interest,
+        amount: form.amount,
+        orgName: form.companyName,
+        message: form.message,
+        consent: form.consent,
+      })
+
+      setStatus('captured')
+    } catch (caught) {
+      // The server rejected the content itself — mailing it would send the
+      // same details it just refused, so surface it and let them correct it.
+      if (caught?.code === 'functions/invalid-argument' || caught?.code === 'functions/failed-precondition') {
+        setSubmitError(caught.message)
+        setStatus('idle')
+      } else {
+        openMailFallback()
+        setStatus('emailed')
+      }
+    } finally {
+      inFlight.current = false
+    }
   }
 
   // In-kind and volunteer/professional giving are parked (status: 'parked' in
@@ -330,23 +393,42 @@ export function DonatePage() {
           </label>
           {attemptedSubmit && errors.consent ? <p className="md:col-span-2 text-sm text-brand-rose">{errors.consent}</p> : null}
           <div className="md:col-span-2 flex flex-wrap gap-4 pt-2">
-            <button type="submit" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
-              {content.ctas.submitEnquiry}
+            <button
+              type="submit"
+              disabled={status === 'submitting'}
+              aria-busy={status === 'submitting'}
+              className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-plum disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {status === 'submitting' ? (directCaptureAvailable ? 'Sending enquiry…' : 'Opening your email app…') : content.ctas.submitEnquiry}
             </button>
-            <Link to="/preview/contact" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
+            <Link to="/contact" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
               {content.ctas.speakToTeam}
             </Link>
           </div>
-          {submitted ? (
+          {submitError ? (
+            <p className="md:col-span-2 rounded-2xl border border-brand-rose/30 bg-brand-rose/5 px-4 py-3 text-base text-brand-rose" role="alert">
+              {submitError}
+            </p>
+          ) : null}
+          {status === 'captured' ? (
+            <p className="md:col-span-2 rounded-2xl border border-brand-orchid/30 bg-brand-orchid/5 px-4 py-3 text-base text-ink/80" role="status">
+              Thank you — your enquiry has reached the Trust and someone will be in touch.
+              Verified banking details are shared directly with you after this conversation begins.
+            </p>
+          ) : null}
+          {status === 'emailed' ? (
             <p className="md:col-span-2 rounded-2xl bg-brand-rose/5 px-4 py-3 text-base text-ink/80" role="status">
               Your email app should have opened with this enquiry ready to send. If it did not, email{' '}
               <a className="underline" href={`mailto:${ENQUIRY_ADDRESS}`}>{ENQUIRY_ADDRESS}</a> directly.
             </p>
-          ) : (
+          ) : null}
+          {status === 'idle' && !submitError ? (
             <p className="md:col-span-2 text-sm text-ink/60">
-              Submitting opens your email app with these details filled in, so you can review the enquiry before it is sent.
+              {directCaptureAvailable
+                ? 'Your details go straight to the Trust. If that cannot be completed, your email app opens with the enquiry filled in instead.'
+                : 'Submitting opens your email app with these details filled in, so you can review the enquiry before sending it.'}
             </p>
-          )}
+          ) : null}
         </form>
       </section>
 
@@ -394,7 +476,7 @@ export function DonatePage() {
             <a href="#enquiry-form" onClick={() => trackCta('donate_click')} className="rounded-full bg-white px-6 py-3 text-base font-semibold text-brand-rose">
               {content.ctas.support}
             </a>
-            <Link to="/preview/contact" className="rounded-full border border-white/20 px-6 py-3 text-base font-semibold text-white">
+            <Link to="/contact" className="rounded-full border border-white/20 px-6 py-3 text-base font-semibold text-white">
               {content.ctas.speakToTeam}
             </Link>
           </div>
