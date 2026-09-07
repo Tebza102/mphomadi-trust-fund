@@ -26,7 +26,7 @@ export function AboutPage() {
           that path from the Trust&apos;s founding through to its work now.
         </p>
         <Link
-          to="/preview/her-story"
+          to="/her-story"
           className="mt-6 inline-flex items-center gap-2 rounded-full border border-brand-orchid/40 bg-white px-6 py-3 text-base font-semibold transition hover:border-brand-rose hover:text-brand-rose"
         >
           Read Mpho&apos;s Full Story <span aria-hidden="true">→</span>
@@ -70,11 +70,11 @@ export function AboutPage() {
 
       <div className="mt-12 soft-divider" />
       <div className="mt-12 flex flex-wrap gap-4">
-        <Link to="/preview/her-story" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">Read Mpho's Story</Link>
-        {/* Archived 2026-07-21 — this was 'Apply for Support' -> /preview/apply.
+        <Link to="/her-story" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">Read Mpho's Story</Link>
+        {/* Archived 2026-07-21 — this was 'Apply for Support' -> /apply.
             Swapped to Donate so the page keeps a primary CTA; revert to the
             apply link if public intake is reinstated. */}
-        <Link to="/preview/donate" className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Donate</Link>
+        <Link to="/donate" className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Donate</Link>
       </div>
     </main>
   )

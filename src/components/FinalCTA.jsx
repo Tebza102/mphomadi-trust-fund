@@ -17,14 +17,14 @@ export function FinalCTA() {
         </div>
         <div className="flex flex-wrap gap-3 md:col-span-4 md:justify-end">
           <Link
-            to="/preview/donate#enquiry-form"
+            to="/donate#enquiry-form"
             onClick={() => trackCta('final_cta_donate_click')}
             className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-red px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-white hover:text-brand-navy"
           >
             Donate Now
           </Link>
           <Link
-            to="/preview/donate#corporate-sponsorship"
+            to="/donate#corporate-sponsorship"
             onClick={() => trackCta('final_cta_sponsor_click')}
             className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/[0.35] bg-transparent px-6 py-3 text-base font-semibold text-white transition-colors hover:border-brand-gold hover:text-brand-gold"
           >

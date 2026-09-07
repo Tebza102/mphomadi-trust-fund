@@ -11,7 +11,7 @@ export const siteNav = previewNavigation
 // URL here: a donate button that leads somewhere fake is worse than one that
 // leads to a real conversation. When a provider IS confirmed, export the real
 // URL and point the Donate CTAs at it.
-export const donateEnquiryPath = '/preview/donate#enquiry-form'
+export const donateEnquiryPath = '/donate#enquiry-form'
 
 export const trackCta = (eventName) => {
   if (typeof window !== 'undefined') {

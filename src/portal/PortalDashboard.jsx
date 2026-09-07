@@ -75,7 +75,7 @@ export function PortalDashboard() {
         <div className="flex flex-wrap gap-3">
           {isAdmin ? (
             <Link
-              to="/preview/portal/team"
+              to="/portal/team"
               className="rounded-full border border-brand-orchid/40 px-5 py-2.5 text-sm font-semibold transition hover:border-brand-rose"
             >
               Team management

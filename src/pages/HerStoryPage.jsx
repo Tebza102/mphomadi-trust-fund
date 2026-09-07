@@ -27,8 +27,8 @@ export function HerStoryPage() {
             <p>The Trust understands mobility barriers from the inside: the cost of a device, the wait, the adjustments a growing child needs, and the difference it makes when someone helps a family through that process instead of leaving them to navigate it alone.</p>
             <p>That understanding shapes how support works today, and it is what the Trust asks donors, sponsors and partners to back.</p>
             <div className="flex flex-wrap gap-4 pt-3">
-              <Link to="/preview/about" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">About the Trust</Link>
-              <Link to="/preview/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Support the Mission</Link>
+              <Link to="/about" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">About the Trust</Link>
+              <Link to="/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Support the Mission</Link>
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@ export function ContactPage() {
         <div className="space-y-4 text-xl text-ink/80">
           <p>For donation questions and partnership conversations, contact the Trust directly. Include your purpose in the subject line so the team can route your request quickly.</p>
           <div className="flex flex-wrap gap-4">
-            <Link to="/preview/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Donate</Link>
+            <Link to="/donate" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">Donate</Link>
           </div>
         </div>
       </div>

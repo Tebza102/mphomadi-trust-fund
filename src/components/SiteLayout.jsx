@@ -5,7 +5,7 @@ import { SiteHeader } from './SiteHeader'
 
 export function SiteLayout({ children }) {
   const { pathname } = useLocation()
-  const isInternalRoute = pathname.startsWith('/preview/portal') || pathname.startsWith('/preview/admin')
+  const isInternalRoute = pathname.startsWith('/portal') || pathname.startsWith('/admin')
 
   return (
     <div className="min-h-screen font-body text-ink">

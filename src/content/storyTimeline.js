@@ -63,5 +63,5 @@ export const storyVideo = {
   heading: 'Partner With the Trust',
   standfirst:
     'The Trust works with donors, sponsors and partners who want a child’s mobility to lead somewhere. If that is the kind of support you are looking for, the next step is a conversation.',
-  cta: { label: 'Partner With Us', to: '/preview/donate#corporate-sponsorship' },
+  cta: { label: 'Partner With Us', to: '/donate#corporate-sponsorship' },
 }

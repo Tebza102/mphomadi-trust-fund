@@ -17,7 +17,7 @@ function LeadCard({ lead, onDragStart }) {
       onDragStart={(event) => onDragStart(event, lead)}
       className="cursor-grab rounded-2xl border border-brand-orchid/15 bg-white p-4 shadow-sm transition hover:border-brand-rose/40 active:cursor-grabbing"
     >
-      <Link to={`/preview/portal/lead/${lead.id}`} className="block">
+      <Link to={`/portal/lead/${lead.id}`} className="block">
         <p className="font-display text-base leading-tight text-ink">{lead.name ?? lead.id}</p>
         {lead.orgName ? <p className="mt-1 text-sm text-ink/60">{lead.orgName}</p> : null}
         {lead.source ? (

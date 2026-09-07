@@ -333,7 +333,7 @@ export function DonatePage() {
             <button type="submit" className="donate-pulse rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white hover:bg-brand-plum">
               {content.ctas.submitEnquiry}
             </button>
-            <Link to="/preview/contact" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
+            <Link to="/contact" className="rounded-full border border-brand-orchid/40 px-6 py-3 text-base font-semibold hover:border-brand-orchid">
               {content.ctas.speakToTeam}
             </Link>
           </div>
@@ -394,7 +394,7 @@ export function DonatePage() {
             <a href="#enquiry-form" onClick={() => trackCta('donate_click')} className="rounded-full bg-white px-6 py-3 text-base font-semibold text-brand-rose">
               {content.ctas.support}
             </a>
-            <Link to="/preview/contact" className="rounded-full border border-white/20 px-6 py-3 text-base font-semibold text-white">
+            <Link to="/contact" className="rounded-full border border-white/20 px-6 py-3 text-base font-semibold text-white">
               {content.ctas.speakToTeam}
             </Link>
           </div>

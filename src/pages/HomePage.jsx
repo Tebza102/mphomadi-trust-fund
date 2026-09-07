@@ -20,7 +20,7 @@ export function HomePage() {
         title: 'Mpho Madi Trust Fund | Supporting Children Born Without Limbs',
         description:
           'Mobility devices, dignity-centred care and family guidance for children born without limbs. Donate or become a corporate sponsor.',
-        ogUrl: 'https://mphomadi-trust-fund.vercel.app/',
+        ogUrl: 'https://www.mphomaditrustfund.org.za/',
       })}
 
       {/* Hero — white ground, editorial H1, one primary + one secondary CTA. */}
@@ -30,10 +30,10 @@ export function HomePage() {
           <h1 className="font-display text-4xl leading-tight text-brand-navy md:text-6xl">{hero.title}</h1>
           <p className="max-w-xl text-xl leading-relaxed text-ink/80">{hero.mission}</p>
           <div className="flex flex-wrap gap-4">
-            <Link to="/preview/donate" onClick={() => trackCta('donate_click')} className="donate-pulse btn-primary">
+            <Link to="/donate" onClick={() => trackCta('donate_click')} className="donate-pulse btn-primary">
               Donate Now
             </Link>
-            <Link to="/preview/donate#corporate-sponsorship" onClick={() => trackCta('sponsor_click')} className="btn-secondary">
+            <Link to="/donate#corporate-sponsorship" onClick={() => trackCta('sponsor_click')} className="btn-secondary">
               Become a Sponsor
             </Link>
           </div>
@@ -63,7 +63,7 @@ export function HomePage() {
           <p className="eyebrow">Founder Origin Story</p>
           <h2 className="font-display text-3xl leading-tight text-brand-navy md:text-5xl">{founderStory.title}</h2>
           <p className="text-xl leading-relaxed text-ink/80">{founderStory.copy}</p>
-          <Link to="/preview/her-story" className="btn-tertiary">
+          <Link to="/her-story" className="btn-tertiary">
             Read the full story
           </Link>
         </div>
@@ -103,10 +103,10 @@ export function HomePage() {
             Choose how you want to support a child&apos;s mobility journey.
           </h2>
           <div className="flex flex-wrap gap-4">
-            <Link to="/preview/donate" onClick={() => trackCta('donate_click')} className="donate-pulse btn-primary">
+            <Link to="/donate" onClick={() => trackCta('donate_click')} className="donate-pulse btn-primary">
               Open Donation Journey
             </Link>
-            <Link to="/preview/donate#enquiry-form" onClick={() => trackCta('support_enquiry_click')} className="btn-tertiary">
+            <Link to="/donate#enquiry-form" onClick={() => trackCta('support_enquiry_click')} className="btn-tertiary">
               Send Donation Enquiry
             </Link>
           </div>

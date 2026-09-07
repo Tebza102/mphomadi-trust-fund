@@ -16,7 +16,7 @@ export function SiteFooter() {
     <footer className="bg-[#0b2145] text-white" aria-label="Mpho Madi Trust Fund footer">
       <div className="section-shell grid gap-10 py-12 md:grid-cols-12 md:py-14">
         <div className="space-y-5 md:col-span-5">
-          <Link to="/preview" className="inline-flex items-center rounded-xl bg-white p-3" aria-label="Mpho Madi Trust Fund home">
+          <Link to="/" className="inline-flex items-center rounded-xl bg-white p-3" aria-label="Mpho Madi Trust Fund home">
             <img src={brandLogoPath} alt={brandLogoAlt} className="h-16 w-auto" />
           </Link>
           <p className="max-w-md font-display text-2xl leading-snug text-white">
@@ -52,10 +52,10 @@ export function SiteFooter() {
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-gold">Get involved</h2>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link to="/preview/donate#enquiry-form" className="inline-flex min-h-11 items-center rounded-full bg-brand-red px-5 py-2.5 font-semibold text-white transition-colors hover:bg-white hover:text-brand-navy">
+              <Link to="/donate#enquiry-form" className="inline-flex min-h-11 items-center rounded-full bg-brand-red px-5 py-2.5 font-semibold text-white transition-colors hover:bg-white hover:text-brand-navy">
                 Donate
               </Link>
-              <Link to="/preview/donate#corporate-sponsorship" className="inline-flex min-h-11 items-center rounded-full border border-white/30 px-5 py-2.5 font-semibold text-white transition-colors hover:border-brand-gold hover:text-brand-gold">
+              <Link to="/donate#corporate-sponsorship" className="inline-flex min-h-11 items-center rounded-full border border-white/30 px-5 py-2.5 font-semibold text-white transition-colors hover:border-brand-gold hover:text-brand-gold">
                 Sponsor
               </Link>
             </div>
@@ -90,8 +90,8 @@ export function SiteFooter() {
           <div className="border-t border-white/[0.12] pt-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-gold">Institutional access</h2>
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-white/70">
-              <Link to="/preview/contact" className="transition-colors hover:text-white">Contact the Trust</Link>
-              <Link to="/preview/portal/login" className="transition-colors hover:text-white">Team Login</Link>
+              <Link to="/contact" className="transition-colors hover:text-white">Contact the Trust</Link>
+              <Link to="/portal/login" className="transition-colors hover:text-white">Team Login</Link>
             </div>
           </div>
         </div>
