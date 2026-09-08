@@ -38,12 +38,17 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2">
+            {/* Hidden 2026-09-08 at the Trust's request. Removed from the visible
+                site only — /portal/login still resolves and RequireRole still
+                redirects there, so staff reach the portal via the URL directly.
+                Restore by uncommenting.
             <Link
               to="/portal/login"
               className="hidden min-h-11 items-center rounded-full border border-brand-navy/20 bg-white px-3 py-1.5 text-sm font-semibold text-brand-navy transition-colors hover:border-brand-green hover:text-brand-green md:inline-flex md:px-5 md:py-2 md:text-base"
             >
               Team Login
             </Link>
+            */}
             <Link
               to="/donate#enquiry-form"
               onClick={() => trackCta('donate_click')}
@@ -93,6 +98,7 @@ export function SiteHeader() {
                   </NavLink>
                 ),
               )}
+              {/* Hidden 2026-09-08 — see the note on the desktop button above.
               <Link
                 to="/portal/login"
                 onClick={() => setMobileMenuOpen(false)}
@@ -100,6 +106,7 @@ export function SiteHeader() {
               >
                 Team Login
               </Link>
+              */}
             </nav>
           </div>
         )}
