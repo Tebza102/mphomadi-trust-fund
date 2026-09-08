@@ -19,18 +19,6 @@ export function ContactPage() {
               </dd>
             </div>
             <div>
-              <dt className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-navy">Telephone</dt>
-              <dd className="mt-1">
-                <a className="underline decoration-brand-rose/40 underline-offset-4 hover:text-brand-navy" href={trustDetails.phoneHref}>
-                  {trustDetails.phone}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-navy">Fax</dt>
-              <dd className="mt-1">{trustDetails.fax}</dd>
-            </div>
-            <div>
               <dt className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-navy">Registered address</dt>
               <dd className="mt-1">
                 <address className="not-italic leading-relaxed">
@@ -61,7 +49,7 @@ export function ContactPage() {
         </div>
 
         <div className="space-y-4 text-xl text-ink/80">
-          <p>For donation questions and partnership conversations, contact the Trust directly. Include your purpose in the subject line so the team can route your request quickly.</p>
+          <p>The Trust handles all enquiries by email. For donation questions and partnership conversations, write to the team directly and include your purpose in the subject line so your request is routed quickly.</p>
           <p className="text-lg text-ink/70">
             Verified banking details are shared directly with you after an enquiry, never published on this site.
           </p>

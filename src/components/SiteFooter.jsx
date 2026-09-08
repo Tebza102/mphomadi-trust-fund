@@ -73,14 +73,6 @@ export function SiteFooter() {
                 <dd>{trustDetails.address}</dd>
               </div>
               <div className="flex flex-wrap gap-x-2">
-                <dt className="font-semibold text-white/90">Phone:</dt>
-                <dd><a href={trustDetails.phoneHref} className="transition-colors hover:text-white">{trustDetails.phone}</a></dd>
-              </div>
-              <div className="flex flex-wrap gap-x-2">
-                <dt className="font-semibold text-white/90">Fax:</dt>
-                <dd>{trustDetails.fax}</dd>
-              </div>
-              <div className="flex flex-wrap gap-x-2">
                 <dt className="font-semibold text-white/90">Email:</dt>
                 <dd><a href={trustDetails.emailHref} className="transition-colors hover:text-white">{trustDetails.email}</a></dd>
               </div>

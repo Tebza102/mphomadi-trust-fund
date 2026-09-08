@@ -338,13 +338,13 @@ function buildEnquiryLead(data = {}) {
   if (!fullName) {
     throw new HttpsError('invalid-argument', 'A name is required.')
   }
-  // Either channel is enough — insisting on both loses enquiries from people
-  // who only want to be phoned, or only want to be emailed.
+  // The Trust replies by email only, so an address is mandatory: a lead with
+  // no email is one nobody can answer. Phone is kept as optional context.
   const emailLooksValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-  if (!emailLooksValid && !phone) {
-    throw new HttpsError('invalid-argument', 'An email address or a phone number is required.')
+  if (!email) {
+    throw new HttpsError('invalid-argument', 'An email address is required.')
   }
-  if (email && !emailLooksValid) {
+  if (!emailLooksValid) {
     throw new HttpsError('invalid-argument', 'That email address is not valid.')
   }
   // A corporate sponsorship enquiry without an organisation is not actionable.

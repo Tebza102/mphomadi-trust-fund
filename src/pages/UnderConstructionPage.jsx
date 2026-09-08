@@ -69,16 +69,10 @@ export function UnderConstructionPage() {
           </a>
         </div>
 
-        <dl className="mt-12 grid gap-x-10 gap-y-3 text-base text-ink/75 sm:grid-cols-2">
-          <div className="flex flex-wrap justify-center gap-x-2 sm:justify-end">
-            <dt className="font-semibold text-brand-navy">Telephone:</dt>
-            <dd><a href={trustDetails.phoneHref} className="hover:text-brand-navy">{trustDetails.phone}</a></dd>
-          </div>
-          <div className="flex flex-wrap justify-center gap-x-2 sm:justify-start">
-            <dt className="font-semibold text-brand-navy">Email:</dt>
-            <dd><a href={trustDetails.emailHref} className="hover:text-brand-navy">{trustDetails.email}</a></dd>
-          </div>
-        </dl>
+        <p className="mt-12 flex flex-wrap items-center justify-center gap-x-2 text-base text-ink/75">
+          <span className="font-semibold text-brand-navy">Email:</span>
+          <a href={trustDetails.emailHref} className="hover:text-brand-navy">{trustDetails.email}</a>
+        </p>
       </div>
 
       {/* Statutory identifiers, same as the institutional footer: a holding page

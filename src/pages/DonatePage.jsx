@@ -23,7 +23,9 @@ export function DonatePage() {
   const errors = useMemo(() => {
     const next = {}
     if (!form.fullName.trim()) next.fullName = 'Full name is required.'
-    if (!form.email.trim() && !form.phone.trim()) next.contact = 'Please add either an email address or a phone number.'
+    // The Trust replies by email only, so an address is the one contact
+    // detail an enquiry cannot be answered without. Phone stays optional.
+    if (!form.email.trim()) next.email = 'An email address is required — the Trust replies by email.'
     if (!form.supportAs) next.supportAs = 'Please choose how you want to support.'
     if (!form.interest) next.interest = 'Please choose your support interest.'
     if (!form.consent) next.consent = 'Consent is required before we can contact you.'
@@ -351,11 +353,11 @@ export function DonatePage() {
           <label className="flex min-w-0 flex-col gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-ink/70">
             Email address
             <input value={form.email} onChange={update('email')} type="email" className="w-full rounded-2xl border border-ink/10 bg-[#fafafa] px-4 py-3 text-base normal-case text-ink outline-none focus:border-brand-rose" />
+            {attemptedSubmit && errors.email ? <span className="normal-case font-normal text-brand-rose">{errors.email}</span> : null}
           </label>
           <label className="flex min-w-0 flex-col gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-ink/70">
             Phone number
-            <input value={form.phone} onChange={update('phone')} type="tel" className="w-full rounded-2xl border border-ink/10 bg-[#fafafa] px-4 py-3 text-base normal-case text-ink outline-none focus:border-brand-rose" />
-            {attemptedSubmit && errors.contact ? <span className="normal-case font-normal text-brand-rose">{errors.contact}</span> : null}
+            <input value={form.phone} onChange={update('phone')} type="tel" placeholder="Optional" className="w-full rounded-2xl border border-ink/10 bg-[#fafafa] px-4 py-3 text-base normal-case text-ink outline-none focus:border-brand-rose" />
           </label>
           <label className="flex min-w-0 flex-col gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-ink/70">
             I want to support as
