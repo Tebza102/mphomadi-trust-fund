@@ -49,12 +49,13 @@ export const donationSponsorshipContent = {
       'Supporting documents: request from the team',
     ],
   },
+  // Giving starts at R1,000 (decided 2026-09-08). The R100, R250 and R500 tiers
+  // were removed rather than restyled — leaving them would advertise amounts the
+  // Trust no longer accepts. No tier above R1,000 has been invented: anything
+  // larger goes through the custom amount.
   donationAmounts: [
-    { amount: 'R100', impact: 'Can contribute toward essential support items, depending on current programme needs.', cta: 'Choose R100' },
-    { amount: 'R250', impact: 'Can contribute toward essential support items, depending on current programme needs.', cta: 'Choose R250' },
-    { amount: 'R500', impact: 'Can contribute toward practical help such as food, clothing, transport, or follow-up support.', cta: 'Choose R500' },
-    { amount: 'R1,000', impact: 'Can contribute toward a larger support step, subject to what the Trust needs most right now.', cta: 'Choose R1,000' },
-    { amount: 'Custom', impact: 'Choose a custom amount that fits your giving capacity and preferred support pattern.', cta: 'Choose custom' },
+    { amount: 'R1,000 and upwards', impact: 'The starting contribution. Supports a practical step such as food, clothing, transport, or follow-up support, subject to what the Trust needs most right now.', cta: 'Give R1,000' },
+    { amount: 'Custom', impact: 'Choose any amount above R1,000 that fits your giving capacity and preferred support pattern.', cta: 'Choose custom' },
   ],
   // Only the first two options render publicly on the Donations page while the
   // fundraiser is running (decided 2026-09-03) — DonatePage.jsx filters out any

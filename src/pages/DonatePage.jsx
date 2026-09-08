@@ -220,11 +220,11 @@ export function DonatePage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Donation amounts</p>
-            <h2 className="mt-3 font-display text-3xl md:text-5xl">Choose an amount with visible impact</h2>
+            <h2 className="mt-3 font-display text-3xl md:text-5xl">Giving starts at R1,000</h2>
           </div>
-          <p className="max-w-2xl text-lg leading-relaxed text-ink/70">Each card stays honest about what the amount can help with, depending on current programme needs.</p>
+          <p className="max-w-2xl text-lg leading-relaxed text-ink/70">R1,000 is the starting contribution, and you are welcome to give more. Each card stays honest about what the amount can help with, depending on current programme needs.</p>
         </div>
-        <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
           {content.donationAmounts.map((item) => (
             <article key={item.amount} className="rounded-[1.5rem] border border-ink/10 bg-white p-6">
               <p className="font-display text-3xl text-brand-plum">{item.amount}</p>
