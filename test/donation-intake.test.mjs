@@ -55,10 +55,6 @@ describe('buildEnquiryLead — successful capture', () => {
     assert.equal(lead.assignedTo, null)
   })
 
-  it('accepts a phone-only enquiry', () => {
-    assert.equal(codeFor({ ...valid, email: '', phone: '083 555 0111' }), null)
-  })
-
   it('accepts an email-only enquiry', () => {
     assert.equal(codeFor({ ...valid, email: 'a@b.co.za', phone: '' }), null)
   })
@@ -112,8 +108,14 @@ describe('buildEnquiryLead — validation', () => {
     assert.equal(codeFor({ ...valid, fullName: '   ' }), 'invalid-argument')
   })
 
-  it('rejects a submission with neither email nor phone', () => {
+  // The Trust replies by email only, so an enquiry without an address cannot
+  // be answered — a phone number is no longer a substitute for one.
+  it('rejects a submission with no email address', () => {
     assert.equal(codeFor({ ...valid, email: '', phone: '' }), 'invalid-argument')
+  })
+
+  it('rejects a phone-only enquiry', () => {
+    assert.equal(codeFor({ ...valid, email: '', phone: '083 555 0111' }), 'invalid-argument')
   })
 
   it('rejects a malformed email address', () => {
