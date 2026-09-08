@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Picture } from '../components/Picture'
+import { Reveal } from '../components/Reveal'
 import { trackCta } from '../siteContent'
 import { homepageContent } from './homeContent'
 import { useSEO } from '../hooks/useSEO.jsx'
@@ -38,19 +39,21 @@ export function HomePage() {
             </Link>
           </div>
         </div>
-        {/* Below lg the box carries the photograph's own 3:2 ratio, so
+        {/* The box carries the photograph's own 3:2 ratio at every width, so
             object-cover has nothing to crop and both people stay whole. Fixed
-            heights were the problem: at 340px tall the box was near-square and
-            shaved the sides, and in the md two-column layout it went portrait
-            (~309x460) and cut the adult out of frame entirely. From lg the
-            column is wide enough that a 460px box only trims the far edges. */}
-        <Picture
-          name="04_mpho-with-founder-childhood"
-          alt="Mpho Madi as a young girl, seated in her wheelchair beside the founder of the Trust at a formal event"
-          className="aspect-[3/2] w-full rounded-brand-lg shadow-brand md:col-span-6 lg:aspect-auto lg:h-[460px]"
-          focus="object-center"
-          loading="eager"
-        />
+            heights were the problem: they forced the sides to be shaved, which
+            cost the founder part of the frame on phones and all of it in the
+            md two-column layout. The column has the width for the full frame,
+            so the height follows the picture rather than the other way round. */}
+        <Reveal className="md:col-span-6">
+          <Picture
+            name="04_mpho-with-founder-childhood"
+            alt="Mpho Madi as a young girl, seated in her wheelchair beside the founder of the Trust at a formal event"
+            className="aspect-[3/2] w-full rounded-brand-lg shadow-brand"
+            focus="object-center"
+            loading="eager"
+          />
+        </Reveal>
       </section>
 
       <div className="soft-divider section-shell" />
@@ -59,11 +62,14 @@ export function HomePage() {
           journey lives on Mpho's Story; this section only has to establish
           human origin and lived experience. */}
       <section className="section-shell grid items-center gap-10 py-16 md:grid-cols-12">
+        {/* Press cutting, so the box takes the clipping's own portrait ratio:
+            a fixed height would crop the caption off and cut into the faces,
+            and a cutting that has lost its caption has lost the reporting. */}
         <Picture
-          name="01_hero_portrait_speaking"
-          alt="Mpho Madi speaking at a microphone during an Ekurhuleni Metropolitan Municipality event"
-          className="h-[420px] w-full rounded-brand-lg md:col-span-5"
-          focus="object-[60%_35%]"
+          name="12_mpho_at_three"
+          alt="Newspaper cutting: Mpho Madi as a three-year-old in her wheelchair, with her mother explaining her situation to the Ekurhuleni Metro mayor and community representatives"
+          className="aspect-[1084/1451] w-full rounded-brand-lg md:col-span-5"
+          focus="object-center"
         />
         <div className="space-y-5 md:col-span-7 md:pl-6">
           <p className="eyebrow">Founder Origin Story</p>
