@@ -1,6 +1,18 @@
 import { Link } from 'react-router-dom'
 import { trackCta } from '../siteContent'
 
+/**
+ * Retired 8 September 2026 — no longer rendered anywhere.
+ *
+ * It sat immediately above the footer on every public page, repeating the two
+ * actions the footer already offered, so the bottom of every page made the same
+ * ask twice. Its 'Donate Now' and 'Become a Sponsor' buttons were moved into the
+ * footer's Get involved block rather than dropped.
+ *
+ * Kept as a file so the section can be restored by re-adding it to SiteLayout;
+ * if it ever comes back, remove the duplicate pair from the footer at the same
+ * time.
+ */
 export function FinalCTA() {
   return (
     <section className="relative overflow-hidden bg-brand-navy text-white" aria-labelledby="final-cta-title">

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { brandLogoAlt, brandLogoWhitePath, siteNav } from '../siteContent'
+import { brandLogoAlt, brandLogoWhitePath, siteNav, trackCta } from '../siteContent'
 import { trustDetails } from '../content/trustDetails'
 
 const footerNav = siteNav.filter((item) => item.label !== 'Donate')
@@ -47,12 +47,23 @@ export function SiteFooter() {
         <div className="space-y-5 md:col-span-4">
           <div>
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-gold">Get involved</h2>
+            {/* These are the buttons from the retired FinalCTA section, moved
+                here when it was removed — same destinations, full labels, and
+                the click tracking it used to carry. */}
             <div className="mt-5 flex flex-wrap gap-3">
-              <Link to="/donate#enquiry-form" className="inline-flex min-h-11 items-center rounded-full bg-brand-red px-5 py-2.5 font-semibold text-white transition-colors hover:bg-white hover:text-brand-navy">
-                Donate
+              <Link
+                to="/donate#enquiry-form"
+                onClick={() => trackCta('footer_donate_click')}
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-brand-red px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-white hover:text-brand-navy"
+              >
+                Donate Now
               </Link>
-              <Link to="/donate#corporate-sponsorship" className="inline-flex min-h-11 items-center rounded-full border border-white/30 px-5 py-2.5 font-semibold text-white transition-colors hover:border-brand-gold hover:text-brand-gold">
-                Sponsor
+              <Link
+                to="/donate#corporate-sponsorship"
+                onClick={() => trackCta('footer_sponsor_click')}
+                className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/[0.35] px-6 py-3 text-base font-semibold text-white transition-colors hover:border-brand-gold hover:text-brand-gold"
+              >
+                Become a Sponsor
               </Link>
             </div>
           </div>
