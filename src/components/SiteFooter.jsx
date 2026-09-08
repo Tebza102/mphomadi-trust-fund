@@ -91,7 +91,10 @@ export function SiteFooter() {
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-gold">Institutional access</h2>
             <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-white/70">
               <Link to="/contact" className="transition-colors hover:text-white">Contact the Trust</Link>
+              {/* Hidden 2026-09-08 at the Trust's request, with the header button.
+                  /portal/login still resolves; staff reach it via the URL directly.
               <Link to="/portal/login" className="transition-colors hover:text-white">Team Login</Link>
+              */}
             </div>
           </div>
         </div>
