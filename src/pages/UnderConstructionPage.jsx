@@ -1,77 +1,97 @@
-import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
+import { brandLogoAlt, brandLogoPath } from '../siteContent'
+import { trustDetails } from '../content/trustDetails'
 
+/**
+ * Standby holding page.
+ *
+ * Not mounted. The public site took over `/` on 7 September 2026 — see the note
+ * in routes/AppRoutes.jsx. This is kept ready for a planned outage or a future
+ * rebuild, so it is maintained on the current brand system rather than left to
+ * rot against the palette it was written for.
+ *
+ * To put it back on the root, add this above the public routes in AppRoutes:
+ *   <Route path="/" element={<UnderConstructionPage />} />
+ * The `noindex` below matters when it is live: a holding page that gets indexed
+ * outranks the real site for the Trust's own name long after it comes down.
+ */
 export function UnderConstructionPage() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#f7efe9_0%,#fffaf7_42%,#ffffff_100%)]">
+    <main className="flex min-h-screen flex-col bg-white">
       <Helmet>
-        <title>Mpho Madi Trust Fund | Under Construction</title>
-        <meta name="description" content="The Mpho Madi Trust Fund website is being improved." />
+        <title>Mpho Madi Trust Fund | Website Update in Progress</title>
+        <meta name="description" content="The Mpho Madi Trust Fund website is being updated. Contact the Trust directly in the meantime." />
         <meta name="robots" content="noindex,nofollow,noarchive" />
         <meta name="googlebot" content="noindex,nofollow,noarchive" />
       </Helmet>
-      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-10 md:px-10">
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-brand-plum/70">Mpho Madi Trust Fund</p>
-          <span className="rounded-full border border-brand-orchid/20 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-plum/70">
-            Website update in progress
-          </span>
+
+      <div className="section-shell flex flex-1 flex-col items-center justify-center py-16 text-center md:py-24">
+        {/* The mark carries this page — there is no navigation and no
+            photography to establish who this is, so it leads at full size. */}
+        <img
+          src={brandLogoPath}
+          alt={brandLogoAlt}
+          className="h-28 w-auto md:h-40"
+        />
+
+        {/* The four flag colours of the mark, as on the letterhead. */}
+        <div aria-hidden="true" className="mt-8 flex h-[3px] w-full max-w-xs overflow-hidden rounded-full">
+          <i className="h-full w-[26%] bg-brand-red" />
+          <i className="h-full w-[16%] bg-brand-gold" />
+          <i className="h-full w-[32%] bg-brand-green" />
+          <i className="h-full w-[26%] bg-brand-blue" />
         </div>
 
-        <section className="flex flex-1 items-center">
-          <div className="grid w-full gap-10 py-12 md:grid-cols-[1.15fr_0.85fr] md:items-center">
-            <div className="space-y-7">
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-rose">Public holding page</p>
-              <h1 className="max-w-3xl font-display text-4xl leading-tight text-ink md:text-6xl">
-                Mpho Madi Trust Fund website is being improved.
-              </h1>
-              <p className="max-w-2xl text-lg leading-8 text-ink/75 md:text-xl">
-                We are updating the website to better share our community work, sponsorship opportunities, programme updates, and impact stories.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <a
-                  href="mailto:info@mphomaditrustfund.org.za?subject=Contact%20Mpho%20Madi%20Trust%20Fund"
-                  className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white transition hover:bg-brand-plum"
-                >
-                  Contact Us
-                </a>
-                <a
-                  href="mailto:info@mphomaditrustfund.org.za?subject=Sponsorship%20Enquiry"
-                  className="rounded-full border border-brand-orchid/30 bg-white px-6 py-3 text-base font-semibold text-ink transition hover:border-brand-rose hover:text-brand-rose"
-                >
-                  Sponsorship Enquiry
-                </a>
-              </div>
-              <p className="max-w-xl text-sm leading-6 text-ink/60">
-                Authorised users should use the private preview link provided by the development team.
-              </p>
-            </div>
+        <p className="eyebrow mt-10">Website update in progress</p>
 
-            {/* Card chrome (border, white fill, shadow, padding) is md-and-up only.
-                On phones it nested a card inside a card inside the page gradient,
-                which read as stacked borders in a narrow column. */}
-            <div className="md:rounded-[2rem] md:border md:border-brand-orchid/15 md:bg-white/85 md:p-6 md:shadow-[0_30px_80px_-50px_rgba(47,22,71,0.35)] md:backdrop-blur">
-              <div className="space-y-5 rounded-[1.5rem] bg-brand-plum px-6 py-6 text-white">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/70">What remains visible</p>
-                <ul className="space-y-3 text-base leading-7 text-white/86">
-                  <li>Community work highlights</li>
-                  <li>Sponsorship and donor pathways</li>
-                  <li>Programme and impact updates</li>
-                  <li>Private preview access for the client team</li>
-                </ul>
-              </div>
-              {/* Same reasoning: plain text on phones, boxed only from md up. */}
-              <div className="mt-5 text-sm leading-6 text-ink/70 md:rounded-[1.5rem] md:border md:border-dashed md:border-brand-orchid/25 md:bg-[#fcf8f6] md:px-5 md:py-4">
-                This page is intentionally polished so the organisation still feels active and credible while the private preview is being refined.
-              </div>
-            </div>
+        <h1 className="mt-4 max-w-3xl font-display text-4xl leading-tight text-brand-navy md:text-6xl">
+          We are improving the Mpho Madi Trust Fund website.
+        </h1>
+
+        <p className="mt-6 max-w-2xl text-xl leading-relaxed text-ink/80">
+          The Trust supports children born without limbs with prosthetics, wheelchairs,
+          assistive devices, and family-centred guidance. That work continues while the
+          site is being updated — please reach the team directly in the meantime.
+        </p>
+
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href={`${trustDetails.emailHref}?subject=Contact%20Mpho%20Madi%20Trust%20Fund`}
+            className="btn-primary"
+          >
+            Contact the Trust
+          </a>
+          <a
+            href={`${trustDetails.emailHref}?subject=Sponsorship%20Enquiry`}
+            className="btn-secondary"
+          >
+            Sponsorship Enquiry
+          </a>
+        </div>
+
+        <dl className="mt-12 grid gap-x-10 gap-y-3 text-base text-ink/75 sm:grid-cols-2">
+          <div className="flex flex-wrap justify-center gap-x-2 sm:justify-end">
+            <dt className="font-semibold text-brand-navy">Telephone:</dt>
+            <dd><a href={trustDetails.phoneHref} className="hover:text-brand-navy">{trustDetails.phone}</a></dd>
           </div>
-        </section>
-
-        <footer className="pb-2 text-sm text-ink/55">
-          Private preview access is available at <Link className="underline decoration-brand-rose/40 underline-offset-4" to="/preview">/preview</Link>.
-        </footer>
+          <div className="flex flex-wrap justify-center gap-x-2 sm:justify-start">
+            <dt className="font-semibold text-brand-navy">Email:</dt>
+            <dd><a href={trustDetails.emailHref} className="hover:text-brand-navy">{trustDetails.email}</a></dd>
+          </div>
+        </dl>
       </div>
+
+      {/* Statutory identifiers, same as the institutional footer: a holding page
+          is exactly where someone checks whether the organisation is real. */}
+      <footer className="border-t border-border">
+        <div className="section-shell py-6 text-center text-sm leading-relaxed text-ink/60">
+          <p className="font-semibold text-brand-navy">Mpho Madi Trust Fund</p>
+          <p className="mt-1">
+            Trust Registration No. {trustDetails.registration} &nbsp;·&nbsp; NPO Registration No. {trustDetails.npo}
+          </p>
+          <p className="mt-1">{trustDetails.address}</p>
+        </div>
+      </footer>
     </main>
   )
 }
