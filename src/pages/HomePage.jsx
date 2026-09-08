@@ -38,11 +38,15 @@ export function HomePage() {
             </Link>
           </div>
         </div>
+        {/* Between md and lg the hero box is portrait (~309x460), so a centre
+            crop keeps only the middle ~45% of this landscape photo and cuts the
+            adult's head off. Anchoring right in that band frames the child
+            cleanly instead; the wider boxes above and below fit both subjects. */}
         <Picture
-          name="02_award_moment_group"
-          alt="Mpho Madi Trust Fund supporters and family members gathered outdoors with two young children, one seated in a wheelchair"
+          name="04_mpho-with-founder-childhood"
+          alt="Mpho Madi as a young girl, seated in her wheelchair beside the founder of the Trust at a formal event"
           className="h-[340px] w-full rounded-brand-lg shadow-brand md:col-span-6 md:h-[460px]"
-          focus="object-center"
+          focus="object-center md:object-right lg:object-center"
           loading="eager"
         />
       </section>
