@@ -41,9 +41,13 @@ export function StoryTimeline() {
                 <Picture
                   name={node.image}
                   alt={node.imageAlt}
-                  // Portrait sources need a focal point or the 4:3 box crops through faces.
+                  // Only meaningful when the node is cropped: a portrait source in
+                  // the default 4:3 box needs a focal point or it crops through faces.
                   focus={node.imageFocus ?? 'object-center'}
-                  className={`mb-5 aspect-[4/3] w-full rounded-[1.5rem] md:mb-0 ${
+                  // Nodes default to a uniform 4:3 so the rail reads evenly. A node
+                  // whose picture would lose its subject to that crop sets its own
+                  // ratio instead — see imageAspect in content/storyTimeline.js.
+                  className={`mb-5 w-full rounded-[1.5rem] md:mb-0 ${node.imageAspect ?? 'aspect-[4/3]'} ${
                     imageRight ? 'md:order-2' : 'md:order-1'
                   }`}
                 />

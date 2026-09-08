@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { brandLogoAlt, brandLogoPath, siteNav } from '../siteContent'
+import { brandLogoAlt, brandLogoWhitePath, siteNav } from '../siteContent'
 import { trustDetails } from '../content/trustDetails'
 
 const footerNav = siteNav.filter((item) => item.label !== 'Donate')
@@ -10,8 +10,10 @@ export function SiteFooter() {
     <footer className="bg-[#0b2145] text-white" aria-label="Mpho Madi Trust Fund footer">
       <div className="section-shell grid gap-10 py-12 md:grid-cols-12 md:py-14">
         <div className="space-y-5 md:col-span-5">
-          <Link to="/" className="inline-flex items-center rounded-xl bg-white p-3" aria-label="Mpho Madi Trust Fund home">
-            <img src={brandLogoPath} alt={brandLogoAlt} className="h-16 w-auto" />
+          {/* Reversed mark, so it sits straight on the navy. The colour logo
+              needed a white plate behind it here, which read as a sticker. */}
+          <Link to="/" className="inline-flex items-center" aria-label="Mpho Madi Trust Fund home">
+            <img src={brandLogoWhitePath} alt={brandLogoAlt} className="h-16 w-auto" />
           </Link>
           <p className="max-w-md font-display text-2xl leading-snug text-white">
             Mobility, dignity and opportunity for children who need practical support.

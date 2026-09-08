@@ -26,10 +26,13 @@ export const storyTimeline = [
     heading: 'Then it becomes taking part',
     body: 'Mobility matters because of what it makes possible: getting to school, keeping up with classmates, joining in at home and in the community. The device is the means, not the outcome.',
     image: '03_fulllength_portrait',
-    imageAlt: 'A smiling child standing with the support of crutches at an event',
-    // Portrait source (821x1200) in a 4:3 box shows only the top ~51% of the frame.
-    // 5% keeps the crop starting just above the head; higher values clip it.
-    imageFocus: 'object-[50%_5%]',
+    imageAlt:
+      'Mpho Madi standing on her prosthetic legs with forearm crutches, smiling broadly at an event',
+    // Shown at its own 821x1200 ratio rather than the default 4:3 crop, which
+    // kept only the top half of the frame — the crutches, the prosthetic legs
+    // and the standing itself were all below the cut. This node is about taking
+    // part, and the photograph is the evidence for it, so it is not cropped.
+    imageAspect: 'aspect-[821/1200]',
   },
   {
     id: 'dignity',

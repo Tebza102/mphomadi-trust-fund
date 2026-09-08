@@ -1,6 +1,9 @@
 import { previewNavigation } from './config/navigation'
 
 export const brandLogoPath = '/images/branding/mpho-madi-logo-horizontal.png'
+// Reversed (all-white) mark for dark grounds — the navy footer. Using it
+// there means the logo no longer needs a white plate behind it.
+export const brandLogoWhitePath = '/images/branding/mpho-madi-logo-horizontal-white.png'
 export const brandLogoAlt = 'Mpho Madi Trust Fund logo'
 
 export const siteNav = previewNavigation
