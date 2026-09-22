@@ -13,19 +13,22 @@
  * pulse fades in, because there the page underneath is one the visitor has
  * already been looking at.
  *
- * Arrival timeline (matches the constants in SiteWelcome.jsx):
- *   0.00-0.35s  stable white; no site content, no heart yet
- *   0.35-0.75s  heart fades up and settles into the centre
- *   1.00s       first beat  (lub-dub)
- *   1.62s       second beat
- *   2.24s       third and strongest
- *   2.05s       red ripple     2.45s  yellow
- *   2.85s       green ripple   3.25s  blue
- *   3.40-4.30s  full logo resolves out of the expanding colour
- *   4.30-4.80s  logo holds
- *   4.80-5.35s  white fades into the requested page
+ * Arrival timeline (matches the constants in SiteWelcome.jsx). Identical on
+ * desktop and mobile; only the heart and logo sizes are responsive.
  *
- * Reduced motion: white, logo up by 0.45s, held to 0.85s, faded by 1.20s.
+ *   0.00-0.50s  stable white; no site content, no heart yet
+ *   0.50-1.00s  heart fades up and settles into the centre
+ *   1.40s       beat 1  - expand, contract past rest, recover by 1.95s
+ *   2.30s       beat 2  - the same shape, recovered by 2.85s
+ *   3.20s       beat 3  - strongest, recovered by 3.80s
+ *   3.65s       red ripple      4.10s  yellow
+ *   4.55s       green ripple    5.00s  blue      (colour opens out to ~6.30s)
+ *   5.20-6.30s  full logo resolves out of the expanding colour
+ *   6.30-6.70s  logo holds
+ *   6.70-7.40s  white fades into the requested page
+ *
+ * Reduced motion: white, the full static logo present immediately, held to
+ * 1.20s, faded out by 1.75s. Nothing moves.
  * Pulse: one beat over 0.70s, then a 0.30s fade. No ripples, no logo.
  */
 
@@ -48,7 +51,7 @@
 }
 
 .mm-welcome.is-closing {
-  animation: mm-welcome-out var(--mm-fade, 550ms) ease-in-out forwards;
+  animation: mm-welcome-out var(--mm-fade, 700ms) ease-in-out forwards;
 }
 
 @keyframes mm-welcome-in {
@@ -81,17 +84,18 @@
   border-radius: 50%;
   /* Solid brand colour, held at full strength for most of the expansion so
      each ring is still identifiable as red / yellow / green / blue when it is
-     large. 400ms apart, so four colours read as four events. */
+     large. 450ms apart, so four colours read as four events rather than one
+     flash, and the set opens out over roughly two and a half seconds. */
   border: 7px solid var(--mm-ripple-color);
   opacity: 0;
-  animation: mm-ripple 1250ms cubic-bezier(0.24, 0.6, 0.32, 1) var(--mm-ripple-delay) both;
+  animation: mm-ripple 1300ms cubic-bezier(0.26, 0.58, 0.34, 1) var(--mm-ripple-delay) both;
   will-change: transform, opacity;
 }
 
 @keyframes mm-ripple {
   0% { opacity: 0; transform: scale(0.3); }
   12% { opacity: 1; transform: scale(0.68); }
-  70% { opacity: 1; }
+  72% { opacity: 1; }
   100% { opacity: 0; transform: scale(13); }
 }
 
@@ -106,7 +110,7 @@
   /* Soft depth shadow, cast from the silhouette rather than a box. */
   filter: drop-shadow(0 16px 22px rgba(16, 42, 86, 0.26))
     drop-shadow(0 3px 5px rgba(16, 42, 86, 0.16));
-  animation: mm-heart 3750ms cubic-bezier(0.36, 0.1, 0.24, 1) 350ms both;
+  animation: mm-heart 5500ms cubic-bezier(0.37, 0.09, 0.28, 1) 500ms both;
   will-change: transform, opacity;
 }
 
@@ -155,41 +159,37 @@
   );
 }
 
-/* Three beats at 1.00s, 1.62s and 2.24s, each a lub-dub rather than a single
-   bounce, with ~400ms of rest between them so they read as three separate
-   beats. The third is the strongest. The mark then swells very slightly and
-   dissolves as the full logo takes its place. Percentages are of the 3750ms
-   duration, which starts after the 350ms of stable white. */
+/* Three beats, 900ms apart, each one a single slow expansion followed by a
+   contraction past rest and a recovery back to it - not a bounce. Percentages
+   are of the 5500ms duration, which starts after the 500ms of stable white:
+   beat peaks land at 1.40s, 2.30s and 3.20s, each recovered ~550ms later, so
+   the last beat has settled before the first ripple leaves the heart. */
 @keyframes mm-heart {
-  0% { opacity: 0; transform: scale(0.72); }
-  10.7% { opacity: 1; transform: scale(1); }
+  0% { opacity: 0; transform: scale(0.74); }
+  9.1% { opacity: 1; transform: scale(1); }
 
-  17.3% { transform: scale(1.105); }
-  20.3% { transform: scale(1.04); }
-  22.4% { transform: scale(1.075); }
+  16.4% { transform: scale(1.13); }
+  22.2% { transform: scale(0.965); }
   26.4% { transform: scale(1); }
 
-  33.9% { transform: scale(1.135); }
-  36.8% { transform: scale(1.05); }
-  38.9% { transform: scale(1.095); }
-  42.9% { transform: scale(1); }
+  32.7% { transform: scale(1.16); }
+  38.5% { transform: scale(0.96); }
+  42.7% { transform: scale(1); }
 
-  50.4% { transform: scale(1.23); }
-  53.6% { transform: scale(1.08); }
-  56% { transform: scale(1.15); }
-  61.1% { transform: scale(1.01); }
+  49.1% { transform: scale(1.24); }
+  55.5% { transform: scale(0.95); }
+  60% { transform: scale(1); }
 
-  81.3% { opacity: 1; transform: scale(1.03); }
-  100% { opacity: 0; transform: scale(1.14); }
+  85.5% { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 0; transform: scale(1.12); }
 }
 
-/* One complete beat: settle, contract, expand, recover. */
+/* One complete beat: settle, expand, contract, recover. */
 @keyframes mm-heart-pulse {
   0% { opacity: 0; transform: scale(0.9); }
   26% { opacity: 1; transform: scale(1); }
-  40% { transform: scale(0.97); }
-  55% { transform: scale(1.14); }
-  78% { transform: scale(0.995); }
+  48% { transform: scale(1.14); }
+  72% { transform: scale(0.98); }
   100% { opacity: 1; transform: scale(1); }
 }
 
@@ -200,7 +200,7 @@
   width: min(80vw, 520px);
   height: auto;
   opacity: 0;
-  animation: mm-logo 900ms cubic-bezier(0.24, 0.6, 0.32, 1) 3400ms both;
+  animation: mm-logo 1100ms cubic-bezier(0.26, 0.58, 0.34, 1) 5200ms both;
   will-change: transform, opacity, clip-path;
 }
 
@@ -244,29 +244,28 @@
 
 /* ------------------------------------------------- reduced-motion fallback */
 
-/* Not a flicker: white first, then the approved logo fades up over 300ms and
-   is held still while the component's own 850ms timer runs, before the
-   overlay fades out. No beating, no scaling, no expanding rings. */
+/* Not a flicker and not an animation: the approved logo is simply present on
+   a white screen from the first frame, and the component's own 1200ms timer
+   holds it there before the overlay fades. */
 .mm-welcome--reduced .mm-welcome__logo {
-  animation: mm-logo-still 300ms ease-out 150ms both;
-}
-
-@keyframes mm-logo-still {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  animation: none;
+  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
   /* Belt to the braces above: the component already renders no heart and no
      ripples in reduced mode and never runs the pulse, but a preference
-     toggled mid-session must not leave motion running either. */
-  .mm-welcome__ripple,
-  .mm-welcome__heart {
+     toggled mid-session must not leave motion running either.
+     .mm-welcome--forced is the Preview-only review switch, which is the one
+     case where the visitor has explicitly asked to see the motion. */
+  .mm-welcome:not(.mm-welcome--forced) .mm-welcome__ripple,
+  .mm-welcome:not(.mm-welcome--forced) .mm-welcome__heart {
     animation: none;
     opacity: 0;
   }
 
-  .mm-welcome__logo {
-    animation: mm-logo-still 300ms ease-out 150ms both;
+  .mm-welcome:not(.mm-welcome--forced) .mm-welcome__logo {
+    animation: none;
+    opacity: 1;
   }
 }

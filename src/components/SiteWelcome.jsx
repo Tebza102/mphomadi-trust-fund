@@ -10,10 +10,10 @@ import './SiteWelcome.css'
  * Three moments, one component:
  *
  *   arrival - the visitor's first entry in a browser session, through any
- *             public route. Heart, three beats, colour ripples, full logo.
- *             ~5.35s.
- *   reduced - the same welcome for anyone who asks for less motion: a still
- *             logo, held and faded. ~1.2s, and deliberately not a flicker.
+ *             public route. Heart, three slow beats, colour ripples opening
+ *             out, full logo. ~7.4s.
+ *   reduced - the same welcome for anyone who asks for less motion: the still
+ *             logo, shown at once and held. ~1.75s, no movement at all.
  *   pulse   - one heartbeat when someone already welcomed navigates back to
  *             the home page. ~1.0s, no ripples, no logo.
  *
@@ -23,35 +23,67 @@ import './SiteWelcome.css'
  * the home page and nothing waits on the animation to render.
  */
 
-/** Ripple order is fixed: the South African flag reading red, yellow, green, blue. */
+/**
+ * Ripple order is fixed: the South African flag reading red, yellow, green,
+ * blue. They start 450ms apart, once the third heartbeat has recovered, so the
+ * colour opening never competes with the beats it grows out of.
+ */
 const RIPPLES = [
-  { name: 'red', color: '#E42313', delay: 2050 },
-  { name: 'yellow', color: '#FFB612', delay: 2450 },
-  { name: 'green', color: '#00843D', delay: 2850 },
-  { name: 'blue', color: '#0057B8', delay: 3250 },
+  { name: 'red', color: '#E42313', delay: 3650 },
+  { name: 'yellow', color: '#FFB612', delay: 4100 },
+  { name: 'green', color: '#00843D', delay: 4550 },
+  { name: 'blue', color: '#0057B8', delay: 5000 },
 ]
 
 /**
  * Hold is measured from the overlay appearing; the fade runs after it.
- *   arrival 4800 + 550 = 5.35s
- *   reduced  850 + 350 = 1.20s
+ *   arrival 6700 + 700 = 7.40s
+ *   reduced 1200 + 550 = 1.75s
  *   pulse    700 + 300 = 1.00s
  */
 const TIMING = {
-  arrival: { hold: 4800, fade: 550 },
-  reduced: { hold: 850, fade: 350 },
+  arrival: { hold: 6700, fade: 700 },
+  reduced: { hold: 1200, fade: 550 },
   pulse: { hold: 700, fade: 300 },
 }
 
 /**
- * Hard stop, comfortably clear of the 5.35s arrival so it can never cut the
+ * Hard stop, comfortably clear of the 7.4s arrival so it can never cut the
  * sequence short - it exists only for the case where a timer is throttled or
  * an animation event never lands. No route can be left covered.
  */
-const WATCHDOG = 7000
+const WATCHDOG = 9000
 
 /** The portal is staff-facing and keeps its own behaviour - no brand intro over it. */
 const isInternalRoute = (pathname) => pathname.startsWith('/portal') || pathname.startsWith('/admin')
+
+/**
+ * Preview-only review switch: ?previewIntro=full forces the full-motion
+ * introduction for that one page load.
+ *
+ * It exists because a reviewer whose operating system asks for reduced motion
+ * cannot otherwise see the animation they are signing off, and neither
+ * Incognito nor a different browser bypasses an OS-level preference.
+ *
+ * Deliberately fenced in:
+ *   - only on a *.vercel.app host, so the live domain ignores it entirely;
+ *   - only for the load that carries the parameter - nothing is stored, and
+ *     the visitor's motion preference is never written to or overridden
+ *     beyond that single view;
+ *   - the parameter is then stripped from the address bar, so a refresh or a
+ *     shared link behaves like an ordinary visit.
+ */
+const PREVIEW_HOST_SUFFIX = '.vercel.app'
+const PREVIEW_PARAM = 'previewIntro'
+
+function isPreviewFullMotionRequest() {
+  try {
+    if (!window.location.hostname.endsWith(PREVIEW_HOST_SUFFIX)) return false
+    return new URLSearchParams(window.location.search).get(PREVIEW_PARAM) === 'full'
+  } catch {
+    return false
+  }
+}
 
 function prefersReducedMotion() {
   try {
@@ -89,9 +121,16 @@ export function SiteWelcome() {
     // Staff routes are left undecided rather than declined, so a visitor who
     // lands on the portal first still gets the welcome on their first public
     // page.
-    if (isInternalRoute(pathname)) return { mode: null, pending: null }
-    if (!claimArrival()) return { mode: null, pending: false }
-    return { mode: reduced ? 'reduced' : 'arrival', pending: false }
+    if (isInternalRoute(pathname)) return { mode: null, pending: null, forced: false }
+
+    const forced = isPreviewFullMotionRequest()
+    // The flag is still claimed on a forced review so the rest of that session
+    // behaves normally; only its answer is ignored.
+    const unseen = claimArrival()
+
+    if (forced) return { mode: 'arrival', pending: false, forced: true }
+    if (!unseen) return { mode: null, pending: false, forced: false }
+    return { mode: reduced ? 'reduced' : 'arrival', pending: false, forced: false }
   })
 
   const [mode, setMode] = useState(initial.mode)
@@ -105,6 +144,22 @@ export function SiteWelcome() {
   const arrivalRef = useRef(initial.pending)
   // Which navigation the pulse decision belongs to, and what it was.
   const pulseRef = useRef({ key: null, play: false })
+
+  const forced = initial.forced
+
+  // Take the review parameter out of the address bar once it has done its job.
+  // Raw replaceState, not a router navigate: the router never hears about it,
+  // so nothing remounts and nothing replays.
+  useEffect(() => {
+    if (!forced) return
+    try {
+      const url = new URL(window.location.href)
+      url.searchParams.delete(PREVIEW_PARAM)
+      window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`)
+    } catch {
+      /* Address bar left as-is; the animation is unaffected. */
+    }
+  }, [forced])
 
   // ---------------------------------------------------------------- arrival
   //
@@ -232,7 +287,9 @@ export function SiteWelcome() {
 
   return (
     <div
-      className={`mm-welcome mm-welcome--${mode}${closing ? ' is-closing' : ''}`}
+      className={`mm-welcome mm-welcome--${mode}${forced ? ' mm-welcome--forced' : ''}${
+        closing ? ' is-closing' : ''
+      }`}
       style={{ '--mm-fade': `${timing.fade}ms`, '--mm-heart-mask': `url(${HEART_SRC})` }}
       onAnimationEnd={(event) => {
         if (closing && event.target === event.currentTarget) close()
