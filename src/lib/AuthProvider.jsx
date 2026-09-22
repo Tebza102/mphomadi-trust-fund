@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { onAuthStateChanged, signOut as fbSignOut } from 'firebase/auth'
 import { auth, firebaseReady } from './firebase'
 import { AuthContext } from './authContext'
-import { clearWelcomeAnimation } from '../portal/welcomeAnimation'
 
 /**
  * Auth state, including the role claim.
@@ -31,10 +30,6 @@ export function AuthProvider({ children }) {
 
     return onAuthStateChanged(auth, async (nextUser) => {
       if (!nextUser) {
-        // Sign-out, expiry, or simply nobody signed in. Retiring the flag here
-        // rather than in the sign-out button covers every route out of an
-        // authenticated session, so the next genuine sign-in plays again.
-        clearWelcomeAnimation()
         setUser(null)
         setRole(null)
         setEmailVerified(false)

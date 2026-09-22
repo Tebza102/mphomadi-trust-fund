@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../lib/firebase'
 import { useAuth } from '../lib/authContext'
 import { PortalUnavailable } from './PortalUnavailable'
 import { PasswordField } from '../components/PasswordField'
-import { WELCOME_HEART_SRC, armWelcomeAnimation } from './welcomeAnimation'
 
 /**
  * Team sign-in. Deliberately separate from the (future) sponsor sign-in so it is
@@ -19,14 +18,6 @@ export function PortalLoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
-
-  // Warm the one extra brand asset the welcome animation needs while the
-  // visitor is still typing, so it is in cache by the time the overlay paints.
-  // Nothing else on the site requests it, so no public visitor ever pays for it.
-  useEffect(() => {
-    const image = new Image()
-    image.src = WELCOME_HEART_SRC
-  }, [])
 
   // Offering a sign-in form that cannot possibly succeed just wastes the
   // visitor's credentials and their time.
@@ -45,9 +36,6 @@ export function PortalLoginPage() {
 
     try {
       await signInWithEmailAndPassword(auth, email.trim(), password)
-      // Only reached when Firebase has actually accepted the credentials — a
-      // rejected sign-in throws straight past this into the catch below.
-      armWelcomeAnimation()
     } catch (caught) {
       // Deliberately generic: distinguishing "no such user" from "wrong password"
       // tells an attacker which addresses have accounts.
