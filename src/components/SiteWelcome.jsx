@@ -7,47 +7,48 @@ import './SiteWelcome.css'
 /**
  * The site's arrival animation.
  *
- * Two quite different moments, one component:
+ * Three moments, one component:
  *
  *   arrival - the visitor's first entry in a browser session, through any
- *             public route. The heart beats three times, colour ripples out
- *             and the full logo resolves. ~3.2s.
- *   pulse   - a single heartbeat when someone already welcomed navigates back
- *             to the home page from elsewhere on the site. ~0.7s, no ripples,
- *             no logo.
+ *             public route. Heart, three beats, colour ripples, full logo.
+ *             ~5.35s.
+ *   reduced - the same welcome for anyone who asks for less motion: a still
+ *             logo, held and faded. ~1.2s, and deliberately not a flicker.
+ *   pulse   - one heartbeat when someone already welcomed navigates back to
+ *             the home page. ~1.0s, no ripples, no logo.
  *
  * It is a sibling of the routes, never a wrapper. The page the visitor asked
  * for mounts, fetches and renders underneath while this paints on top, so a
  * direct link to Mpho's story reveals Mpho's story - there is no redirect to
- * the home page and nothing waits on the animation to render. If every line of
- * this file threw, the site would be unaffected.
+ * the home page and nothing waits on the animation to render.
  */
 
 /** Ripple order is fixed: the South African flag reading red, yellow, green, blue. */
 const RIPPLES = [
-  { name: 'red', color: '#E42313', delay: 480 },
-  { name: 'yellow', color: '#FFB612', delay: 700 },
-  { name: 'green', color: '#00843D', delay: 920 },
-  { name: 'blue', color: '#0057B8', delay: 1140 },
+  { name: 'red', color: '#E42313', delay: 2050 },
+  { name: 'yellow', color: '#FFB612', delay: 2450 },
+  { name: 'green', color: '#00843D', delay: 2850 },
+  { name: 'blue', color: '#0057B8', delay: 3250 },
 ]
 
 /**
  * Hold is measured from the overlay appearing; the fade runs after it.
- *   arrival 2900 + 350 = 3.25s
- *   reduced  140 + 200 = 0.34s
- *   pulse    420 + 250 = 0.67s
+ *   arrival 4800 + 550 = 5.35s
+ *   reduced  850 + 350 = 1.20s
+ *   pulse    700 + 300 = 1.00s
  */
 const TIMING = {
-  arrival: { hold: 2900, fade: 350 },
-  reduced: { hold: 140, fade: 200 },
-  pulse: { hold: 420, fade: 250 },
+  arrival: { hold: 4800, fade: 550 },
+  reduced: { hold: 850, fade: 350 },
+  pulse: { hold: 700, fade: 300 },
 }
 
 /**
- * Hard stop. If a timer is throttled or an animation event never lands, this
- * retires the overlay regardless. No route can be left covered.
+ * Hard stop, comfortably clear of the 5.35s arrival so it can never cut the
+ * sequence short - it exists only for the case where a timer is throttled or
+ * an animation event never lands. No route can be left covered.
  */
-const WATCHDOG = 6000
+const WATCHDOG = 7000
 
 /** The portal is staff-facing and keeps its own behaviour - no brand intro over it. */
 const isInternalRoute = (pathname) => pathname.startsWith('/portal') || pathname.startsWith('/admin')
@@ -63,50 +64,70 @@ function prefersReducedMotion() {
 export function SiteWelcome() {
   const location = useLocation()
   const navigationType = useNavigationType()
-  // null | 'arrival' | 'reduced' | 'pulse'
-  const [mode, setMode] = useState(null)
-  const [closing, setClosing] = useState(false)
+  const pathname = location.pathname
+  const locationKey = location.key
+
   // Read once for this page load, so the decision stays out of the effects.
   const [reduced] = useState(prefersReducedMotion)
+
+  /**
+   * The arrival decision is made HERE, in the first render, rather than in an
+   * effect.
+   *
+   * An effect runs after the browser has already been given a frame to paint,
+   * so deciding there means the requested page is painted first and the
+   * overlay drops on top of it a beat later - which is exactly the flash this
+   * is meant not to have. Deciding during render puts the overlay in React's
+   * very first commit, so the first frame the visitor sees is the white
+   * introduction, never the site behind it.
+   *
+   * claimArrival() touches sessionStorage during render, which is a side
+   * effect; it is safe here because the claim is memoised per page load, so
+   * StrictMode's double render produces one answer and one write.
+   */
+  const [initial] = useState(() => {
+    // Staff routes are left undecided rather than declined, so a visitor who
+    // lands on the portal first still gets the welcome on their first public
+    // page.
+    if (isInternalRoute(pathname)) return { mode: null, pending: null }
+    if (!claimArrival()) return { mode: null, pending: false }
+    return { mode: reduced ? 'reduced' : 'arrival', pending: false }
+  })
+
+  const [mode, setMode] = useState(initial.mode)
+  const [closing, setClosing] = useState(false)
   const skipRef = useRef(null)
   const restoreFocusRef = useRef(null)
   // The history entry this component has already reacted to. A StrictMode
   // double-invoke, a re-render or a redirect cannot replay one navigation.
-  const handledKeyRef = useRef(null)
-  // null = not yet decided for this page load; true/false = the decision.
-  const arrivalRef = useRef(null)
+  const handledKeyRef = useRef(initial.pending === null ? null : locationKey)
+  // null = still undecided for this page load; true/false = the decision.
+  const arrivalRef = useRef(initial.pending)
   // Which navigation the pulse decision belongs to, and what it was.
   const pulseRef = useRef({ key: null, play: false })
 
-  const pathname = location.pathname
-  const locationKey = location.key
-
   // ---------------------------------------------------------------- arrival
   //
-  // Both effects below separate DECIDING from PLAYING, and each keeps its
-  // decision in a ref. React StrictMode runs a mount effect, tears it down and
-  // runs it again; an effect that both decided and consumed in one pass would
-  // decide "yes" on the first run, have its timer cancelled by the teardown,
-  // and decide "no" on the second - so nothing would ever play in development.
-  // Holding the decision means the re-run simply reschedules it, and the
-  // decision is consumed only when the sequence actually starts.
+  // Only reached when the first route of the page load was a staff route and
+  // the visitor has since moved to a public one. The common case is settled in
+  // the first render above.
+  //
+  // Like the pulse effect below, this separates deciding from playing and
+  // keeps the decision in a ref: an effect that decided and consumed in one
+  // pass would answer "yes", have its timer cancelled by StrictMode's
+  // teardown, then answer "no" on the re-run, so nothing would ever play in
+  // development.
   useEffect(() => {
     if (mode !== null) return undefined
 
     if (arrivalRef.current === null) {
-      // Staff routes are left undecided rather than declined, so a visitor who
-      // lands on the portal first still gets the welcome on their first public
-      // page.
       if (isInternalRoute(pathname)) return undefined
-      // Consumes the session flag: true only on the first arrival of a session.
       arrivalRef.current = claimArrival()
       handledKeyRef.current = locationKey
     }
 
     if (!arrivalRef.current) return undefined
 
-    // Next task rather than this one, so the requested page paints first. What
-    // the overlay uncovers is therefore a screen that has already rendered.
     const start = window.setTimeout(() => {
       arrivalRef.current = false
       setMode(reduced ? 'reduced' : 'arrival')
@@ -160,10 +181,7 @@ export function SiteWelcome() {
     if (mode === null || closing) return undefined
 
     const timing = TIMING[mode]
-    const timers = [
-      window.setTimeout(finish, timing.hold),
-      window.setTimeout(close, WATCHDOG),
-    ]
+    const timers = [window.setTimeout(finish, timing.hold), window.setTimeout(close, WATCHDOG)]
 
     const onKeyDown = (event) => {
       if (event.key === 'Escape') {
@@ -176,8 +194,8 @@ export function SiteWelcome() {
 
     // Only the full sequence takes focus: it is long enough to need a Skip
     // control, and it is the one moment the visitor did not navigate for. The
-    // 0.7s pulse sits between two pages the visitor asked for, so stealing
-    // focus there would fight the keyboard user rather than help them.
+    // one-second pulse sits between two pages the visitor asked for, so
+    // stealing focus there would fight the keyboard user rather than help.
     if (mode === 'arrival') {
       restoreFocusRef.current = document.activeElement
       skipRef.current?.focus()

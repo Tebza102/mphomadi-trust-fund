@@ -7,16 +7,26 @@
  * never locks body scroll, so it contributes nothing to cumulative layout
  * shift.
  *
- * Arrival timeline (matches the constants in SiteWelcome.jsx):
- *   0.00-0.22s  heart enters
- *   0.38s       first beat        0.48s  red ripple
- *   0.72s       second beat       0.70s  yellow ripple
- *   1.10s       third, strongest  0.92s  green ripple / 1.14s blue ripple
- *   1.40-2.35s  full logo revealed from the centre, heart dissolving into it
- *   2.35-2.90s  hold
- *   2.90-3.25s  overlay fades out
+ * The arrival and reduced overlays are OPAQUE FROM THEIR FIRST FRAME - no
+ * entrance fade. Fading the overlay in would show the site through it for the
+ * length of the fade, which is the flash this is built to avoid. Only the
+ * pulse fades in, because there the page underneath is one the visitor has
+ * already been looking at.
  *
- * Pulse timeline: one beat over 0.42s, then a 0.25s fade. No ripples, no logo.
+ * Arrival timeline (matches the constants in SiteWelcome.jsx):
+ *   0.00-0.35s  stable white; no site content, no heart yet
+ *   0.35-0.75s  heart fades up and settles into the centre
+ *   1.00s       first beat  (lub-dub)
+ *   1.62s       second beat
+ *   2.24s       third and strongest
+ *   2.05s       red ripple     2.45s  yellow
+ *   2.85s       green ripple   3.25s  blue
+ *   3.40-4.30s  full logo resolves out of the expanding colour
+ *   4.30-4.80s  logo holds
+ *   4.80-5.35s  white fades into the requested page
+ *
+ * Reduced motion: white, logo up by 0.45s, held to 0.85s, faded by 1.20s.
+ * Pulse: one beat over 0.70s, then a 0.30s fade. No ripples, no logo.
  */
 
 .mm-welcome {
@@ -27,17 +37,18 @@
   place-items: center;
   overflow: hidden;
   /* Quiet, near-white ground: the flag colours and the navy wordmark both need
-     to read against it. */
-  background: radial-gradient(circle at 50% 46%, #ffffff 0%, #f4f6f9 52%, #e6ecf3 100%);
-  animation: mm-welcome-in 160ms ease-out both;
+     to read against it. Opaque from the first painted frame. */
+  background: radial-gradient(circle at 50% 46%, #ffffff 0%, #f7f9fb 55%, #eef2f6 100%);
 }
 
+/* The only overlay that fades IN: it arrives over a page the visitor is
+   already reading, so a hard cut would be the jarring thing. */
 .mm-welcome--pulse {
-  animation-duration: 110ms;
+  animation: mm-welcome-in 140ms ease-out both;
 }
 
 .mm-welcome.is-closing {
-  animation: mm-welcome-out var(--mm-fade, 350ms) ease-in forwards;
+  animation: mm-welcome-out var(--mm-fade, 550ms) ease-in-out forwards;
 }
 
 @keyframes mm-welcome-in {
@@ -70,17 +81,17 @@
   border-radius: 50%;
   /* Solid brand colour, held at full strength for most of the expansion so
      each ring is still identifiable as red / yellow / green / blue when it is
-     large. */
+     large. 400ms apart, so four colours read as four events. */
   border: 7px solid var(--mm-ripple-color);
   opacity: 0;
-  animation: mm-ripple 1100ms cubic-bezier(0.22, 0.62, 0.3, 1) var(--mm-ripple-delay) both;
+  animation: mm-ripple 1250ms cubic-bezier(0.24, 0.6, 0.32, 1) var(--mm-ripple-delay) both;
   will-change: transform, opacity;
 }
 
 @keyframes mm-ripple {
   0% { opacity: 0; transform: scale(0.3); }
-  12% { opacity: 1; transform: scale(0.66); }
-  66% { opacity: 1; }
+  12% { opacity: 1; transform: scale(0.68); }
+  70% { opacity: 1; }
   100% { opacity: 0; transform: scale(13); }
 }
 
@@ -88,19 +99,19 @@
 
 .mm-welcome__heart {
   position: relative;
-  width: clamp(150px, 30vmin, 262px);
+  width: clamp(160px, 32vmin, 300px);
   /* Intrinsic ratio of the extracted mark - keeps it from ever distorting. */
   aspect-ratio: 512 / 443;
   transform-origin: 50% 56%;
   /* Soft depth shadow, cast from the silhouette rather than a box. */
   filter: drop-shadow(0 16px 22px rgba(16, 42, 86, 0.26))
     drop-shadow(0 3px 5px rgba(16, 42, 86, 0.16));
-  animation: mm-heart 1750ms cubic-bezier(0.34, 0.12, 0.2, 1) both;
+  animation: mm-heart 3750ms cubic-bezier(0.36, 0.1, 0.24, 1) 350ms both;
   will-change: transform, opacity;
 }
 
 .mm-welcome--pulse .mm-welcome__heart {
-  animation: mm-heart-pulse 420ms cubic-bezier(0.32, 0.08, 0.24, 1) both;
+  animation: mm-heart-pulse 700ms cubic-bezier(0.36, 0.1, 0.24, 1) both;
 }
 
 .mm-welcome__heart-art {
@@ -144,26 +155,41 @@
   );
 }
 
-/* Three beats: 0.38s, 0.72s, and a stronger 1.10s, then the mark swells
-   gently and dissolves as the full logo takes its place. */
+/* Three beats at 1.00s, 1.62s and 2.24s, each a lub-dub rather than a single
+   bounce, with ~400ms of rest between them so they read as three separate
+   beats. The third is the strongest. The mark then swells very slightly and
+   dissolves as the full logo takes its place. Percentages are of the 3750ms
+   duration, which starts after the 350ms of stable white. */
 @keyframes mm-heart {
-  0% { opacity: 0; transform: scale(0.3); }
-  12.6% { opacity: 1; transform: scale(1); }
-  21.7% { transform: scale(1.09); }
-  27% { transform: scale(1); }
-  41.1% { transform: scale(1.13); }
-  46% { transform: scale(1); }
-  62.9% { transform: scale(1.22); }
-  69% { transform: scale(1.02); }
-  80% { opacity: 1; transform: scale(1.04); }
-  100% { opacity: 0; transform: scale(1.16); }
+  0% { opacity: 0; transform: scale(0.72); }
+  10.7% { opacity: 1; transform: scale(1); }
+
+  17.3% { transform: scale(1.105); }
+  20.3% { transform: scale(1.04); }
+  22.4% { transform: scale(1.075); }
+  26.4% { transform: scale(1); }
+
+  33.9% { transform: scale(1.135); }
+  36.8% { transform: scale(1.05); }
+  38.9% { transform: scale(1.095); }
+  42.9% { transform: scale(1); }
+
+  50.4% { transform: scale(1.23); }
+  53.6% { transform: scale(1.08); }
+  56% { transform: scale(1.15); }
+  61.1% { transform: scale(1.01); }
+
+  81.3% { opacity: 1; transform: scale(1.03); }
+  100% { opacity: 0; transform: scale(1.14); }
 }
 
-/* One beat, nothing else. */
+/* One complete beat: settle, contract, expand, recover. */
 @keyframes mm-heart-pulse {
-  0% { opacity: 0; transform: scale(0.88); }
-  28% { opacity: 1; transform: scale(1); }
-  55% { transform: scale(1.13); }
+  0% { opacity: 0; transform: scale(0.9); }
+  26% { opacity: 1; transform: scale(1); }
+  40% { transform: scale(0.97); }
+  55% { transform: scale(1.14); }
+  78% { transform: scale(0.995); }
   100% { opacity: 1; transform: scale(1); }
 }
 
@@ -171,15 +197,15 @@
 
 .mm-welcome__logo {
   position: absolute;
-  width: min(78vw, 460px);
+  width: min(80vw, 520px);
   height: auto;
   opacity: 0;
-  animation: mm-logo 950ms cubic-bezier(0.22, 0.62, 0.3, 1) 1400ms both;
+  animation: mm-logo 900ms cubic-bezier(0.24, 0.6, 0.32, 1) 3400ms both;
   will-change: transform, opacity, clip-path;
 }
 
 @keyframes mm-logo {
-  0% { opacity: 0; transform: scale(0.84); clip-path: circle(0% at 50% 50%); }
+  0% { opacity: 0; transform: scale(0.86); clip-path: circle(0% at 50% 50%); }
   30% { opacity: 1; }
   100% { opacity: 1; transform: scale(1); clip-path: circle(85% at 50% 50%); }
 }
@@ -218,21 +244,22 @@
 
 /* ------------------------------------------------- reduced-motion fallback */
 
-/* The component already picks the still variant in JS - it renders no heart
-   and no ripples at all, and never runs the pulse. This is the belt to that
-   braces, so a preference toggled mid-session cannot leave motion running. */
+/* Not a flicker: white first, then the approved logo fades up over 300ms and
+   is held still while the component's own 850ms timer runs, before the
+   overlay fades out. No beating, no scaling, no expanding rings. */
 .mm-welcome--reduced .mm-welcome__logo {
-  animation: mm-welcome-in 180ms ease-out both;
+  animation: mm-logo-still 300ms ease-out 150ms both;
+}
+
+@keyframes mm-logo-still {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mm-welcome,
-  .mm-welcome.is-closing,
-  .mm-welcome__logo {
-    animation-duration: 180ms;
-    animation-delay: 0ms;
-  }
-
+  /* Belt to the braces above: the component already renders no heart and no
+     ripples in reduced mode and never runs the pulse, but a preference
+     toggled mid-session must not leave motion running either. */
   .mm-welcome__ripple,
   .mm-welcome__heart {
     animation: none;
@@ -240,7 +267,6 @@
   }
 
   .mm-welcome__logo {
-    animation-name: mm-welcome-in;
-    opacity: 1;
+    animation: mm-logo-still 300ms ease-out 150ms both;
   }
 }
