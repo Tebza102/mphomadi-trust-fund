@@ -45,11 +45,11 @@ export function AboutPage() {
             <p key={paragraph} className="text-lg leading-relaxed text-ink/75">{paragraph}</p>
           ))}
         </div>
-        {/* 2-up then straight to 4-up at sm. Going 2 -> 4 (rather than via a 3-up
+        {/* 1-up on mobile, 2-up at sm so expanded bios keep a readable measure, 4-up at lg (no 3-up
             band) keeps all four on one row and caps the rendered image at ~283px,
             which keeps ntombi-mekgwe.jpg — the softest source — below 300px at
             every breakpoint. */}
-        <ul className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4">
+        <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {trustees.map((trustee) => (
             <li
               key={trustee.image}
@@ -69,7 +69,7 @@ export function AboutPage() {
               <p className="mt-4 font-display text-lg leading-tight text-ink">{trustee.name}</p>
               <p className="mt-1 text-sm font-semibold uppercase tracking-[0.16em] text-ink/60">{trustee.role}</p>
               <details className="mt-4 text-left">
-                <summary className="cursor-pointer list-none text-sm font-semibold text-brand-rose underline-offset-2 hover:underline">
+                <summary className="cursor-pointer list-none rounded text-sm font-semibold text-brand-rose underline-offset-2 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-rose">
                   Read full biography
                 </summary>
                 <div className="mt-3 space-y-3">
