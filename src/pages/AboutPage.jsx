@@ -68,20 +68,16 @@ export function AboutPage() {
               </div>
               <p className="mt-4 font-display text-lg leading-tight text-ink">{trustee.name}</p>
               <p className="mt-1 text-sm font-semibold uppercase tracking-[0.16em] text-ink/60">{trustee.role}</p>
-              {trustee.bio ? (
-                <details className="mt-4 text-left">
-                  <summary className="cursor-pointer list-none text-sm font-semibold text-brand-rose underline-offset-2 hover:underline">
-                    Read full biography
-                  </summary>
-                  <div className="mt-3 space-y-3">
-                    {trustee.bio.map((paragraph) => (
-                      <p key={paragraph} className="text-sm leading-relaxed text-ink/75">{paragraph}</p>
-                    ))}
-                  </div>
-                </details>
-              ) : (
-                <p className="mt-4 text-sm leading-relaxed text-ink/50">Biography to follow.</p>
-              )}
+              <details className="mt-4 text-left">
+                <summary className="cursor-pointer list-none text-sm font-semibold text-brand-rose underline-offset-2 hover:underline">
+                  Read full biography
+                </summary>
+                <div className="mt-3 space-y-3">
+                  {trustee.bio.map((paragraph) => (
+                    <p key={paragraph} className="text-sm leading-relaxed text-ink/75">{paragraph}</p>
+                  ))}
+                </div>
+              </details>
             </li>
           ))}
         </ul>
