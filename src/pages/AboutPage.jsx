@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { trustees } from '../content/trustees'
+import { trustees, sectionIntro } from '../content/trustees'
 
 export function AboutPage() {
   return (
@@ -36,10 +36,15 @@ export function AboutPage() {
       <div className="mt-12 soft-divider" />
 
       <section aria-labelledby="board-of-trustees" className="mt-12">
-        <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-sun">Governance</p>
-        <h2 id="board-of-trustees" className="mt-3 font-display text-3xl leading-tight md:text-5xl">
-          Board of Trustees
+        <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-sun">{sectionIntro.eyebrow}</p>
+        <h2 id="board-of-trustees" className="mt-3 max-w-3xl font-display text-3xl leading-tight md:text-5xl">
+          {sectionIntro.title}
         </h2>
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          {sectionIntro.paragraphs.map((paragraph) => (
+            <p key={paragraph} className="text-lg leading-relaxed text-ink/75">{paragraph}</p>
+          ))}
+        </div>
         {/* 2-up then straight to 4-up at sm. Going 2 -> 4 (rather than via a 3-up
             band) keeps all four on one row and caps the rendered image at ~283px,
             which keeps ntombi-mekgwe.jpg — the softest source — below 300px at
@@ -63,6 +68,20 @@ export function AboutPage() {
               </div>
               <p className="mt-4 font-display text-lg leading-tight text-ink">{trustee.name}</p>
               <p className="mt-1 text-sm font-semibold uppercase tracking-[0.16em] text-ink/60">{trustee.role}</p>
+              {trustee.bio ? (
+                <details className="mt-4 text-left">
+                  <summary className="cursor-pointer list-none text-sm font-semibold text-brand-rose underline-offset-2 hover:underline">
+                    Read full biography
+                  </summary>
+                  <div className="mt-3 space-y-3">
+                    {trustee.bio.map((paragraph) => (
+                      <p key={paragraph} className="text-sm leading-relaxed text-ink/75">{paragraph}</p>
+                    ))}
+                  </div>
+                </details>
+              ) : (
+                <p className="mt-4 text-sm leading-relaxed text-ink/50">Biography to follow.</p>
+              )}
             </li>
           ))}
         </ul>
