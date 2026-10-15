@@ -19,17 +19,6 @@ export const sectionIntro = {
 
 export const trustees = [
   {
-    name: 'Hilary Keenan-Smith',
-    role: 'Administrative Trustee | Co-Founder',
-    image: 'hilary-smith',
-    bio: [
-      "Hilary Keenan-Smith has been part of the Mpho Madi Trust Fund since its establishment in 2006, providing almost two decades of administrative continuity and careful stewardship as the Trust has developed.",
-      "Known for her meticulous attention to detail and compassionate approach, Hilary brings an important combination of organisation and empathy to the work of the Trust. She is particularly passionate about ensuring that disadvantaged children are treated with dignity, understanding and genuine care.",
-      "Beyond the Trust, Hilary has spent approximately 20 years working in veterinary retail and reception environments. This experience has further shaped her service-oriented nature, patience and sensitivity to the needs of both people and animals.",
-      "As the Trust enters its next chapter, Hilary brings institutional memory, administrative discipline and a deeply rooted commitment to compassionate service — helping ensure that the organisation remains both caring in its purpose and dependable in its execution.",
-    ],
-  },
-  {
     name: 'Pule Malefane',
     role: 'Chairperson | Co-Founder, Mpho Madi Trust Fund',
     image: 'pule-malefane',
@@ -42,17 +31,6 @@ export const trustees = [
     ],
   },
   {
-    name: 'Lentheng Helen Mekgwe (Ntombi)',
-    role: 'Trustee | Mpho Madi Trust Fund',
-    image: 'ntombi-mekgwe',
-    bio: [
-      'Lentheng Helen Mekgwe, affectionately known as Ntombi, is a dedicated community activist and public servant whose commitment to social development began during her school years in Duduza, Nigel.',
-      'Her journey from grassroots activism and NGO facilitation to senior leadership in government reflects a longstanding commitment to improving the lives of vulnerable communities. She served for 17 years as a local government councillor, later holding provincial executive portfolios in Health and Social Development, Cooperative Governance, Traditional Affairs and Human Settlements. She also served as Speaker of the Gauteng Provincial Legislature for eight years.',
-      "Throughout her career, Ntombi has championed the interests of women, children and people with disabilities. As a trustee of the Mpho Madi Trust Fund, she brings extensive experience in community engagement, public leadership and social advocacy, strengthening the Trust's commitment to supporting disadvantaged children and families.",
-      'A mother of two, Ntombi also serves on the board of the Bertha Gxowa Foundation, continuing her dedication to community upliftment and meaningful social change.',
-    ],
-  },
-  {
     name: 'Mpumi Madi',
     role: 'Trustee | Mpho Madi Trust Fund',
     image: 'mpumi-madi',
@@ -62,6 +40,28 @@ export const trustees = [
       "With a background in psychology, Mpumi worked with children with disabilities and their parents during her counselling psychology master's internship, helping families better understand and respond to their children's needs. She now serves as a Human Performance Manager at an international technology company, where she specialises in understanding human behaviour and helping people adapt to change.",
       "As a trustee, Mpumi combines lived experience, psychological understanding and professional expertise to support the Trust's advocacy, partnerships and commitment to families.",
       'Her vision is rooted in the belief that every child deserves the opportunity to develop their abilities, pursue their dreams and live a fulfilling life without unnecessary barriers.',
+    ],
+  },
+  {
+    name: 'Hilary Keenan-Smith',
+    role: 'Administrative Trustee | Co-Founder',
+    image: 'hilary-smith',
+    bio: [
+      "Hilary Keenan-Smith has been part of the Mpho Madi Trust Fund since its establishment in 2006, providing almost two decades of administrative continuity and careful stewardship as the Trust has developed.",
+      "Known for her meticulous attention to detail and compassionate approach, Hilary brings an important combination of organisation and empathy to the work of the Trust. She is particularly passionate about ensuring that disadvantaged children are treated with dignity, understanding and genuine care.",
+      "Beyond the Trust, Hilary has spent approximately 20 years working in veterinary retail and reception environments. This experience has further shaped her service-oriented nature, patience and sensitivity to the needs of both people and animals.",
+      "As the Trust enters its next chapter, Hilary brings institutional memory, administrative discipline and a deeply rooted commitment to compassionate service — helping ensure that the organisation remains both caring in its purpose and dependable in its execution.",
+    ],
+  },
+  {
+    name: 'Lentheng Helen Mekgwe (Ntombi)',
+    role: 'Trustee | Mpho Madi Trust Fund',
+    image: 'ntombi-mekgwe',
+    bio: [
+      'Lentheng Helen Mekgwe, affectionately known as Ntombi, is a dedicated community activist and public servant whose commitment to social development began during her school years in Duduza, Nigel.',
+      'Her journey from grassroots activism and NGO facilitation to senior leadership in government reflects a longstanding commitment to improving the lives of vulnerable communities. She served for 17 years as a local government councillor, later holding provincial executive portfolios in Health and Social Development, Cooperative Governance, Traditional Affairs and Human Settlements. She also served as Speaker of the Gauteng Provincial Legislature for eight years.',
+      "Throughout her career, Ntombi has championed the interests of women, children and people with disabilities. As a trustee of the Mpho Madi Trust Fund, she brings extensive experience in community engagement, public leadership and social advocacy, strengthening the Trust's commitment to supporting disadvantaged children and families.",
+      'A mother of two, Ntombi also serves on the board of the Bertha Gxowa Foundation, continuing her dedication to community upliftment and meaningful social change.',
     ],
   },
 ]
