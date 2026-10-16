@@ -6,7 +6,7 @@ export const homepageContent = {
     eyebrow: 'Mpho Madi Trust Fund | South Africa',
     title: 'Every Child Deserves Mobility, Dignity, and Opportunity.',
     mission:
-      'We support children born without limbs with prosthetics, wheelchairs, assistive devices, and family-centered guidance that helps them move forward with confidence. Sponsors, donors, and partners can support the journey in ways that are transparent and practical.',
+      'We help children born without limbs access prosthetics, wheelchairs, assistive devices, and family-centred guidance—so they can move forward with confidence.',
     ctas: [
       { label: 'Donate Now', href: '/donate', event: 'donate_click' },
       { label: 'Become a Sponsor', href: '/donate#sponsor-pathway', event: 'sponsor_click' },

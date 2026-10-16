@@ -10,6 +10,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Mpho Madi Trust Fund supports children born without limbs with mobility devices, dignity-centered care, and family guidance." />
     <title>Mpho Madi Trust Fund</title>
+    <!-- Inline, so it applies before the stylesheet arrives: the first frame a
+         visitor sees must be white. The arrival overlay paints over an empty
+         #root on a first visit, and a white document means a slow bundle or a
+         slow image can never flash a dark or unstyled screen first. -->
+    <style>
+      html,
+      body {
+        background: #ffffff;
+      }
+    </style>
+    <!-- The logo is in the header of every page, so preloading it is never
+         wasted. -->
+    <link rel="preload" as="image" href="/images/branding/mpho-madi-logo-horizontal.png" />
+    <!-- The heart belongs to the arrival animation alone, so it is preloaded
+         only on a page load that can actually play it: the first of a browser
+         session. Preloading it unconditionally would download ~220kB on every
+         later page view and have the browser warn about an unused preload.
+         This only reads the flag - SiteWelcome still decides and claims it.
+         Nothing waits on the asset: if it is slow or missing, the sequence
+         still runs to time and still ends. -->
+    <script>
+      try {
+        if (!sessionStorage.getItem('mm.site.arrival')) {
+          var mmHeart = document.createElement('link')
+          mmHeart.rel = 'preload'
+          mmHeart.as = 'image'
+          mmHeart.href = '/images/branding/mpho-madi-heart.png'
+          document.head.appendChild(mmHeart)
+        }
+      } catch (e) {
+        /* Storage unavailable: skip the hint, the image still loads normally. */
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

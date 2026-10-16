@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { Picture } from '../components/Picture'
-import { Reveal } from '../components/Reveal'
 import { trackCta } from '../siteContent'
 import { homepageContent } from './homeContent'
 import { useSEO } from '../hooks/useSEO.jsx'
@@ -24,36 +23,39 @@ export function HomePage() {
         ogUrl: 'https://www.mphomaditrustfund.org.za/',
       })}
 
-      {/* Hero — white ground, editorial H1, one primary + one secondary CTA. */}
-      <section className="section-shell grid gap-10 py-16 md:grid-cols-12 md:items-center md:py-24">
-        <div className="space-y-6 md:col-span-6">
-          <p className="eyebrow">Mpho Madi Trust Fund · South Africa</p>
-          <h1 className="font-display text-4xl leading-tight text-brand-navy md:text-6xl">{hero.title}</h1>
-          <p className="max-w-xl text-xl leading-relaxed text-ink/80">{hero.mission}</p>
-          <div className="flex flex-wrap gap-4">
-            <Link to="/donate" onClick={() => trackCta('donate_click')} className="donate-pulse btn-primary">
-              Donate Now
-            </Link>
-            <Link to="/donate#corporate-sponsorship" onClick={() => trackCta('sponsor_click')} className="btn-secondary">
-              Become a Sponsor
-            </Link>
+      {/* The hero is fully composed beneath SiteWelcome. It does not run the
+          generic viewport reveal, so the welcome fades into a complete first
+          fold instead of exposing text and waiting for the photograph. */}
+      <section className="home-hero">
+        <div className="section-shell grid gap-12 py-14 md:grid-cols-12 md:items-center md:py-20 lg:py-24">
+          <div className="space-y-6 md:col-span-6 lg:pr-4">
+            <p className="eyebrow">{hero.eyebrow}</p>
+            <h1 className="max-w-2xl font-display text-4xl leading-[1.04] text-brand-navy md:text-6xl">{hero.title}</h1>
+            <p className="max-w-xl text-xl leading-relaxed text-ink/80">{hero.mission}</p>
+            <div className="flex flex-wrap gap-4">
+              <Link to="/donate" onClick={() => trackCta('donate_click')} className="btn-primary">
+                Donate Now
+              </Link>
+              <Link to="/donate#corporate-sponsorship" onClick={() => trackCta('sponsor_click')} className="btn-secondary">
+                Become a Sponsor
+              </Link>
+            </div>
+            <p className="home-hero__proof" aria-label="Trust registration IT 13221/06, NPO 063-798">
+              Registered Trust&nbsp; IT 13221/06 <span aria-hidden="true">·</span> NPO&nbsp; 063-798
+            </p>
+          </div>
+
+          <div className="home-hero__media md:col-span-6">
+            <Picture
+              name="04_mpho-with-founder-childhood"
+              alt="Mpho Madi as a young girl, seated in her wheelchair beside the founder of the Trust at a formal event"
+              className="home-hero__image aspect-[3/2] w-full"
+              focus="object-center"
+              loading="eager"
+            />
+            <span className="home-hero__colour-line" aria-hidden="true" />
           </div>
         </div>
-        {/* The box carries the photograph's own 3:2 ratio at every width, so
-            object-cover has nothing to crop and both people stay whole. Fixed
-            heights were the problem: they forced the sides to be shaved, which
-            cost the founder part of the frame on phones and all of it in the
-            md two-column layout. The column has the width for the full frame,
-            so the height follows the picture rather than the other way round. */}
-        <Reveal className="md:col-span-6">
-          <Picture
-            name="04_mpho-with-founder-childhood"
-            alt="Mpho Madi as a young girl, seated in her wheelchair beside the founder of the Trust at a formal event"
-            className="aspect-[3/2] w-full rounded-brand-lg shadow-brand"
-            focus="object-center"
-            loading="eager"
-          />
-        </Reveal>
       </section>
 
       <div className="soft-divider section-shell" />

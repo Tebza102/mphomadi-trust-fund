@@ -128,6 +128,82 @@ textarea {
     #ffffff;
 }
 
+/* Home arrival handoff: SiteWelcome fades into the same pearl-white field, so
+   the opening feels like one story rather than a separate splash screen. */
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 42%, rgba(0, 87, 184, 0.09), transparent 32%),
+    radial-gradient(circle at 68% 74%, rgba(0, 132, 61, 0.07), transparent 30%),
+    linear-gradient(180deg, #fff 0%, #f9fbfd 100%);
+}
+
+.home-hero::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: min(44rem, 72vw);
+  aspect-ratio: 1;
+  right: min(-18rem, -16vw);
+  top: 50%;
+  border: 1px solid rgba(0, 132, 61, 0.12);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.home-hero__media {
+  position: relative;
+  padding: 5px;
+  border-radius: calc(var(--radius-xl) + 5px);
+  background: linear-gradient(
+    125deg,
+    rgba(228, 35, 19, 0.82),
+    rgba(255, 182, 18, 0.78) 31%,
+    rgba(0, 132, 61, 0.82) 62%,
+    rgba(0, 87, 184, 0.86)
+  );
+  box-shadow: 0 22px 55px rgba(16, 42, 86, 0.15);
+}
+
+.home-hero__image {
+  border-radius: calc(var(--radius-xl) - 1px);
+}
+
+.home-hero__colour-line {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -0.55rem;
+  height: 0.3rem;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    90deg,
+    var(--brand-red) 0 25%,
+    var(--brand-gold) 25% 50%,
+    var(--brand-green) 50% 75%,
+    var(--brand-blue) 75% 100%
+  );
+  box-shadow: 0 8px 20px rgba(16, 42, 86, 0.14);
+}
+
+.home-hero__proof {
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 767px) {
+  .home-hero::before {
+    width: 32rem;
+    right: -22rem;
+    top: 72%;
+  }
+}
+
 @layer components {
   .btn-primary {
     @apply inline-flex min-h-11 items-center justify-center rounded-full bg-brand-red px-6 py-3 text-base font-semibold text-white transition;
