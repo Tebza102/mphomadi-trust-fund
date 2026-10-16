@@ -17,6 +17,17 @@ Rules for Home, Mpho's Story, How We Help, Sponsor and Donate (future work only 
 - Motion supports the story (e.g. image moves into its place) and must land on the same framing the static layout uses.
 - Verification for any future section: screenshot at 390 / 820 / 1024 / 1280 / 1440 and review the composition itself, not just that it builds. Note: Tailwind in this repo does not generate `@container` / `@2xl:` utilities, so container queries live in `src/index.css` (see `.spotlight-*`).
 
+## Design principle: discreet scroll navigation (future standard)
+
+Implemented once, for the Trustee profile: the panel's visible scrollbar is hidden (that panel only, via `.spotlight-scroller`) and two small translucent chevron buttons appear bottom-right only when the content actually overflows (`src/hooks/useScrollNav.js` + `src/components/ScrollNav.jsx`).
+
+Standard for any future custom scrolling panel that benefits from it:
+- Controls complement native scrolling (wheel, touch, keyboard stay fully working) and are never the only way to reach content.
+- Show only when content overflows; Up/Down reflect position with `aria-disabled` (not `disabled`, so focus isn't lost at the ends); step ~75% of the visible height; immediate scrolling under `prefers-reduced-motion`.
+- Reserve a gutter for the buttons only while they show, so they never cover text; keep them clear of the close control; 44px targets, visible focus, higher-contrast styling under `prefers-contrast: more`.
+- Hide scrollbars per component, never globally. Reuse the hook/component rather than re-implementing; do not retrofit existing pages without a separate decision.
+- Known gap to revisit: on mobile the Close button floats over scrolling text; consider a soft top fade or reserved header if that proves distracting.
+
 ## 0. Reusable motion system (do first; small)
 
 | Token | Value | Use |
