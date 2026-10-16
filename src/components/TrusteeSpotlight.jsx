@@ -8,6 +8,16 @@ import { trustees } from '../content/trustees'
 // short opacity/translate fades. No animation dependency.
 //
 // Content comes straight from src/content/trustees.js — nothing is duplicated.
+//
+// Layout: the profile is one flowing column; the portrait floats left once the
+// panel is wide enough (container query on the panel, not the viewport) so the
+// name, role and opening paragraphs sit beside it and the rest flows beneath.
+//
+// Framing: every supplied portrait has ~22% pure-white margin on each side (the
+// subject spans roughly x 125-478, y 132-518 of 600). The frame shows the
+// untouched asset zoomed 1.35x about the subject's centre — non-destructive,
+// nothing cropped, and below the 600px source so nothing is upscaled past 1.35x.
+const PORTRAIT_ZOOM = 'origin-[50%_54%] scale-[1.35]'
 
 const EASE = 'cubic-bezier(0.22, 0.8, 0.24, 1)'
 const FLIGHT_MS = 420
@@ -41,7 +51,7 @@ export function TrusteeSpotlight() {
   const backdropRef = useRef(null)
   const panelRef = useRef(null)
   const textRef = useRef(null)
-  const photoRef = useRef(null)
+  const frameRef = useRef(null)
   const scrollerRef = useRef(null)
 
   // 'idle' | 'opening' | 'open' | 'closing' — guards against rapid repeat clicks.
@@ -49,7 +59,7 @@ export function TrusteeSpotlight() {
   const running = useRef([])
   const cloneRef = useRef(null)
 
-  const cardImage = (index) => cardRefs.current[index]?.querySelector('img') ?? null
+  const cardFrame = (index) => cardRefs.current[index]?.querySelector('[data-frame]') ?? null
 
   const cancelRunning = () => {
     running.current.forEach((animation) => animation.cancel())
@@ -65,9 +75,10 @@ export function TrusteeSpotlight() {
     const to = toEl.getBoundingClientRect()
     if (!dialog || !inViewport(from) || !inViewport(to)) return Promise.resolve()
 
-    const clone = document.createElement('img')
-    clone.src = toEl.currentSrc || toEl.src
-    clone.alt = ''
+    // A deep clone of the frame keeps the zoom/crop classes, so the flight
+    // lands on exactly what the profile shows.
+    const clone = toEl.cloneNode(true)
+    clone.removeAttribute('id')
     clone.setAttribute('aria-hidden', 'true')
     Object.assign(clone.style, {
       position: 'fixed',
@@ -75,9 +86,9 @@ export function TrusteeSpotlight() {
       left: `${to.left}px`,
       width: `${to.width}px`,
       height: `${to.height}px`,
+      maxWidth: 'none',
       margin: '0',
-      objectFit: 'cover',
-      borderRadius: '1rem',
+      float: 'none',
       transformOrigin: 'top left',
       pointerEvents: 'none',
       zIndex: '2',
@@ -102,8 +113,8 @@ export function TrusteeSpotlight() {
   const openProfile = (index) => {
     if (phase.current !== 'idle') return
     phase.current = 'opening'
-    const image = cardImage(index)
-    if (image) image.style.visibility = 'hidden'
+    const frame = cardFrame(index)
+    if (frame) frame.style.visibility = 'hidden'
     setActive(index)
   }
 
@@ -114,8 +125,8 @@ export function TrusteeSpotlight() {
     cancelRunning()
 
     if (!prefersReducedMotion()) {
-      const photo = photoRef.current
-      const card = cardImage(index)
+      const photo = frameRef.current
+      const card = cardFrame(index)
       if (photo) photo.style.visibility = 'hidden'
       await Promise.all([
         photo && card ? flyPhoto(photo, card, { reverse: true }) : Promise.resolve(),
@@ -125,7 +136,7 @@ export function TrusteeSpotlight() {
       ])
     }
 
-    const card = cardImage(index)
+    const card = cardFrame(index)
     if (card) card.style.visibility = ''
     phase.current = 'idle'
     setActive(null)
@@ -144,8 +155,8 @@ export function TrusteeSpotlight() {
     const trigger = cardRefs.current[index]
 
     if (!prefersReducedMotion()) {
-      const photo = photoRef.current
-      const card = cardImage(index)
+      const photo = frameRef.current
+      const card = cardFrame(index)
       const flight = photo && card ? flyPhoto(card, photo, { reverse: false }) : Promise.resolve()
       if (photo && cloneRef.current) photo.style.visibility = 'hidden'
 
@@ -155,7 +166,7 @@ export function TrusteeSpotlight() {
         fade(panelRef.current, [{ opacity: 0, transform: 'translateY(14px) scale(0.985)' }, { opacity: 1, transform: 'none' }], { duration: FLIGHT_MS }),
         fade(textRef.current, [{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: REVEAL_MS, delay: 120 }),
       ]).then(() => {
-        if (photoRef.current) photoRef.current.style.visibility = ''
+        if (frameRef.current) frameRef.current.style.visibility = ''
         cloneRef.current?.remove()
         cloneRef.current = null
         if (phase.current === 'opening') phase.current = 'open'
@@ -167,7 +178,7 @@ export function TrusteeSpotlight() {
     return () => {
       cancelRunning()
       unlock()
-      const card = cardImage(index)
+      const card = cardFrame(index)
       if (card) card.style.visibility = ''
       if (dialog.open) dialog.close()
       // Explicit, so focus returns to the trigger even where the browser's own
@@ -193,7 +204,7 @@ export function TrusteeSpotlight() {
               aria-haspopup="dialog"
               className="group block h-full w-full cursor-pointer rounded-[1.5rem] border border-brand-orchid/15 bg-white p-4 text-center shadow-sm transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-visible:-translate-y-1 active:translate-y-0 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
-              <span className="block overflow-hidden rounded-[1rem] bg-[#f4f1f6]">
+              <span data-frame className="block overflow-hidden rounded-[1rem] bg-[#f4f1f6]">
                 <img
                   src={`/images/trustees/${person.image}.jpg`}
                   alt=""
@@ -201,7 +212,7 @@ export function TrusteeSpotlight() {
                   height="600"
                   loading="lazy"
                   decoding="async"
-                  className="aspect-square w-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                  className={`aspect-square w-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.4] motion-reduce:transition-none motion-reduce:group-hover:scale-[1.35] ${PORTRAIT_ZOOM}`}
                 />
               </span>
               <span className="mt-4 block font-display text-lg leading-tight text-ink">{person.name}</span>
@@ -231,7 +242,7 @@ export function TrusteeSpotlight() {
             }}
           >
             <div ref={backdropRef} aria-hidden="true" className="pointer-events-none absolute inset-0 bg-ink/55" />
-            <div className="relative flex h-full w-full flex-col sm:h-auto sm:max-h-[calc(100dvh-3rem)] sm:max-w-5xl">
+            <div className="relative flex h-full w-full flex-col sm:h-auto sm:max-h-[calc(100dvh-3rem)] sm:max-w-[44rem]">
               <div
                 ref={panelRef}
                 aria-hidden="true"
@@ -251,30 +262,31 @@ export function TrusteeSpotlight() {
               <div
                 ref={scrollerRef}
                 tabIndex={0}
-                className="relative min-h-0 flex-1 overflow-y-auto overscroll-contain sm:rounded-[1.75rem]"
+                className="spotlight-scroller relative min-h-0 flex-1 overflow-y-auto overscroll-contain sm:rounded-[1.75rem]"
               >
-                <div className="flex flex-col gap-6 px-6 pb-10 pt-16 sm:px-10 sm:pt-14 lg:flex-row lg:gap-10 lg:p-10">
-                  <div className="w-full max-w-[18rem] self-center sm:self-start lg:sticky lg:top-0 lg:w-[38%] lg:max-w-none lg:shrink-0 lg:self-start">
-                    <div className="overflow-hidden rounded-[1rem] bg-[#f4f1f6]">
-                      <img
-                        ref={photoRef}
-                        src={`/images/trustees/${trustee.image}.jpg`}
-                        alt={`${trustee.name}, ${trustee.role}`}
-                        width="600"
-                        height="600"
-                        decoding="async"
-                        className="aspect-square w-full object-cover"
-                      />
-                    </div>
+                <div className="spotlight-body flow-root px-6 pb-10 pt-16">
+                  <div
+                    ref={frameRef}
+                    data-frame
+                    className="spotlight-frame mx-auto mb-6 w-full max-w-[20rem] overflow-hidden rounded-[1rem] bg-[#f4f1f6] ring-1 ring-ink/10"
+                  >
+                    <img
+                      src={`/images/trustees/${trustee.image}.jpg`}
+                      alt={`${trustee.name}, ${trustee.role}`}
+                      width="600"
+                      height="600"
+                      decoding="async"
+                      className={`aspect-square w-full object-cover ${PORTRAIT_ZOOM}`}
+                    />
                   </div>
-                  <div ref={textRef} className="min-w-0 flex-1">
+                  <div ref={textRef}>
                     <h3 id="trustee-profile-name" className="font-display text-3xl leading-tight md:text-4xl">
                       {trustee.name}
                     </h3>
                     <p className="mt-2 text-sm font-semibold uppercase tracking-[0.16em] text-ink/60">{trustee.role}</p>
-                    <div className="mt-6 max-w-prose space-y-4">
+                    <div className="mt-5 space-y-4">
                       {trustee.bio.map((paragraph) => (
-                        <p key={paragraph} className="text-base leading-relaxed text-ink/80 md:text-lg">
+                        <p key={paragraph} className="text-base leading-relaxed text-ink/80">
                           {paragraph}
                         </p>
                       ))}

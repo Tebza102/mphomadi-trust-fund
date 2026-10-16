@@ -182,6 +182,26 @@ textarea {
   animation: subtleDonatePulse 2.8s ease-in-out infinite;
 }
 
+/* Trustee Portrait Spotlight: the profile reflows by the panel's own width, not
+   the viewport's. Once the panel is wide enough the portrait floats left so the
+   name and opening paragraphs sit beside it and the rest flows beneath. */
+.spotlight-scroller {
+  container-type: inline-size;
+}
+
+@container (min-width: 42rem) {
+  .spotlight-body {
+    padding: 3rem 2.5rem 3rem;
+  }
+
+  .spotlight-frame {
+    float: left;
+    width: 40%;
+    max-width: none;
+    margin: 0 2rem 1rem 0;
+  }
+}
+
 @media (max-width: 639px) {
   :root {
     font-size: 16px;
