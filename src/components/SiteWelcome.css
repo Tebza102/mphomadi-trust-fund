@@ -82,12 +82,12 @@
   height: 164px;
   margin: -82px 0 0 -82px;
   border-radius: 50%;
-  /* A broad, solid colour bloom rather than a thin outlined ring. The radial
-     mask leaves a calm centre around the heart while each South African colour
-     visibly opens the white field. */
+  /* A clean colour ripple rather than a broad screen-filling band. The narrow
+     radial mask keeps each South African colour legible as a distinct line
+     while preserving the calm white field around the heart. */
   background: var(--mm-ripple-color);
-  -webkit-mask-image: radial-gradient(circle, transparent 0 30%, #000 32% 69%, transparent 71%);
-  mask-image: radial-gradient(circle, transparent 0 30%, #000 32% 69%, transparent 71%);
+  -webkit-mask-image: radial-gradient(circle, transparent 0 44%, #000 46% 52%, transparent 54%);
+  mask-image: radial-gradient(circle, transparent 0 44%, #000 46% 52%, transparent 54%);
   opacity: 0;
   animation: mm-ripple 1500ms cubic-bezier(0.22, 0.61, 0.32, 1) var(--mm-ripple-delay) both;
   will-change: transform, opacity;
