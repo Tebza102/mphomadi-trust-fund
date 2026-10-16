@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { trustees } from '../content/trustees'
+import { ScrollNav } from './ScrollNav'
+import { useScrollNav } from '../hooks/useScrollNav'
 
 // Portrait Spotlight: trustee cards open a modal profile. The browser's native
 // <dialog> supplies the focus trap, Escape handling, inert background and
@@ -55,6 +57,8 @@ export function TrusteeSpotlight() {
   const scrollerRef = useRef(null)
 
   // 'idle' | 'opening' | 'open' | 'closing' — guards against rapid repeat clicks.
+  const { state: scrollState, update: updateScrollNav, scrollPage } = useScrollNav(scrollerRef, active !== null)
+
   const phase = useRef('idle')
   const running = useRef([])
   const cloneRef = useRef(null)
@@ -150,6 +154,9 @@ export function TrusteeSpotlight() {
     if (!dialog) return undefined
 
     if (!dialog.open) dialog.showModal()
+    // Measure overflow first: it reserves the button gutter, which moves the
+    // portrait's destination before the flight is measured.
+    updateScrollNav()
     const unlock = lockScroll()
     const index = active
     const trigger = cardRefs.current[index]
@@ -185,7 +192,21 @@ export function TrusteeSpotlight() {
       // restore doesn't (e.g. Safari doesn't focus buttons on click).
       trigger?.focus({ preventScroll: true })
     }
-  }, [active])
+  }, [active, updateScrollNav])
+
+  // Keys that scroll a focused scroller natively do nothing when focus is on
+  // the Close/arrow buttons (siblings of the scroller). Forward them so the
+  // biography stays keyboard-scrollable from anywhere in the dialog.
+  const forwardScrollKeys = (event) => {
+    const scroller = scrollerRef.current
+    if (!scroller || event.target === scroller || event.altKey || event.ctrlKey || event.metaKey) return
+    const step = { ArrowDown: 48, ArrowUp: -48, PageDown: scroller.clientHeight * 0.9, PageUp: -scroller.clientHeight * 0.9 }[event.key]
+    if (step !== undefined) scroller.scrollBy({ top: step })
+    else if (event.key === 'Home') scroller.scrollTo({ top: 0 })
+    else if (event.key === 'End') scroller.scrollTo({ top: scroller.scrollHeight })
+    else return
+    event.preventDefault()
+  }
 
   const trustee = active === null ? null : trustees[active]
 
@@ -242,7 +263,10 @@ export function TrusteeSpotlight() {
             }}
           >
             <div ref={backdropRef} aria-hidden="true" className="pointer-events-none absolute inset-0 bg-ink/55" />
-            <div className="relative flex h-full w-full flex-col sm:h-auto sm:max-h-[calc(100dvh-3rem)] sm:max-w-[44rem]">
+            <div
+              className="relative flex h-full w-full flex-col sm:h-auto sm:max-h-[calc(100dvh-3rem)] sm:max-w-[44rem]"
+              onKeyDown={forwardScrollKeys}
+            >
               <div
                 ref={panelRef}
                 aria-hidden="true"
@@ -294,6 +318,7 @@ export function TrusteeSpotlight() {
                   </div>
                 </div>
               </div>
+              <ScrollNav state={scrollState} onScroll={scrollPage} label="biography" />
             </div>
           </div>
         </dialog>

@@ -187,11 +187,35 @@ textarea {
    name and opening paragraphs sit beside it and the rest flows beneath. */
 .spotlight-scroller {
   container-type: inline-size;
+  /* Scrollbar hidden for this panel only; the up/down buttons (ScrollNav) and
+     normal wheel/touch/keyboard scrolling replace it. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.spotlight-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reserve a gutter for the floating buttons, only while they are showing. */
+.spotlight-scroller[data-nav='on'] .spotlight-body {
+  padding-right: 4rem;
+}
+
+@media (prefers-contrast: more) {
+  .scroll-nav-button {
+    background: #fff;
+    border-color: currentColor;
+  }
 }
 
 @container (min-width: 42rem) {
   .spotlight-body {
     padding: 3rem 2.5rem 3rem;
+  }
+
+  .spotlight-scroller[data-nav='on'] .spotlight-body {
+    padding-right: 4rem;
   }
 
   .spotlight-frame {
