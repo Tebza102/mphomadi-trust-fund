@@ -104,6 +104,9 @@
 
 .mm-welcome__heart {
   position: relative;
+  /* Final position of the heart mark inside the full horizontal logo. The
+     responsive clamp keeps the lock-up aligned on phones and large screens. */
+  --mm-heart-lockup-x: clamp(-180px, -28vw, -100px);
   width: clamp(160px, 32vmin, 300px);
   /* Intrinsic ratio of the extracted mark - keeps it from ever distorting. */
   aspect-ratio: 512 / 443;
@@ -164,7 +167,9 @@
    contraction past rest and a recovery back to it - not a bounce. Percentages
    are of the 6200ms duration, which starts after the 500ms of stable white:
    beat peaks land at 1.55s, 2.75s and 3.95s, each recovered ~500ms later, so
-   the last beat has settled before the first ripple leaves the heart. */
+   the last beat has settled before the first ripple leaves the heart. At the
+   end, the mark moves and scales into its exact role in the horizontal logo
+   while the full lock-up reveals from that same point. */
 @keyframes mm-heart {
   0% { opacity: 0; transform: scale(0.74); }
   8.9% { opacity: 1; transform: scale(1); }
@@ -181,8 +186,9 @@
   60.3% { transform: scale(0.95); }
   63.7% { transform: scale(1); }
 
-  88% { opacity: 1; transform: scale(1.02); }
-  100% { opacity: 0; transform: scale(1.12); }
+  88% { opacity: 1; transform: translateX(0) scale(1.02); }
+  96% { opacity: 0.42; transform: translateX(var(--mm-heart-lockup-x)) scale(0.55); }
+  100% { opacity: 0; transform: translateX(var(--mm-heart-lockup-x)) scale(0.52); }
 }
 
 /* One complete beat: settle, expand, contract, recover. */
@@ -206,9 +212,11 @@
 }
 
 @keyframes mm-logo {
-  0% { opacity: 0; transform: scale(0.86); clip-path: circle(0% at 50% 50%); }
+  /* The reveal originates at the heart-mark position, not the centre of the
+     complete wordmark, so the standalone heart appears to become the logo. */
+  0% { opacity: 0; transform: scale(0.94); clip-path: circle(0% at 15% 50%); }
   30% { opacity: 1; }
-  100% { opacity: 1; transform: scale(1); clip-path: circle(85% at 50% 50%); }
+  100% { opacity: 1; transform: scale(1); clip-path: circle(100% at 15% 50%); }
 }
 
 /* --------------------------------------------------------------- controls */
