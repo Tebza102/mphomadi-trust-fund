@@ -15,11 +15,51 @@ import { useScrollNav } from '../hooks/useScrollNav'
 // panel is wide enough (container query on the panel, not the viewport) so the
 // name, role and opening paragraphs sit beside it and the rest flows beneath.
 //
-// Framing: every supplied portrait has ~22% pure-white margin on each side (the
-// subject spans roughly x 125-478, y 132-518 of 600). The frame shows the
-// untouched asset zoomed 1.35x about the subject's centre — non-destructive,
-// nothing cropped, and below the 600px source so nothing is upscaled past 1.35x.
-const PORTRAIT_ZOOM = 'origin-[50%_54%] scale-[1.35]'
+// Framing: every frame is 4:5. Trustees with a `portrait` use the approved 4:5
+// studio photograph (webp + jpg fallback) shown exactly as supplied. The legacy
+// square .jpg cut-outs have ~22% pure-white margin on each side (the subject
+// spans roughly x 125-478, y 132-518 of 600), so they are shown zoomed 1.35x
+// about the subject's centre — non-destructive, and the subject still clears
+// the 4:5 frame's side crop.
+const LEGACY_ZOOM = 'origin-[50%_54%] scale-[1.35]'
+const LEGACY_HOVER = 'group-hover:scale-[1.4] motion-reduce:group-hover:scale-[1.35]'
+const PORTRAIT_HOVER = 'group-hover:scale-[1.04] motion-reduce:group-hover:scale-100'
+
+// The photograph for a card or profile frame. `hover` adds the card's zoom.
+function TrusteePhoto({ person, alt, hover = false, loading }) {
+  const motion = hover ? 'transition-transform duration-200 ease-out motion-reduce:transition-none' : ''
+  const base = 'aspect-[4/5] w-full object-cover'
+
+  if (!person.portrait) {
+    return (
+      <img
+        src={`/images/trustees/${person.image}.jpg`}
+        alt={alt}
+        width="600"
+        height="600"
+        loading={loading}
+        decoding="async"
+        className={`${base} ${LEGACY_ZOOM} ${hover ? `${motion} ${LEGACY_HOVER}` : ''}`}
+      />
+    )
+  }
+
+  const src = `/images/trustees/${person.portrait}`
+  return (
+    <picture className="block">
+      <source srcSet={`${src}.webp`} type="image/webp" />
+      <img
+        src={`${src}.jpg`}
+        alt={alt}
+        width="800"
+        height="1000"
+        loading={loading}
+        decoding="async"
+        className={`${base} object-center ${hover ? `${motion} ${PORTRAIT_HOVER}` : ''}`}
+      />
+    </picture>
+  )
+}
 
 const EASE = 'cubic-bezier(0.22, 0.8, 0.24, 1)'
 const FLIGHT_MS = 420
@@ -223,22 +263,14 @@ export function TrusteeSpotlight() {
               }}
               onClick={() => openProfile(index)}
               aria-haspopup="dialog"
-              className="group block h-full w-full cursor-pointer rounded-[1.5rem] border border-brand-orchid/15 bg-white p-4 text-center shadow-sm transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-visible:-translate-y-1 active:translate-y-0 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="group flex h-full w-full flex-col cursor-pointer rounded-[1.5rem] border border-brand-orchid/15 bg-white p-4 text-center shadow-sm transition duration-200 ease-out hover:-translate-y-1 hover:shadow-lg focus-visible:-translate-y-1 active:translate-y-0 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
               <span data-frame className="block overflow-hidden rounded-[1rem] bg-[#f4f1f6]">
-                <img
-                  src={`/images/trustees/${person.image}.jpg`}
-                  alt=""
-                  width="600"
-                  height="600"
-                  loading="lazy"
-                  decoding="async"
-                  className={`aspect-square w-full object-cover transition-transform duration-200 ease-out group-hover:scale-[1.4] motion-reduce:transition-none motion-reduce:group-hover:scale-[1.35] ${PORTRAIT_ZOOM}`}
-                />
+                <TrusteePhoto person={person} alt="" hover loading="lazy" />
               </span>
               <span className="mt-4 block font-display text-lg leading-tight text-ink">{person.name}</span>
               <span className="mt-1 block text-sm font-semibold uppercase tracking-[0.16em] text-ink/60">{person.role}</span>
-              <span className="mt-4 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-brand-rose group-hover:underline">
+              <span className="mt-4 inline-flex min-h-11 items-center gap-1 self-center text-sm font-semibold text-brand-rose group-hover:underline">
                 View full profile <span aria-hidden="true">&rarr;</span>
               </span>
             </button>
@@ -294,14 +326,7 @@ export function TrusteeSpotlight() {
                     data-frame
                     className="spotlight-frame mx-auto mb-6 w-full max-w-[20rem] overflow-hidden rounded-[1rem] bg-[#f4f1f6] ring-1 ring-ink/10"
                   >
-                    <img
-                      src={`/images/trustees/${trustee.image}.jpg`}
-                      alt={`${trustee.name}, ${trustee.role}`}
-                      width="600"
-                      height="600"
-                      decoding="async"
-                      className={`aspect-square w-full object-cover ${PORTRAIT_ZOOM}`}
-                    />
+                    <TrusteePhoto person={trustee} alt={`${trustee.name}, ${trustee.role}`} />
                   </div>
                   <div ref={textRef}>
                     <h3 id="trustee-profile-name" className="font-display text-3xl leading-tight md:text-4xl">
