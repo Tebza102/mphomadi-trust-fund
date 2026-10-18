@@ -51,3 +51,41 @@ for (const file of files) {
   const saved = Math.round((1 - after.size / before.size) * 100)
   console.log(`write ${path.basename(target)}  ${Math.round(after.size / 1024)}kB (-${saved}%)`)
 }
+
+// Trustee portraits: the approved 4:5 studio PNGs (1122x1402) live unmodified
+// in assets/source/trustees, outside public/ so they never ship. This writes
+// web-sized derivatives (800x1000 webp + jpg fallback) into public/ under the
+// trustee's image stem. Width-only resize preserves the aspect ratio, so
+// nothing is cropped or stretched.
+const TRUSTEE_SOURCE_DIR = path.join(process.cwd(), 'assets', 'source', 'trustees')
+const TRUSTEE_DIR = path.join(process.cwd(), 'public', 'images', 'trustees')
+const TRUSTEE_PORTRAITS = {
+  'Pule.webp.png': 'pule-malefane-portrait',
+  'Hilary.webp.png': 'hilary-smith-portrait',
+  'Ntombi.webp.png': 'ntombi-mekgwe-portrait',
+  'Mpumi.webp.png': 'mpumi-madi-portrait',
+}
+const PORTRAIT_WIDTH = 800
+
+for (const [file, stem] of Object.entries(TRUSTEE_PORTRAITS)) {
+  const source = path.join(TRUSTEE_SOURCE_DIR, file)
+  if (!(await exists(source))) {
+    console.log(`miss  ${file} (source not found)`)
+    continue
+  }
+  const sourceStat = await stat(source)
+
+  for (const [ext, encode] of [
+    ['webp', (image) => image.webp({ quality: WEBP_QUALITY })],
+    ['jpg', (image) => image.jpeg({ quality: WEBP_QUALITY, mozjpeg: true })],
+  ]) {
+    const target = path.join(TRUSTEE_DIR, `${stem}.${ext}`)
+    if ((await exists(target)) && (await stat(target)).mtimeMs >= sourceStat.mtimeMs) {
+      console.log(`skip  ${stem}.${ext} (current)`)
+      continue
+    }
+    await encode(sharp(source).resize({ width: PORTRAIT_WIDTH })).toFile(target)
+    const { size } = await stat(target)
+    console.log(`write ${stem}.${ext}  ${Math.round(size / 1024)}kB`)
+  }
+}
