@@ -159,9 +159,13 @@ async function oneRun(browser, profile) {
     }
 
     // 2. Repeat session, home: no full welcome.
-    const visit = async (path, waitMs = 4000) => {
+    // Wait for the network to go quiet, not a fixed time: on the throttled
+    // profile a large image can still be downloading after several seconds, and
+    // cutting the window short would report an early LCP that is not final.
+    const visit = async (path, waitMs = 1500) => {
       const since = log.reqs.size
       await page.goto(base + path, { waitUntil: 'load', timeout: 60000 })
+      await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {})
       await page.waitForTimeout(waitMs)
       const r = await perf(page)
       return { q: r, summary: await routeSummary(page, log, since) }
