@@ -20,13 +20,11 @@
         background: #ffffff;
       }
     </style>
-    <!-- The logo is in the header of every page, so preloading it is never
-         wasted. It is ~370kB and not needed until the bundle and the heart
-         have arrived (the header paints only once React mounts, and the
-         arrival animation does not show the logo until ~6s in), so it is
-         hinted low: on a slow connection it must not take bandwidth from the
-         JavaScript that starts the whole page. -->
-    <link rel="preload" as="image" href="/images/branding/mpho-madi-logo-horizontal.png" fetchpriority="low" />
+    <!-- No preload for the horizontal logo (~370kB). It is not needed until the
+         header paints (after React mounts) and the arrival animation does not
+         show it until ~6s in. Preloading it here made it compete with the
+         JavaScript bundle that starts the whole page: on a 700kbps connection
+         the overlay started ~1s later with the preload than without. -->
     <!-- The heart belongs to the arrival animation alone, so it is preloaded
          only on a page load that can actually play it: the first of a browser
          session. Preloading it unconditionally would download ~220kB on every
