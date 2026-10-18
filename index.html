@@ -32,9 +32,11 @@
          whole page, so the heart (needed in the first second) goes alongside
          it, and the ~370kB horizontal logo (needed ~6s in) is requested only
          once the heart has landed. Preloading all three at once made the
-         bundle share bandwidth with the logo: the overlay started 1.4s later
-         at 1.6Mbps and 3.7s later at 700kbps. Reduced-motion visitors never
-         see the heart, so they preload only the logo they are shown at once. -->
+         bundle share bandwidth with the logo; measured on a cold cache, the
+         overlay now starts ~1.2s sooner at 1.6Mbps and ~3s sooner at 700kbps.
+         Below ~800kbps the logo can still be arriving when the heart turns
+         into it. Reduced-motion visitors never see the heart, so they preload
+         only the logo they are shown at once. -->
     <script>
       try {
         if (!sessionStorage.getItem('mm.site.arrival')) {
