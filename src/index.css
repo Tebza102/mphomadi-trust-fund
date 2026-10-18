@@ -57,7 +57,7 @@
   --container-width: 72rem;
 
   font-family: var(--font-body);
-  font-size: 18px;
+  font-size: 112.5%;
   line-height: 1.6;
   color: var(--color-text);
   background: var(--color-background);
@@ -304,7 +304,7 @@ textarea {
 
 @media (max-width: 639px) {
   :root {
-    font-size: 16px;
+    font-size: 100%;
   }
 }
 
