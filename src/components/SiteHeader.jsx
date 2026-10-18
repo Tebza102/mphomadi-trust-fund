@@ -13,14 +13,14 @@ export function SiteHeader() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-brand-navy/10 bg-white/95 backdrop-blur">
-        <div className="section-shell flex min-h-[72px] items-center justify-between gap-3 py-3 md:min-h-[88px] md:gap-6 md:py-4">
+        <div className="section-shell flex min-h-[72px] items-center justify-between gap-3 py-2 md:min-h-[88px] md:gap-5 md:py-2">
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex min-w-0 items-center gap-3"
+            className="flex min-w-0 items-center"
             aria-label="Mpho Madi Trust Fund home"
           >
-            <img src={brandLogoPath} alt={brandLogoAlt} className="h-11 w-auto shrink-0 md:h-16" />
+            <img src={brandLogoPath} alt={brandLogoAlt} className="h-12 w-auto max-w-[42vw] shrink-0 object-contain md:h-[70px] md:max-w-[230px]" />
           </Link>
 
           <nav className="hidden flex-wrap items-center gap-5 text-base md:flex" aria-label="Primary navigation">
