@@ -31,8 +31,9 @@ export default {
         'brand-plum': '#102A56',
       },
       fontFamily: {
-        display: ['"Fraunces"', '"Georgia"', 'serif'],
-        body: ['"Source Sans 3"', '"Segoe UI"', 'sans-serif'],
+        // *Fallback faces are metric-matched stand-ins defined in src/index.css.
+        display: ['"Fraunces"', '"Fraunces Fallback"', '"Fraunces Fallback Noto"', '"Georgia"', 'serif'],
+        body: ['"Source Sans 3"', '"Source Sans 3 Fallback"', '"Segoe UI"', 'sans-serif'],
       },
       borderRadius: {
         brand: '1.25rem',
