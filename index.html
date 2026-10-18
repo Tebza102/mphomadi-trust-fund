@@ -37,6 +37,12 @@
           mmHeart.rel = 'preload'
           mmHeart.as = 'image'
           mmHeart.href = '/images/branding/mpho-madi-heart.png'
+          // High priority: the fonts are self-hosted on this origin, and the
+          // browser fetches fonts at its top priority. Without this the heart
+          // shared bandwidth with them and appeared ~0.8s later on a slow
+          // mobile connection. This script runs before the stylesheet, so the
+          // heart is requested before any font is even discovered.
+          mmHeart.setAttribute('fetchpriority', 'high')
           document.head.appendChild(mmHeart)
         }
       } catch (e) {
