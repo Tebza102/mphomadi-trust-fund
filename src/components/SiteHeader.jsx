@@ -20,7 +20,7 @@ export function SiteHeader() {
             className="flex min-w-0 items-center gap-3"
             aria-label="Mpho Madi Trust Fund home"
           >
-            <img src={brandLogoPath} alt={brandLogoAlt} className="h-11 w-auto shrink-0 md:h-16" />
+            <img src={brandLogoPath} alt={brandLogoAlt} width="1672" height="941" className="h-11 w-auto shrink-0 md:h-16" />
           </Link>
 
           <nav className="hidden flex-wrap items-center gap-5 text-base md:flex" aria-label="Primary navigation">
