@@ -13,14 +13,14 @@ export function SiteHeader() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-brand-navy/10 bg-white/95 backdrop-blur">
-        <div className="section-shell flex min-h-[72px] items-center justify-between gap-3 py-2 md:min-h-[88px] md:gap-5 md:py-2">
+        <div className="section-shell flex min-h-[72px] items-center justify-between gap-2 py-2 md:min-h-[88px] md:gap-5 md:py-2">
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
             className="flex min-w-0 flex-1 items-center md:flex-initial"
             aria-label="Mpho Madi Trust Fund home"
           >
-            <img src={brandLogoPath} alt={brandLogoAlt} className="h-auto max-h-14 w-full max-w-[175px] object-contain object-left md:max-h-[76px] md:max-w-[245px]" />
+            <img src={brandLogoPath} alt={brandLogoAlt} className="h-auto max-h-14 w-full max-w-[47vw] object-contain object-left md:max-h-[76px] md:max-w-[245px]" />
           </Link>
 
           <nav className="hidden flex-wrap items-center gap-5 text-base md:flex" aria-label="Primary navigation">
@@ -37,7 +37,7 @@ export function SiteHeader() {
             )}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
             {/* Hidden 2026-09-08 at the Trust's request. Removed from the visible
                 site only — /portal/login still resolves and RequireRole still
                 redirects there, so staff reach the portal via the URL directly.
