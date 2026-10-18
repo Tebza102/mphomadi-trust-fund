@@ -15,35 +15,13 @@ import { useScrollNav } from '../hooks/useScrollNav'
 // panel is wide enough (container query on the panel, not the viewport) so the
 // name, role and opening paragraphs sit beside it and the rest flows beneath.
 //
-// Framing: every frame is 4:5. Trustees with a `portrait` use the approved 4:5
-// studio photograph (webp + jpg fallback) shown exactly as supplied. The legacy
-// square .jpg cut-outs have ~22% pure-white margin on each side (the subject
-// spans roughly x 125-478, y 132-518 of 600), so they are shown zoomed 1.35x
-// about the subject's centre — non-destructive, and the subject still clears
-// the 4:5 frame's side crop.
-const LEGACY_ZOOM = 'origin-[50%_54%] scale-[1.35]'
-const LEGACY_HOVER = 'group-hover:scale-[1.4] motion-reduce:group-hover:scale-[1.35]'
+// Framing: every frame is 4:5, showing the approved 4:5 studio photograph
+// (webp + jpg fallback) exactly as supplied.
 const PORTRAIT_HOVER = 'group-hover:scale-[1.04] motion-reduce:group-hover:scale-100'
 
 // The photograph for a card or profile frame. `hover` adds the card's zoom.
 function TrusteePhoto({ person, alt, hover = false, loading }) {
   const motion = hover ? 'transition-transform duration-200 ease-out motion-reduce:transition-none' : ''
-  const base = 'aspect-[4/5] w-full object-cover'
-
-  if (!person.portrait) {
-    return (
-      <img
-        src={`/images/trustees/${person.image}.jpg`}
-        alt={alt}
-        width="600"
-        height="600"
-        loading={loading}
-        decoding="async"
-        className={`${base} ${LEGACY_ZOOM} ${hover ? `${motion} ${LEGACY_HOVER}` : ''}`}
-      />
-    )
-  }
-
   const src = `/images/trustees/${person.portrait}`
   return (
     <picture className="block">
@@ -55,7 +33,7 @@ function TrusteePhoto({ person, alt, hover = false, loading }) {
         height="1000"
         loading={loading}
         decoding="async"
-        className={`${base} object-center ${hover ? `${motion} ${PORTRAIT_HOVER}` : ''}`}
+        className={`aspect-[4/5] w-full object-cover object-center ${hover ? `${motion} ${PORTRAIT_HOVER}` : ''}`}
       />
     </picture>
   )
