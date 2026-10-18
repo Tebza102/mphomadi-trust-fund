@@ -147,11 +147,11 @@ export function DonatePage() {
   ]
 
   return (
-    <main className="section-shell py-16 md:py-24">
+    <main className="section-shell pb-16 pt-8 md:pb-24 md:pt-14">
       <section className="grid gap-10 md:grid-cols-12 md:items-start">
         <div className="space-y-6 md:col-span-7">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">{content.hero.eyebrow}</p>
-          <h1 className="max-w-4xl font-display text-2xl leading-tight md:text-4xl">{content.hero.title}</h1>
+          <h1 className="max-w-4xl font-display text-3xl leading-tight md:text-[2.75rem]">{content.hero.title}</h1>
           <p className="max-w-3xl text-xl leading-relaxed text-ink/80">{content.hero.copy}</p>
           <div className="flex flex-wrap gap-4">
             {heroCtas.map((item) => (
@@ -220,7 +220,7 @@ export function DonatePage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Donation amounts</p>
-            <h2 className="mt-3 font-display text-3xl md:text-5xl">Giving starts at R1,000</h2>
+            <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">Giving starts at R1,000</h2>
           </div>
           <p className="max-w-2xl text-lg leading-relaxed text-ink/70">R1,000 is the starting contribution, and you are welcome to give more. Each card stays honest about what the amount can help with, depending on current programme needs.</p>
         </div>

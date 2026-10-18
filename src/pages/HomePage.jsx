@@ -27,10 +27,10 @@ export function HomePage() {
           generic viewport reveal, so the welcome fades into a complete first
           fold instead of exposing text and waiting for the photograph. */}
       <section className="home-hero">
-        <div className="section-shell grid gap-8 py-9 md:grid-cols-12 md:items-center md:gap-12 md:py-20 lg:py-24">
+        <div className="section-shell grid gap-8 pb-10 pt-4 md:grid-cols-12 md:items-center md:gap-12 md:py-14 lg:py-16">
           <div className="space-y-4 md:col-span-6 md:space-y-6 lg:pr-4">
             <p className="eyebrow">{hero.eyebrow}</p>
-            <h1 className="max-w-2xl font-display text-[clamp(1.85rem,7vw,2.15rem)] leading-[1.16] text-brand-navy md:text-5xl">{hero.title}</h1>
+            <h1 className="max-w-2xl font-display text-[clamp(1.875rem,9.4vw,2.25rem)] leading-[1.06] text-brand-navy md:text-5xl md:leading-[1.04]">{hero.title}</h1>
             <p className="max-w-xl text-xl leading-relaxed text-ink/80">{hero.mission}</p>
             <div className="flex flex-wrap gap-3 md:gap-4">
               <Link to="/donate" onClick={() => trackCta('donate_click')} className="btn-primary">
@@ -128,7 +128,7 @@ export function HomePage() {
         <ul className="space-y-5 md:col-span-7 md:pl-8">
           {visibleWaysToHelp.map((pathway, index) => (
             <li key={pathway.label} className="flex items-start gap-4 border-b border-ink/10 pb-5">
-              <span className="font-display text-3xl text-brand-green">{String(index + 1).padStart(2, '0')}</span>
+              <span className="shrink-0 font-display text-3xl text-brand-green">{String(index + 1).padStart(2, '0')}</span>
               <p className="pt-1 text-xl text-ink/90">{pathway.label}</p>
             </li>
           ))}

@@ -1,9 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { brandLogoAlt, brandLogoPath, siteNav, trackCta } from '../siteContent'
+import { brandLogoAlt, brandLogoHeaderPath, brandLogoHeaderSizes, brandLogoHeaderSrcSet, siteNav, trackCta } from '../siteContent'
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  // The header is fixed, so a spacer holds its place in the flow. Its height
+  // follows the bar (not the mobile menu, which still overlays the page) so
+  // content is never hidden when enlarged text makes the bar taller.
+  const headerRef = useRef(null)
+  const barRef = useRef(null)
+  const [barHeight, setBarHeight] = useState(null)
+  useEffect(() => {
+    const bar = barRef.current
+    const header = headerRef.current
+    if (!bar || !header || typeof ResizeObserver === 'undefined') return undefined
+    const observer = new ResizeObserver(() => {
+      setBarHeight(bar.offsetHeight + (header.offsetHeight - header.clientHeight))
+    })
+    observer.observe(bar)
+    return () => observer.disconnect()
+  }, [])
   const isSectionLink = (href) => href.includes('#')
   const navItems = [...siteNav]
 
@@ -12,15 +28,27 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-brand-navy/10 bg-white/95 backdrop-blur">
-        <div className="section-shell flex min-h-[72px] items-center justify-between gap-2 py-2 md:min-h-[88px] md:gap-5 md:py-2">
+      <header ref={headerRef} className="fixed inset-x-0 top-0 z-50 border-b border-brand-navy/10 bg-white/95 backdrop-blur">
+        {/* flex-wrap: when enlarged text makes Donate/Menu too wide to share
+            the row, they drop below the logo instead of squeezing it. The
+            logo's min width is in px because the image does not scale with
+            text. */}
+        <div ref={barRef} className="section-shell flex min-h-[72px] flex-wrap items-center justify-between gap-x-2 gap-y-2 py-2 md:min-h-[88px] md:gap-x-5">
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex min-w-0 flex-1 items-center md:flex-initial"
+            className="flex min-w-[128px] flex-1 items-center md:flex-initial"
             aria-label="Mpho Madi Trust Fund home"
           >
-            <img src={brandLogoPath} alt={brandLogoAlt} className="h-auto max-h-14 w-full max-w-[47vw] object-contain object-left md:max-h-[76px] md:max-w-[245px]" />
+            <img
+              src={brandLogoHeaderPath}
+              srcSet={brandLogoHeaderSrcSet}
+              sizes={brandLogoHeaderSizes}
+              width="1595"
+              height="507"
+              alt={brandLogoAlt}
+              className="h-auto w-full max-w-[176px] md:max-w-[164px] lg:max-w-[201px]"
+            />
           </Link>
 
           <nav className="hidden flex-wrap items-center gap-5 text-base md:flex" aria-label="Primary navigation">
@@ -37,7 +65,7 @@ export function SiteHeader() {
             )}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-1.5 md:gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-1.5 md:ml-0 md:gap-2">
             {/* Hidden 2026-09-08 at the Trust's request. Removed from the visible
                 site only — /portal/login still resolves and RequireRole still
                 redirects there, so staff reach the portal via the URL directly.
@@ -52,14 +80,14 @@ export function SiteHeader() {
             <Link
               to="/donate#enquiry-form"
               onClick={() => trackCta('donate_click')}
-              className="donate-pulse inline-flex min-h-11 items-center rounded-full bg-brand-red px-2.5 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-navy md:px-4 md:py-2 md:text-base"
+              className="donate-pulse inline-flex min-h-11 items-center rounded-full bg-brand-red px-3 py-1 text-sm font-semibold text-white transition-colors hover:bg-brand-navy md:px-4"
             >
               Donate
             </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
-              className="inline-flex min-h-11 items-center rounded-full border border-brand-navy/20 bg-white px-2.5 py-1.5 text-sm font-semibold text-brand-navy md:hidden"
+              className="inline-flex min-h-11 items-center rounded-full border border-brand-navy/15 bg-white px-3 py-1 text-sm font-medium text-brand-navy md:hidden"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
               aria-label="Toggle navigation menu"
@@ -111,7 +139,7 @@ export function SiteHeader() {
           </div>
         )}
       </header>
-      <div className="h-[72px] md:h-[88px]" aria-hidden="true" />
+      <div className="h-[72px] md:h-[88px]" style={barHeight ? { height: barHeight } : undefined} aria-hidden="true" />
     </>
   )
 }

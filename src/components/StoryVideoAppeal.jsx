@@ -57,7 +57,7 @@ export function StoryVideoAppeal() {
       <div className="section-shell">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.28em] text-white/70">The invitation</p>
-          <h2 id="story-appeal" className="mt-3 font-display text-3xl leading-tight md:text-5xl">
+          <h2 id="story-appeal" className="mt-3 font-display text-2xl leading-tight md:text-4xl">
             {storyVideo.heading}
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-white/80 md:text-xl">{storyVideo.standfirst}</p>

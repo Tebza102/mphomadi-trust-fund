@@ -3,9 +3,9 @@ import { trustDetails } from '../content/trustDetails'
 
 export function ContactPage() {
   return (
-    <main className="section-shell py-16 md:py-24">
+    <main className="section-shell pb-16 pt-8 md:pb-24 md:pt-14">
       <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Contact</p>
-      <h1 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Speak to Mpho Madi Trust Fund</h1>
+      <h1 className="mt-3 font-display text-3xl leading-tight md:text-[2.75rem]">Speak to Mpho Madi Trust Fund</h1>
 
       <div className="mt-10 grid gap-10 md:grid-cols-2">
         <div className="space-y-6">

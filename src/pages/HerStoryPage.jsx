@@ -6,10 +6,10 @@ import { StoryVideoAppeal } from '../components/StoryVideoAppeal'
 export function HerStoryPage() {
   return (
     // No bottom padding here — the appeal section is full-bleed and closes the page.
-    <main className="pt-16 md:pt-24">
+    <main className="pt-8 md:pt-14">
       <div className="section-shell">
         <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Her Story</p>
-        <h1 className="mt-3 max-w-4xl font-display text-2xl leading-tight md:text-4xl">Mpho's journey is the reason this Trust exists.</h1>
+        <h1 className="mt-3 max-w-4xl font-display text-3xl leading-tight md:text-[2.75rem]">Mpho's journey is the reason this Trust exists.</h1>
 
         <div className="mt-10 grid items-start gap-10 md:grid-cols-12">
           {/* 01_hero_portrait_speaking is the image the repo already identifies as

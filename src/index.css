@@ -308,6 +308,18 @@ textarea {
   }
 }
 
+/* Below md, enlarged text (e.g. 200%) can make a single word or an email
+   address wider than the screen. `anywhere` lets such a word break and also
+   lowers grid/flex items' minimum width, so one long word cannot widen a whole
+   column and push the page sideways. It only acts when a word cannot fit its
+   line, so normal-size mobile layout is unchanged (verified). Tablet/desktop
+   columns are left on the default so short words never split there. */
+@media (max-width: 767.98px) {
+  body {
+    overflow-wrap: anywhere;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
