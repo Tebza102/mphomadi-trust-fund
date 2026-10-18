@@ -5,7 +5,7 @@ export function ContactPage() {
   return (
     <main className="section-shell py-16 md:py-24">
       <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Contact</p>
-      <h1 className="mt-3 font-display text-4xl leading-tight md:text-6xl">Speak to Mpho Madi Trust Fund</h1>
+      <h1 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Speak to Mpho Madi Trust Fund</h1>
 
       <div className="mt-10 grid gap-10 md:grid-cols-2">
         <div className="space-y-6">
