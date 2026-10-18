@@ -9,7 +9,7 @@ export function HerStoryPage() {
     <main className="pt-16 md:pt-24">
       <div className="section-shell">
         <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Her Story</p>
-        <h1 className="mt-3 max-w-4xl font-display text-4xl leading-tight md:text-6xl">Mpho's journey is the reason this Trust exists.</h1>
+        <h1 className="mt-3 max-w-4xl font-display text-2xl leading-tight md:text-4xl">Mpho's journey is the reason this Trust exists.</h1>
 
         <div className="mt-10 grid items-start gap-10 md:grid-cols-12">
           {/* 01_hero_portrait_speaking is the image the repo already identifies as
@@ -37,7 +37,7 @@ export function HerStoryPage() {
             verified dates, so the section must not imply a chronology. */}
         <section aria-labelledby="story-journey" className="mt-16 md:mt-24">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-sun">The journey</p>
-          <h2 id="story-journey" className="mt-3 max-w-3xl font-display text-3xl leading-tight md:text-5xl">
+          <h2 id="story-journey" className="mt-3 max-w-3xl font-display text-2xl leading-tight md:text-4xl">
             Mobility is where it starts, not where it ends
           </h2>
           <StoryTimeline />
