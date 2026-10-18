@@ -17,10 +17,10 @@ export function SiteHeader() {
           <Link
             to="/"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex min-w-0 items-center"
+            className="flex min-w-0 flex-1 items-center md:flex-initial"
             aria-label="Mpho Madi Trust Fund home"
           >
-            <img src={brandLogoPath} alt={brandLogoAlt} className="h-12 w-auto max-w-[42vw] shrink-0 object-contain md:h-[70px] md:max-w-[230px]" />
+            <img src={brandLogoPath} alt={brandLogoAlt} className="h-auto max-h-14 w-full max-w-[175px] object-contain object-left md:max-h-[76px] md:max-w-[245px]" />
           </Link>
 
           <nav className="hidden flex-wrap items-center gap-5 text-base md:flex" aria-label="Primary navigation">
@@ -52,14 +52,14 @@ export function SiteHeader() {
             <Link
               to="/donate#enquiry-form"
               onClick={() => trackCta('donate_click')}
-              className="donate-pulse inline-flex min-h-11 items-center rounded-full bg-brand-red px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-navy md:px-5 md:py-2 md:text-base"
+              className="donate-pulse inline-flex min-h-11 items-center rounded-full bg-brand-red px-2.5 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-brand-navy md:px-4 md:py-2 md:text-base"
             >
               Donate
             </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen((open) => !open)}
-              className="inline-flex min-h-11 items-center rounded-full border border-brand-navy/20 bg-white px-3 py-1.5 text-sm font-semibold text-brand-navy md:hidden"
+              className="inline-flex min-h-11 items-center rounded-full border border-brand-navy/20 bg-white px-2.5 py-1.5 text-sm font-semibold text-brand-navy md:hidden"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
               aria-label="Toggle navigation menu"
