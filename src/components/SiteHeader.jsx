@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { brandLogoAlt, brandLogoPath, siteNav, trackCta } from '../siteContent'
+import { brandLogoAlt, brandLogoHeaderSizes, brandLogoPath, brandLogoSrcSet, siteNav, trackCta } from '../siteContent'
 
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -20,7 +20,13 @@ export function SiteHeader() {
             className="flex min-w-0 items-center gap-3"
             aria-label="Mpho Madi Trust Fund home"
           >
-            <img src={brandLogoPath} alt={brandLogoAlt} className="h-11 w-auto shrink-0 md:h-16" />
+            <img
+              src={brandLogoPath}
+              srcSet={brandLogoSrcSet}
+              sizes={brandLogoHeaderSizes}
+              alt={brandLogoAlt}
+              className="h-11 w-auto shrink-0 md:h-16"
+            />
           </Link>
 
           <nav className="hidden flex-wrap items-center gap-5 text-base md:flex" aria-label="Primary navigation">

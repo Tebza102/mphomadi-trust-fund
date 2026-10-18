@@ -21,8 +21,17 @@
       }
     </style>
     <!-- The logo is in the header of every page, so preloading it is never
-         wasted. -->
-    <link rel="preload" as="image" href="/images/branding/mpho-madi-logo-horizontal.png" />
+         wasted. imagesrcset/imagesizes match the header <img> exactly, so the
+         browser preloads the same resized copy the header will pick (~29kB on
+         most screens) instead of the 1672px original. Deliberately no href:
+         a browser without imagesrcset support then skips the hint rather than
+         preloading the large original. Keep in step with siteContent.js. -->
+    <link
+      rel="preload"
+      as="image"
+      imagesrcset="/images/branding/mpho-madi-logo-horizontal-327w.png 327w, /images/branding/mpho-madi-logo-horizontal-629w.png 629w, /images/branding/mpho-madi-logo-horizontal-1107w.png 1107w, /images/branding/mpho-madi-logo-horizontal.png 1672w"
+      imagesizes="(min-width: 768px) 128px, 79px"
+    />
     <!-- The heart belongs to the arrival animation alone, so it is preloaded
          only on a page load that can actually play it: the first of a browser
          session. Preloading it unconditionally would download ~220kB on every

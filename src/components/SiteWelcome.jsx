@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigationType } from 'react-router-dom'
-import { brandLogoPath } from '../siteContent'
+import { brandLogoPath, brandLogoSrcSet } from '../siteContent'
 import { HEART_SRC, claimArrival, hasSeenArrival } from './arrivalSession'
 import './SiteWelcome.css'
 
@@ -316,7 +316,16 @@ export function SiteWelcome() {
           </div>
         ) : null}
 
-        {mode !== 'pulse' ? <img src={brandLogoPath} alt="" className="mm-welcome__logo" /> : null}
+        {/* sizes mirrors .mm-welcome__logo { width: min(80vw, 520px) }. */}
+        {mode !== 'pulse' ? (
+          <img
+            src={brandLogoPath}
+            srcSet={brandLogoSrcSet}
+            sizes="(min-width: 650px) 520px, 80vw"
+            alt=""
+            className="mm-welcome__logo"
+          />
+        ) : null}
       </div>
 
       {isArrival ? (
