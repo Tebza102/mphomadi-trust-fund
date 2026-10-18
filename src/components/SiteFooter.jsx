@@ -13,7 +13,7 @@ export function SiteFooter() {
           {/* Reversed mark, so it sits straight on the navy. The colour logo
               needed a white plate behind it here, which read as a sticker. */}
           <Link to="/" className="inline-flex items-center" aria-label="Mpho Madi Trust Fund home">
-            <img src={brandLogoWhitePath} alt={brandLogoAlt} width="900" height="300" loading="lazy" decoding="async" className="h-16 w-auto" />
+            <img src={brandLogoWhitePath} alt={brandLogoAlt} className="h-16 w-auto" />
           </Link>
           <p className="max-w-md font-display text-2xl leading-snug text-white">
             Mobility, dignity and opportunity for children who need practical support.
