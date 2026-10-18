@@ -2,8 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Picture } from '../components/Picture'
 import { donationSponsorshipContent as content } from '../content/donationSponsorshipContent'
-import { httpsCallable } from 'firebase/functions'
-import { appCheckReady, functions } from '../lib/firebase'
+import { directCaptureConfigured } from '../lib/firebaseEnv'
 import { trackCta } from '../siteContent'
 
 export function DonatePage() {
@@ -35,8 +34,22 @@ export function DonatePage() {
 
   const ENQUIRY_ADDRESS = 'info@mphomaditrustfund.org.za'
   // Direct capture is live only once App Check is registered; until then this
-  // page is a clean email-composition flow and says so.
-  const directCaptureAvailable = Boolean(functions) && appCheckReady
+  // page is a clean email-composition flow and says so. Read from build-time
+  // config so the page knows without loading Firebase.
+  const directCaptureAvailable = directCaptureConfigured
+
+  // The Firebase SDK is not part of the page. It is fetched and initialised the
+  // first time the visitor interacts with the form (or, at the latest, on
+  // submit), so reading about donating never starts Firebase. Only when direct
+  // capture is configured at all - otherwise there is nothing to load.
+  const captureModule = useRef(null)
+  const loadCapture = () => {
+    if (!captureModule.current) captureModule.current = import('../lib/donationCapture')
+    return captureModule.current
+  }
+  const warmCapture = () => {
+    if (directCaptureAvailable) loadCapture().catch(() => {})
+  }
 
   // 'idle' | 'submitting' | 'captured' | 'emailed'
   const [status, setStatus] = useState('idle')
@@ -99,10 +112,11 @@ export function DonatePage() {
       // Direct capture needs App Check; every callable enforces it. Without it
       // the request is a guaranteed 401, so go straight to email rather than
       // making the visitor wait for a failure we can already predict.
-      if (!functions || !appCheckReady) throw new Error('direct-capture-unavailable')
+      if (!directCaptureAvailable) throw new Error('direct-capture-unavailable')
 
-      const submitEnquiry = httpsCallable(functions, 'submitDonationEnquiry')
-      await submitEnquiry({
+      // A failed chunk download lands in the catch below and falls back to email.
+      const { submitDonationEnquiry } = await loadCapture()
+      await submitDonationEnquiry({
         fullName: form.fullName,
         email: form.email,
         phone: form.phone,
@@ -344,7 +358,7 @@ export function DonatePage() {
             <a className="underline" href="mailto:info@mphomaditrustfund.org.za">info@mphomaditrustfund.org.za</a>.
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="grid gap-4 rounded-[1.75rem] border border-ink/10 bg-white p-6 md:col-span-7 md:grid-cols-2">
+        <form onSubmit={handleSubmit} onFocusCapture={warmCapture} onPointerDownCapture={warmCapture} className="grid gap-4 rounded-[1.75rem] border border-ink/10 bg-white p-6 md:col-span-7 md:grid-cols-2">
           <label className="flex min-w-0 flex-col gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-ink/70">
             Full name
             <input value={form.fullName} onChange={update('fullName')} type="text" className="w-full rounded-2xl border border-ink/10 bg-[#fafafa] px-4 py-3 text-base normal-case text-ink outline-none focus:border-brand-rose" />

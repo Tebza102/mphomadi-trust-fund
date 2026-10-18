@@ -6,11 +6,7 @@ import { ContactPage } from '../pages/ContactPage'
 import { DonatePage } from '../pages/DonatePage'
 import { HerStoryPage } from '../pages/HerStoryPage'
 import { HomePage } from '../pages/HomePage'
-import { LeadDetailPage } from '../portal/LeadDetailPage'
-import { PortalDashboard } from '../portal/PortalDashboard'
-import { PortalLoginPage } from '../portal/PortalLoginPage'
-import { RequireRole } from '../portal/RequireRole'
-import { TeamManagementPage } from '../portal/TeamManagementPage'
+import { PortalGate } from '../portal/PortalGate'
 
 function PublicShell() {
   return (
@@ -90,34 +86,12 @@ export function AppRoutes() {
           />
         ) : null}
 
-        {/* Team portal. RequireRole keeps the wrong people off these screens,
-            but the real enforcement is firestore.rules and the server-side
-            role check inside each callable — never this routing. */}
-        <Route path="/portal/login" element={<PortalLoginPage />} />
-        <Route
-          path="/portal"
-          element={
-            <RequireRole allow={['admin', 'editor']}>
-              <PortalDashboard />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/portal/lead/:leadId"
-          element={
-            <RequireRole allow={['admin', 'editor']}>
-              <LeadDetailPage />
-            </RequireRole>
-          }
-        />
-        <Route
-          path="/portal/team"
-          element={
-            <RequireRole allow={['admin']}>
-              <TeamManagementPage />
-            </RequireRole>
-          }
-        />
+        {/* Team portal, loaded on demand as its own chunk (PortalGate ->
+            PortalApp), so public pages never download or initialise Firebase.
+            RequireRole keeps the wrong people off these screens, but the real
+            enforcement is firestore.rules and the server-side role check inside
+            each callable — never this routing. */}
+        <Route path="/portal/*" element={<PortalGate />} />
       </Route>
 
       {/* Legacy preview links — keep every previously shared URL alive. */}
