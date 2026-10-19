@@ -196,7 +196,7 @@ textarea {
   text-transform: uppercase;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 47.9375em) {
   .home-hero::before {
     width: 32rem;
     right: -22rem;
@@ -302,7 +302,7 @@ textarea {
   }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 39.9375em) {
   :root {
     font-size: 100%;
   }
@@ -314,7 +314,7 @@ textarea {
    column and push the page sideways. It only acts when a word cannot fit its
    line, so normal-size mobile layout is unchanged (verified). Tablet/desktop
    columns are left on the default so short words never split there. */
-@media (max-width: 767.98px) {
+@media (max-width: 47.99875em) {
   body {
     overflow-wrap: anywhere;
   }
