@@ -2,6 +2,19 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    // Breakpoints in em, not px, so layout follows the visitor's text size.
+    // At the default 16px these are exactly 640/768/1024/1280/1536px, so
+    // nothing moves at normal size. With a 200% browser text setting a tablet
+    // or laptop gets the narrower layout instead of multi-column grids whose
+    // text-sized gaps no longer fit (they scrolled the page sideways by up to
+    // ~500px at 768px). Browser zoom behaves the same as before.
+    screens: {
+      sm: '40em',
+      md: '48em',
+      lg: '64em',
+      xl: '80em',
+      '2xl': '96em',
+    },
     extend: {
       colors: {
         // Approved Mpho Madi Trust Fund brand palette.

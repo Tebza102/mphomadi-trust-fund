@@ -147,11 +147,11 @@ export function DonatePage() {
   ]
 
   return (
-    <main className="section-shell py-16 md:py-24">
+    <main className="section-shell pb-16 pt-8 md:pb-24 md:pt-14">
       <section className="grid gap-10 md:grid-cols-12 md:items-start">
         <div className="space-y-6 md:col-span-7">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">{content.hero.eyebrow}</p>
-          <h1 className="max-w-4xl font-display text-4xl leading-tight md:text-6xl">{content.hero.title}</h1>
+          <h1 className="max-w-4xl font-display text-3xl leading-tight md:text-[2.75rem]">{content.hero.title}</h1>
           <p className="max-w-3xl text-xl leading-relaxed text-ink/80">{content.hero.copy}</p>
           <div className="flex flex-wrap gap-4">
             {heroCtas.map((item) => (
@@ -181,7 +181,7 @@ export function DonatePage() {
         <div className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-6">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-rose">Trust before the ask</p>
-            <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">{content.trust.title}</h2>
+            <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">{content.trust.title}</h2>
             <p className="mt-4 text-xl leading-relaxed text-ink/80">{content.trust.copy}</p>
           </div>
           <div className="md:col-span-6">
@@ -199,7 +199,7 @@ export function DonatePage() {
       <section id="individual-giving" className="mt-16 grid gap-8 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Individual giving</p>
-          <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Choose a giving path that fits you</h2>
+          <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">Choose a giving path that fits you</h2>
           <p className="mt-4 text-xl leading-relaxed text-ink/80">Individuals can give once or support monthly — whichever fits how you want to help right now.</p>
         </div>
         <div className="md:col-span-7 grid gap-6 md:grid-cols-2">
@@ -220,7 +220,7 @@ export function DonatePage() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Donation amounts</p>
-            <h2 className="mt-3 font-display text-3xl md:text-5xl">Giving starts at R1,000</h2>
+            <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">Giving starts at R1,000</h2>
           </div>
           <p className="max-w-2xl text-lg leading-relaxed text-ink/70">R1,000 is the starting contribution, and you are welcome to give more. Each card stays honest about what the amount can help with, depending on current programme needs.</p>
         </div>
@@ -241,7 +241,7 @@ export function DonatePage() {
         <div className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/75">Corporate sponsorship</p>
-            <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Partner with the Trust in a way that supports CSI / CSR goals</h2>
+            <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">Partner with the Trust in a way that supports CSI / CSR goals</h2>
             <p className="mt-4 text-xl leading-relaxed text-white/85">Sponsors can back community-focused programmes while building visible, responsible social impact.</p>
             <Picture
               name="06_award_presentation"
@@ -284,7 +284,7 @@ export function DonatePage() {
       <section id="ways-to-support" className="mt-16 grid gap-8 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Ways to support</p>
-          <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Choose the form of support that suits you</h2>
+          <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">Choose the form of support that suits you</h2>
         </div>
         <div className="md:col-span-7 grid gap-4 md:grid-cols-2">
           {visibleSupportWays.map((item) => (
@@ -298,7 +298,7 @@ export function DonatePage() {
       <section id="verification" className="mt-16 grid gap-8 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Verification and compliance</p>
-          <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">We do not want donors or sponsors to give blindly</h2>
+          <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">We do not want donors or sponsors to give blindly</h2>
           <p className="mt-4 text-xl leading-relaxed text-ink/80">You are welcome to request verification documents and speak to the team before making any commitment.</p>
           <div className="mt-6 flex flex-wrap gap-4">
             <a href="#enquiry-form" className="rounded-full bg-brand-rose px-6 py-3 text-base font-semibold text-white">
@@ -332,7 +332,7 @@ export function DonatePage() {
       <section id="enquiry-form" className="mt-16 grid gap-8 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Enquiry form</p>
-          <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Tell us how you want to support</h2>
+          <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">Tell us how you want to support</h2>
           {/* The internal lead schema and pipeline statuses that used to render
               here were developer notes, not visitor content — removed. They
               still live in donationSponsorshipContent.js for the portal work. */}
@@ -437,7 +437,7 @@ export function DonatePage() {
       <section className="mt-16 grid gap-8 md:grid-cols-12">
         <div className="md:col-span-5">
           <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Sponsorship proposal</p>
-          <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Request a written proposal for your organisation</h2>
+          <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">Request a written proposal for your organisation</h2>
           <p className="mt-4 text-xl leading-relaxed text-ink/80">{content.sponsorProposal.label}</p>
         </div>
         <div className="md:col-span-7 rounded-[1.75rem] border border-ink/10 bg-white p-6">
@@ -472,7 +472,7 @@ export function DonatePage() {
         </div>
         <div className="rounded-[1.75rem] bg-brand-rose p-6 text-white">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/75">Final call to action</p>
-          <h2 className="mt-3 font-display text-3xl leading-tight md:text-5xl">Support the mission in a way that matches your capacity.</h2>
+          <h2 className="mt-3 font-display text-2xl leading-tight md:text-4xl">Support the mission in a way that matches your capacity.</h2>
           <p className="mt-4 text-xl leading-relaxed text-white/85">Whether you want to give once, support monthly, or explore sponsorship, the next step is simple and transparent.</p>
           <div className="mt-6 flex flex-wrap gap-4">
             <a href="#enquiry-form" onClick={() => trackCta('donate_click')} className="rounded-full bg-white px-6 py-3 text-base font-semibold text-brand-rose">

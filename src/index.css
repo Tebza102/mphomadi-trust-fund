@@ -57,7 +57,7 @@
   --container-width: 72rem;
 
   font-family: var(--font-body);
-  font-size: 18px;
+  font-size: 112.5%;
   line-height: 1.6;
   color: var(--color-text);
   background: var(--color-background);
@@ -196,7 +196,7 @@ textarea {
   text-transform: uppercase;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 47.9375em) {
   .home-hero::before {
     width: 32rem;
     right: -22rem;
@@ -302,9 +302,21 @@ textarea {
   }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 39.9375em) {
   :root {
-    font-size: 16px;
+    font-size: 100%;
+  }
+}
+
+/* Below md, enlarged text (e.g. 200%) can make a single word or an email
+   address wider than the screen. `anywhere` lets such a word break and also
+   lowers grid/flex items' minimum width, so one long word cannot widen a whole
+   column and push the page sideways. It only acts when a word cannot fit its
+   line, so normal-size mobile layout is unchanged (verified). Tablet/desktop
+   columns are left on the default so short words never split there. */
+@media (max-width: 47.99875em) {
+  body {
+    overflow-wrap: anywhere;
   }
 }
 
