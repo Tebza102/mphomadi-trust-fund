@@ -85,7 +85,12 @@ export function SiteFooter() {
               </div>
               <div className="flex flex-wrap gap-x-2">
                 <dt className="font-semibold text-white/90">Email:</dt>
-                <dd><a href={trustDetails.emailHref} className="transition-colors hover:text-white">{trustDetails.email}</a></dd>
+                {/* The address is one unbreakable word; at 200% text it was
+                    wider than the column and scrolled the whole page sideways.
+                    It may now break inside the address only when it cannot fit. */}
+                <dd className="min-w-0 [overflow-wrap:anywhere]">
+                  <a href={trustDetails.emailHref} className="transition-colors hover:text-white">{trustDetails.email}</a>
+                </dd>
               </div>
             </dl>
           </div>

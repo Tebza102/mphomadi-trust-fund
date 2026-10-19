@@ -246,8 +246,11 @@ export function TrusteeSpotlight() {
               <span data-frame className="block overflow-hidden rounded-[1rem] bg-[#f4f1f6]">
                 <TrusteePhoto person={person} alt="" hover loading="lazy" />
               </span>
-              <span className="mt-4 block font-display text-lg leading-tight text-ink">{person.name}</span>
-              <span className="mt-1 block text-sm font-semibold uppercase tracking-[0.16em] text-ink/60">{person.role}</span>
+              {/* overflow-wrap: anywhere only takes effect when a single word is
+                  wider than the card (e.g. tracked uppercase roles at 200% text
+                  in the four-column grid); normal sizes are unchanged. */}
+              <span className="mt-4 block font-display text-lg leading-tight text-ink [overflow-wrap:anywhere]">{person.name}</span>
+              <span className="mt-1 block text-sm font-semibold uppercase tracking-[0.16em] text-ink/60 [overflow-wrap:anywhere]">{person.role}</span>
               <span className="mt-4 inline-flex min-h-11 items-center gap-1 self-center text-sm font-semibold text-brand-rose group-hover:underline">
                 View full profile <span aria-hidden="true">&rarr;</span>
               </span>
