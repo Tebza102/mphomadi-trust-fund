@@ -13,7 +13,7 @@ export function SiteFooter() {
           {/* Reversed mark, so it sits straight on the navy. The colour logo
               needed a white plate behind it here, which read as a sticker. */}
           <Link to="/" className="inline-flex items-center" aria-label="Mpho Madi Trust Fund home">
-            <img src={brandLogoWhitePath} alt={brandLogoAlt} width="900" height="300" className="h-auto w-[192px] max-w-full md:w-[216px]" />
+            <img src={brandLogoWhitePath} alt={brandLogoAlt} className="h-16 w-auto" />
           </Link>
           <p className="max-w-md font-display text-2xl leading-snug text-white">
             Mobility, dignity and opportunity for children who need practical support.
@@ -85,12 +85,7 @@ export function SiteFooter() {
               </div>
               <div className="flex flex-wrap gap-x-2">
                 <dt className="font-semibold text-white/90">Email:</dt>
-                {/* The address is one unbreakable word; at 200% text it was
-                    wider than the column and scrolled the whole page sideways.
-                    It may now break inside the address only when it cannot fit. */}
-                <dd className="min-w-0 [overflow-wrap:anywhere]">
-                  <a href={trustDetails.emailHref} className="transition-colors hover:text-white">{trustDetails.email}</a>
-                </dd>
+                <dd><a href={trustDetails.emailHref} className="transition-colors hover:text-white">{trustDetails.email}</a></dd>
               </div>
             </dl>
           </div>
