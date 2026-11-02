@@ -11,7 +11,30 @@ export function AboutPage() {
         <p className="text-xl leading-relaxed text-ink/80">Mpho Madi Trust Fund exists to reduce barriers between urgent need and practical support. We work with families, clinicians, and partners to improve access to prosthetics, wheelchairs, assistive devices, and follow-up support that helps children participate in everyday life.</p>
         <p className="text-xl leading-relaxed text-ink/80">Our approach combines financial support pathways with case guidance, family communication, and progress-based follow-up. We are building a transparent model where each contribution is linked to real outcomes and accountable reporting.</p>
       </div>
-      <div className="mt-12 soft-divider" />
+      <section aria-labelledby="purpose-heading" className="mt-12 border-t border-brand-orchid/20 pt-12">
+        <p className="text-base font-semibold uppercase tracking-[0.2em] text-brand-rose">Our purpose</p>
+        <h2 id="purpose-heading" className="mt-3 max-w-3xl font-display text-2xl leading-tight md:text-4xl">Helping children live life to the fullest</h2>
+        <div className="mt-8 grid gap-8 md:grid-cols-2 md:gap-12">
+          <div>
+            <h3 className="font-display text-2xl text-brand-plum">Our vision</h3>
+            <p className="mt-3 text-lg leading-relaxed text-ink/80">To help children realise their dreams and have the opportunity to live life to the fullest, without boundaries.</p>
+          </div>
+          <div>
+            <h3 className="font-display text-2xl text-brand-plum">Our mission</h3>
+            <p className="mt-3 text-lg leading-relaxed text-ink/80">To support children from disadvantaged families who were born without limbs by mobilising resources for prosthetics, wheelchairs and appropriate assistive support, helping them participate in everyday life with dignity.</p>
+          </div>
+        </div>
+        <div className="mt-10">
+          <h3 className="font-display text-2xl text-brand-plum">Our objectives</h3>
+          <p className="mt-3 max-w-3xl text-lg leading-relaxed text-ink/80">The Trust&apos;s central objective is to support children from families facing severe financial hardship who have been born without limbs.</p>
+          <ul className="mt-5 max-w-3xl list-disc space-y-3 pl-6 text-lg leading-relaxed text-ink/80 marker:text-brand-rose">
+            <li>Raise funds and bring partners together to help children access suitable mobility and assistive devices.</li>
+            <li>Help reduce the barriers that prevent children from attending school and taking part in family and community life.</li>
+            <li>Extend the support inspired by Mpho&apos;s journey to other children from disadvantaged families.</li>
+          </ul>
+        </div>
+      </section>
+
 
       {/* Teaser only — the full timeline lives on the Mpho's Story page so this
           page stays focused on the organisation itself. */}
@@ -20,11 +43,18 @@ export function AboutPage() {
         <h2 id="story-teaser" className="mt-3 max-w-3xl font-display text-2xl leading-tight md:text-4xl">
           The Trust began with one family&apos;s experience of the gap it now works to close.
         </h2>
-        {/* TODO(client): replace with approved summary copy once the timeline milestones are confirmed. */}
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink/75">
-          Mpho&apos;s journey — the barriers met, the support that made a difference, and the people who
-          stepped in along the way — is what shaped how this Trust works today. The full timeline traces
-          that path from the Trust&apos;s founding through to its work now.
+          Mpho was born in Durban in 2000 without upper and lower limbs. Her mother, Mpumi,
+          recalls a confident child whose enthusiasm for life shone through from an early age.
+          When the family returned to Kwa-Thema in 2006, finding a school that could accommodate
+          Mpho and nurture her potential proved difficult. Their experience showed how a child&apos;s
+          opportunities can be restricted by barriers to access.
+        </p>
+        <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink/75">
+          Fundraising and donor support helped pay for Mpho&apos;s first artificial limbs.
+          She received her lower limbs on 4 November 2008. Her journey helped shape the Trust&apos;s
+          wider purpose: to offer support to other children from disadvantaged families who
+          were born without limbs.
         </p>
         <Link
           to="/her-story"
