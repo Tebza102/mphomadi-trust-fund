@@ -107,6 +107,17 @@ export function SiteFooter() {
         <div className="section-shell flex flex-col gap-2 py-5 text-sm text-white/[0.58] sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Mpho Madi Trust Fund. South Africa.</p>
           <p>Mobility • Dignity • Opportunity</p>
+          <p>
+            Created by{' '}
+            <a
+              href="https://apprigate.com"
+              target="_blank"
+              rel="noopener"
+              className="font-semibold text-white/80 underline-offset-4 transition-colors hover:text-brand-gold hover:underline"
+            >
+              Apprigate
+            </a>
+          </p>
         </div>
       </div>
     </footer>
